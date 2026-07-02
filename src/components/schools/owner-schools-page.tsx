@@ -1,6 +1,10 @@
 "use client";
 
-import { deleteSchool, listSchools } from "@/lib/api/schools";
+import {
+  deleteSchool,
+  listSchools,
+  setSchoolEditAccess,
+} from "@/lib/api/schools";
 import { getAccessToken } from "@/lib/auth/storage";
 import type { School } from "@/types";
 import { useEffect, useState } from "react";
@@ -36,6 +40,18 @@ export function OwnerSchoolsPage() {
     setSchools((current) => current.filter((item) => item.id !== school.id));
   };
 
+  const handleToggleEditAccess = async (school: School) => {
+    const updatedSchool = await setSchoolEditAccess(
+      token,
+      school.id,
+      !school.canEdit,
+    );
+
+    setSchools((current) =>
+      current.map((item) => (item.id === school.id ? updatedSchool : item)),
+    );
+  };
+
   if (!token) {
     return <PageState text="Sesi login tidak ditemukan." />;
   }
@@ -55,7 +71,11 @@ export function OwnerSchoolsPage() {
         onCreated={(school) => setSchools((current) => [school, ...current])}
         token={token}
       />
-      <SchoolsTable onDelete={handleDelete} schools={schools} />
+      <SchoolsTable
+        onDelete={handleDelete}
+        onToggleEditAccess={handleToggleEditAccess}
+        schools={schools}
+      />
     </div>
   );
 }

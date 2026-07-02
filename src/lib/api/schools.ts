@@ -20,3 +20,15 @@ export function deleteSchool(token: string, id: string) {
     token,
   });
 }
+
+export function setSchoolEditAccess(
+  token: string,
+  id: string,
+  canEdit: boolean,
+) {
+  return apiRequest<School>(apiEndpoints.schools.editAccess(id), {
+    body: JSON.stringify({ canEdit }),
+    method: "PATCH",
+    token,
+  });
+}

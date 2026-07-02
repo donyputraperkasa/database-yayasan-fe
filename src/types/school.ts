@@ -8,6 +8,7 @@ export type School = {
   phone?: string | null;
   email?: string | null;
   principal?: string | null;
+  canEdit: boolean;
   createdAt: string;
   updatedAt: string;
 };

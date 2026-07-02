@@ -4,27 +4,31 @@ import type { User } from "@/types";
 import { CalendarDays, Menu } from "lucide-react";
 
 type DashboardTopbarProps = {
+  onMenuClick: () => void;
   user: User | null;
 };
 
-export function DashboardTopbar({ user }: DashboardTopbarProps) {
+export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
   return (
-    <header className="sticky top-0 z-20 border-b border-[#dbe5f4] bg-[#f8fbff]/90 px-5 py-4 backdrop-blur lg:px-8">
+    <header className="sticky top-0 z-20 border-b border-[#dbe5f4] bg-[#f8fbff]/92 px-4 py-4 backdrop-blur lg:px-8">
       <div className="flex items-center justify-between gap-4">
-        <div>
+        <div className="flex min-w-0 items-center gap-3">
           <button
             type="button"
-            className="mr-3 inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#dbe5f4] text-[#0f2a4f] lg:hidden"
+            onClick={onMenuClick}
+            className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-[#cfe0f5] bg-white text-[#0f2a4f] shadow-sm lg:hidden"
             aria-label="Buka menu"
           >
-            <Menu size={18} aria-hidden="true" />
+            <Menu size={22} aria-hidden="true" />
           </button>
-          <span className="text-sm font-semibold text-[#617089]">
-            Selamat datang, {user?.name ?? "Pengguna"}
-          </span>
-          <h1 className="mt-1 text-2xl font-semibold text-[#0f172a]">
-            Dashboard Owner
-          </h1>
+          <div className="min-w-0">
+            <span className="block truncate text-sm font-semibold text-[#617089]">
+              Selamat datang, {user?.name ?? "Pengguna"}
+            </span>
+            <h1 className="mt-1 truncate text-2xl font-semibold text-[#0f172a]">
+              Dashboard Owner
+            </h1>
+          </div>
         </div>
 
         <div className="hidden items-center gap-3 md:flex">

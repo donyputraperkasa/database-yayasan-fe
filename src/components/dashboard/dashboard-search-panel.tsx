@@ -10,7 +10,7 @@ export function DashboardSearchPanel({
   onRetry,
 }: DashboardSearchPanelProps) {
   return (
-    <section className="flex flex-col gap-3 rounded-lg border border-[#dbe5f4] bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+    <section className="flex flex-col gap-4 rounded-lg border border-[#dbe5f4] bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
       <div>
         <h2 className="text-lg font-semibold">Cari Data</h2>
         <p className="mt-1 text-sm text-[#748299]">
@@ -24,7 +24,7 @@ export function DashboardSearchPanel({
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <label className="flex h-11 min-w-72 items-center gap-3 rounded-md border border-[#dbe5f4] bg-[#f8fbff] px-3">
+        <label className="flex h-11 w-full items-center gap-3 rounded-md border border-[#dbe5f4] bg-[#f8fbff] px-3 sm:min-w-72">
           <Search size={17} className="text-[#748299]" aria-hidden="true" />
           <input
             placeholder="Cari sekolah, siswa, dokumen..."
@@ -35,7 +35,7 @@ export function DashboardSearchPanel({
           <Search size={16} aria-hidden="true" />
           Cari
         </button>
-        {onRetry ? (
+        {errorMessage && onRetry ? (
           <button
             onClick={onRetry}
             className="h-11 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"

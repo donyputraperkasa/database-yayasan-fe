@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "myBOPKRI",
+  title: "MyBOPKRI",
   description: "Dashboard pengelolaan data Yayasan BOPKRI dan sekolah",
 };
 
