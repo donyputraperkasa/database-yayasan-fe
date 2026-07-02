@@ -4,8 +4,21 @@ export const apiEndpoints = {
     login: "/auth/login",
     me: "/auth/me",
   },
+  assets: {
+    create: "/assets",
+    list: "/assets",
+    photo: (id: string) => `/assets/${id}/photo`,
+    remove: (id: string) => `/assets/${id}`,
+    update: (id: string) => `/assets/${id}`,
+  },
   dashboard: {
     summary: "/dashboard/summary",
+  },
+  documents: {
+    list: "/documents",
+    remove: (id: string) => `/documents/${id}`,
+    update: (id: string) => `/documents/${id}`,
+    upload: "/documents/upload",
   },
   employees: {
     create: "/employees",
@@ -13,6 +26,18 @@ export const apiEndpoints = {
     photo: (id: string) => `/employees/${id}/photo`,
     remove: (id: string) => `/employees/${id}`,
     update: (id: string) => `/employees/${id}`,
+  },
+  facilities: {
+    create: "/facilities",
+    list: "/facilities",
+    remove: (id: string) => `/facilities/${id}`,
+    update: (id: string) => `/facilities/${id}`,
+  },
+  finances: {
+    create: "/finances",
+    list: "/finances",
+    remove: (id: string) => `/finances/${id}`,
+    update: (id: string) => `/finances/${id}`,
   },
   schools: {
     create: "/schools",

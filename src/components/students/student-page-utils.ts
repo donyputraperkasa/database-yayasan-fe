@@ -23,6 +23,14 @@ export function filterStudents(students: Student[], query?: string) {
   );
 }
 
+export function groupStudentsBySchool(students: Student[]) {
+  return students.reduce<Record<string, Student[]>>((groups, student) => {
+    const schoolName = student.school.name;
+    groups[schoolName] = [...(groups[schoolName] ?? []), student];
+    return groups;
+  }, {});
+}
+
 export function upsertStudent(students: Student[], savedStudent: Student) {
   const exists = students.some((student) => student.id === savedStudent.id);
 

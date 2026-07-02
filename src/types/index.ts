@@ -1,7 +1,11 @@
 export type * from "./api";
+export type * from "./asset";
 export type * from "./auth";
 export type * from "./dashboard";
+export type * from "./document";
 export type * from "./employee";
+export type * from "./facility";
+export type * from "./finance";
 export type * from "./role";
 export type * from "./school";
 export type * from "./student";

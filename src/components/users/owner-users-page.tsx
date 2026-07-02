@@ -1,5 +1,6 @@
 "use client";
 
+import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import { listSchools } from "@/lib/api/schools";
 import { listUsers } from "@/lib/api/users";
 import { getAccessToken } from "@/lib/auth/storage";
@@ -48,6 +49,12 @@ export function OwnerUsersPage() {
 
   return (
     <div className="space-y-5">
+      <DashboardBreadcrumbs
+        items={[
+          { href: "/dashboard", label: "Dashboard" },
+          { label: "Tambah User" },
+        ]}
+      />
       <UsersHeader />
       <CreateUserForm
         onCreated={(user) => setUsers((current) => [user, ...current])}

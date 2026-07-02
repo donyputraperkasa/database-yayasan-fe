@@ -1,5 +1,6 @@
 "use client";
 
+import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import {
   deleteSchool,
   listSchools,
@@ -66,6 +67,9 @@ export function OwnerSchoolsPage() {
 
   return (
     <div className="space-y-5">
+      <DashboardBreadcrumbs
+        items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Sekolah" }]}
+      />
       <SchoolsHeader />
       <CreateSchoolForm
         onCreated={(school) => setSchools((current) => [school, ...current])}

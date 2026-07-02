@@ -24,6 +24,14 @@ export function filterEmployees(employees: Employee[], query?: string) {
   );
 }
 
+export function groupEmployeesBySchool(employees: Employee[]) {
+  return employees.reduce<Record<string, Employee[]>>((groups, employee) => {
+    const schoolName = employee.school.name;
+    groups[schoolName] = [...(groups[schoolName] ?? []), employee];
+    return groups;
+  }, {});
+}
+
 export function upsertEmployee(employees: Employee[], saved: Employee) {
   if (!employees.some((employee) => employee.id === saved.id)) {
     return [saved, ...employees];

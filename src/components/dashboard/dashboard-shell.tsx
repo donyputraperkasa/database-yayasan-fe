@@ -16,19 +16,21 @@ export function DashboardShell({ children }: DashboardShellProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <main className="min-h-screen bg-[#eef4fb] text-[#172033]">
-      <div className="flex min-h-screen">
+    <main className="h-screen overflow-hidden bg-[#eef4fb] text-[#172033]">
+      <div className="flex h-full min-h-0">
         <DashboardSidebar
           isOpen={isMenuOpen}
           onClose={() => setIsMenuOpen(false)}
           user={user}
         />
-        <section className="min-w-0 flex-1">
+        <section className="flex min-h-0 min-w-0 flex-1 flex-col">
           <DashboardTopbar
             onMenuClick={() => setIsMenuOpen(true)}
             user={user}
           />
-          <div className="px-5 py-5 lg:px-8">{children}</div>
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 lg:px-8">
+            {children}
+          </div>
         </section>
       </div>
     </main>

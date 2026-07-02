@@ -7,7 +7,7 @@ import {
   Home,
   Landmark,
   School,
-  Settings,
+  UserRoundCheck,
   UserPlus,
   UsersRound,
 } from "lucide-react";
@@ -34,6 +34,12 @@ export const dashboardNavigation = [
     label: "Sekolah",
     roles: ["owner", "office"],
   },
+  {
+    href: "/principals",
+    icon: UserRoundCheck,
+    label: "Kepala Sekolah",
+    roles: ["owner", "office"],
+  },
   { href: "/students", icon: GraduationCap, label: "Siswa", roles: allRoles() },
   { href: "/employees", icon: UsersRound, label: "Pegawai", roles: allRoles() },
   { href: "/assets", icon: Archive, label: "Aset", roles: allRoles() },
@@ -47,10 +53,9 @@ export const dashboardNavigation = [
     href: "/finances",
     icon: Banknote,
     label: "Keuangan",
-    roles: ["owner", "office"],
+    roles: allRoles(),
   },
   { href: "/documents", icon: Landmark, label: "Dokumen", roles: allRoles() },
-  { href: "/settings", icon: Settings, label: "Pengaturan", roles: allRoles() },
 ] as const;
 
 function allRoles(): Role[] {
