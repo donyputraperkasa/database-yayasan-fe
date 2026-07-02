@@ -48,7 +48,7 @@ export function FloatingContact() {
               className="flex w-full items-center gap-3 rounded-md border border-[#d8e3f4] bg-[#f7faff] px-3 py-3 text-left text-sm font-semibold text-[#1f4f8f] transition hover:border-[#1f4f8f] hover:bg-[#eef5ff]"
             >
               <Headphones size={18} aria-hidden="true" />
-              Hubungi IT
+              Hallo masdon
             </a>
           </section>
         ) : null}

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Database Yayasan",
-  description: "Dashboard pengelolaan data yayasan dan sekolah",
+  title: "myBOPKRI",
+  description: "Dashboard pengelolaan data Yayasan BOPKRI dan sekolah",
 };
 
 export default function RootLayout({

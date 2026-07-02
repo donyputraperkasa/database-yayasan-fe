@@ -16,3 +16,15 @@ export type AuthUser = {
   role: Role;
   schoolId?: string | null;
 };
+
+export type CreateUserPayload = {
+  email: string;
+  name: string;
+  password: string;
+  role: Role;
+  schoolId?: string;
+};
+
+export type ResetPasswordPayload = {
+  newPassword: string;
+};

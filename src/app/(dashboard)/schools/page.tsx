@@ -1,12 +1,12 @@
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
-import { OwnerDashboardPage } from "@/components/dashboard/owner-dashboard-page";
+import { OwnerSchoolsPage } from "@/components/schools/owner-schools-page";
 
-export default function DashboardPage() {
+export default function SchoolsPage() {
   return (
     <AuthGuard>
       <DashboardShell>
-        <OwnerDashboardPage />
+        <OwnerSchoolsPage />
       </DashboardShell>
     </AuthGuard>
   );
