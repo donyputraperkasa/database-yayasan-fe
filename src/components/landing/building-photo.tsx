@@ -17,8 +17,8 @@ export function BuildingPhoto() {
       <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-white/70" />
 
       <div className="absolute bottom-5 left-5 max-w-sm rounded-xl border border-white/28 bg-[#0f2a4f]/68 p-4 text-white shadow-xl backdrop-blur-md sm:bottom-7 sm:left-7">
-        <p className="text-xs font-semibold uppercase tracking-wide text-[#f2d35f]">
-          myBOPKRI
+        <p className="text-xs font-semibold tracking-wide text-[#f2d35f]">
+          MyBOPKRI
         </p>
         <h2 className="mt-2 text-xl font-semibold leading-tight sm:text-2xl">
           Data yayasan dalam satu ruang kerja

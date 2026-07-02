@@ -9,11 +9,8 @@ export function EmployeeStats({ employees }: EmployeeStatsProps) {
     { label: "Total", value: employees.length },
     { label: "Guru", value: countBy(employees, "type", "guru") },
     { label: "Pegawai", value: countBy(employees, "type", "pegawai") },
-    { label: "Tetap", value: countBy(employees, "status", "tetap") },
-    {
-      label: "Tidak tetap",
-      value: countBy(employees, "status", "tidak_tetap"),
-    },
+    { label: "PTY/GTY", value: countBy(employees, "status", "tetap") },
+    { label: "PTTY/GTTY", value: countBy(employees, "status", "tidak_tetap") },
     { label: "Honorer", value: countBy(employees, "status", "honorer") },
   ];
 

@@ -13,9 +13,9 @@ export function StudentStats({ students }: StudentStatsProps) {
 
   const stats = [
     { label: "Total siswa", value: students.length },
-    { label: "Laki-laki", value: maleCount },
-    { label: "Perempuan", value: femaleCount },
-    { label: "Kelas", value: classCount },
+    { label: "Murid Laki-laki", value: maleCount },
+    { label: "Murid Perempuan", value: femaleCount },
+    { label: "TotalKelas", value: classCount },
   ];
 
   return (
