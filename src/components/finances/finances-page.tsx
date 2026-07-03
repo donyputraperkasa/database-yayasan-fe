@@ -29,6 +29,7 @@ export function FinancesPage() {
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [schools, setSchools] = useState<School[]>([]);
   const [selectedFinance, setSelectedFinance] = useState<Finance | null>(null);
+  const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [token] = useState(() => getAccessToken() ?? "");
   const [user] = useState<User | null>(() => getStoredUser());
 
@@ -69,6 +70,9 @@ export function FinancesPage() {
 
   const canManage = user?.role === "owner" || user?.role === "school";
   const visibleFinances = filterFinances(finances, filters.query);
+  const statsFinances = selectedSchoolName
+    ? visibleFinances.filter((finance) => finance.school.name === selectedSchoolName)
+    : visibleFinances;
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
   if (isLoading) return <PageState text="Memuat data keuangan..." />;
@@ -76,11 +80,30 @@ export function FinancesPage() {
 
   return (
     <div className="space-y-5">
-      <DashboardBreadcrumbs items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Keuangan" }]} />
+      <DashboardBreadcrumbs
+        items={[
+          { href: "/dashboard", label: "Dashboard" },
+          ...(selectedSchoolName
+            ? [{ label: selectedSchoolName }, { label: "Keuangan" }]
+            : [{ label: "Keuangan" }]),
+        ]}
+      />
       <FinancesHeader canManage={canManage} onCreate={() => openForm(null)} />
-      <FinanceStats finances={visibleFinances} />
+      <FinanceStats
+        finances={statsFinances}
+        showNominal={Boolean(selectedSchoolName)}
+      />
       <FinancesFilter filters={filters} isSchoolUser={user?.role === "school"} onChange={setFilters} onSubmit={() => void loadFinances()} schools={schools} />
-      <FinancesTable canManage={canManage} finances={visibleFinances} onDelete={handleDelete} onDetail={setDetailFinance} onEdit={openForm} />
+      <FinancesTable
+        canManage={canManage}
+        finances={visibleFinances}
+        onBackToSchools={() => setSelectedSchoolName(null)}
+        onDelete={handleDelete}
+        onDetail={setDetailFinance}
+        onEdit={openForm}
+        onSelectSchool={setSelectedSchoolName}
+        selectedSchoolName={selectedSchoolName}
+      />
       <FinanceDetailModal finance={detailFinance} onClose={() => setDetailFinance(null)} />
       <FinanceFormModal finance={selectedFinance} isOpen={isFormOpen} isSchoolUser={user?.role === "school"} onClose={() => setIsFormOpen(false)} onSaved={(finance) => setFinances((current) => upsertFinance(current, finance))} schools={schools} token={token} />
     </div>

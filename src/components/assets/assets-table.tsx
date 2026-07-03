@@ -1,39 +1,45 @@
 import { TableActions } from "@/components/ui/table-actions";
+import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
 import type { Asset } from "@/types";
 import { groupAssetsBySchool } from "./asset-page-utils";
 
 type AssetsTableProps = {
   assets: Asset[];
   canManage: boolean;
+  onBackToSchools: () => void;
   onDelete: (asset: Asset) => void;
   onDetail: (asset: Asset) => void;
   onEdit: (asset: Asset) => void;
+  onSelectSchool: (schoolName: string) => void;
+  selectedSchoolName?: string | null;
 };
 
 export function AssetsTable(props: AssetsTableProps) {
   const groups = groupAssetsBySchool(props.assets);
   const entries = Object.entries(groups);
+  const selectedGroup = entries.find(([name]) => name === props.selectedSchoolName);
+
+  if (selectedGroup) {
+    const [schoolName, assets] = selectedGroup;
+
+    return (
+      <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
+        <DetailHeader count={assets.length} onBack={props.onBackToSchools} schoolName={schoolName} />
+        <AssetGroupTable {...props} assets={assets} />
+      </section>
+    );
+  }
 
   return (
-    <section className="space-y-4">
+    <section className="grid gap-4 lg:grid-cols-2">
       {entries.map(([schoolName, assets]) => (
-        <article
+        <SchoolSummaryCard
           key={schoolName}
-          className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm"
-        >
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="text-lg font-semibold">{schoolName}</h2>
-              <p className="mt-1 text-sm text-[#748299]">
-                {assets.length} aset sekolah tercatat.
-              </p>
-            </div>
-            <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
-              {assets.length} aset
-            </span>
-          </div>
-          <AssetGroupTable {...props} assets={assets} />
-        </article>
+          countLabel={`${assets.length} aset`}
+          description="Aset sekolah yang sudah tercatat."
+          onClick={() => props.onSelectSchool(schoolName)}
+          title={schoolName}
+        />
       ))}
       {props.assets.length === 0 ? (
         <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm">
@@ -41,6 +47,30 @@ export function AssetsTable(props: AssetsTableProps) {
         </p>
       ) : null}
     </section>
+  );
+}
+
+function DetailHeader(props: {
+  count: number;
+  onBack: () => void;
+  schoolName: string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 className="text-lg font-semibold">{props.schoolName}</h2>
+        <p className="mt-1 text-sm text-[#748299]">
+          {props.count} aset sekolah tercatat.
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={props.onBack}
+        className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
+      >
+        Kembali ke sekolah
+      </button>
+    </div>
   );
 }
 

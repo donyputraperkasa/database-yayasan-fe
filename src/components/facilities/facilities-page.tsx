@@ -29,6 +29,7 @@ export function FacilitiesPage() {
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [schools, setSchools] = useState<School[]>([]);
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
+  const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [token] = useState(() => getAccessToken() ?? "");
   const [user] = useState<User | null>(() => getStoredUser());
 
@@ -77,7 +78,12 @@ export function FacilitiesPage() {
   return (
     <div className="space-y-5">
       <DashboardBreadcrumbs
-        items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Fasilitas" }]}
+        items={[
+          { href: "/dashboard", label: "Dashboard" },
+          ...(selectedSchoolName
+            ? [{ label: selectedSchoolName }, { label: "Fasilitas" }]
+            : [{ label: "Fasilitas" }]),
+        ]}
       />
       <FacilitiesHeader canManage={canManage} onCreate={() => openForm(null)} />
       <FacilityStats facilities={visibleFacilities} />
@@ -91,9 +97,12 @@ export function FacilitiesPage() {
       <FacilitiesTable
         canManage={canManage}
         facilities={visibleFacilities}
+        onBackToSchools={() => setSelectedSchoolName(null)}
         onDelete={handleDelete}
         onDetail={setDetailFacility}
         onEdit={openForm}
+        onSelectSchool={setSelectedSchoolName}
+        selectedSchoolName={selectedSchoolName}
       />
       <FacilityDetailModal
         facility={detailFacility}

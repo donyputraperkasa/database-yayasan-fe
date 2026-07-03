@@ -30,7 +30,7 @@ export function StudentDetailModal({ onClose, student }: StudentDetailModalProps
       className="fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
       <section className="max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl">
-        <div className="grid gap-5 md:grid-cols-[320px_1fr]">
+        <div className="grid gap-5 md:grid-cols-[460px_1fr]">
           <DetailPhoto fill label="Foto siswa" photoUrl={student.photoUrl} />
           <div>
             <ModalHeader onClose={onClose} subtitle="Detail data siswa." title={student.name} />

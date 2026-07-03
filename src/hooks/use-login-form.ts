@@ -20,7 +20,7 @@ export function useLoginForm() {
     const password = String(formData.get("password") ?? "");
 
     if (!email || !password) {
-      setError("Email dan password wajib diisi.");
+      setError("Email dan passwordnya diisi dulu yaaa :D");
       return;
     }
 

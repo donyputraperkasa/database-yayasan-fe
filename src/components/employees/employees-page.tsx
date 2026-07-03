@@ -28,6 +28,7 @@ export function EmployeesPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [schools, setSchools] = useState<School[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [token] = useState(() => getAccessToken() ?? "");
   const [user] = useState<User | null>(() => getStoredUser());
   const [isLoading, setIsLoading] = useState(() => Boolean(token));
@@ -67,7 +68,12 @@ export function EmployeesPage() {
   return (
     <div className="space-y-5">
       <DashboardBreadcrumbs
-        items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Pegawai" }]}
+        items={[
+          { href: "/dashboard", label: "Dashboard" },
+          ...(selectedSchoolName
+            ? [{ label: selectedSchoolName }, { label: "Pegawai" }]
+            : [{ label: "Pegawai" }]),
+        ]}
       />
       <EmployeesHeader canManage={canManage} onCreate={() => openForm(null)} />
       <EmployeeStats employees={visibleEmployees} />
@@ -81,9 +87,12 @@ export function EmployeesPage() {
       <EmployeesTable
         canManage={canManage}
         employees={visibleEmployees}
+        onBackToSchools={() => setSelectedSchoolName(null)}
         onDelete={(employee) => void handleDelete(employee)}
         onDetail={setDetailEmployee}
         onEdit={openForm}
+        onSelectSchool={setSelectedSchoolName}
+        selectedSchoolName={selectedSchoolName}
       />
       <EmployeeDetailModal employee={detailEmployee} onClose={() => setDetailEmployee(null)} />
       <EmployeeFormModal

@@ -9,7 +9,7 @@ type DetailPhotoProps = {
 export function DetailPhoto({ fill = false, label, photoUrl }: DetailPhotoProps) {
   const previewUrl = getMediaUrl(photoUrl);
   const sizeClass = fill
-    ? "h-72 w-full md:h-full md:min-h-[620px]"
+    ? "h-96 w-full md:h-full md:min-h-[680px]"
     : "h-32 w-32 sm:h-40 sm:w-40";
 
   if (!previewUrl) {

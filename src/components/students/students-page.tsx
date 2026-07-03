@@ -27,6 +27,7 @@ export function StudentsPage() {
   const [schools, setSchools] = useState<School[]>([]);
   const [detailStudent, setDetailStudent] = useState<Student | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [students, setStudents] = useState<Student[]>([]);
   const [token] = useState(() => getAccessToken() ?? "");
   const [user] = useState<User | null>(() => getStoredUser());
@@ -87,7 +88,12 @@ export function StudentsPage() {
   return (
     <div className="space-y-5">
       <DashboardBreadcrumbs
-        items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Siswa" }]}
+        items={[
+          { href: "/dashboard", label: "Dashboard" },
+          ...(selectedSchoolName
+            ? [{ label: selectedSchoolName }, { label: "Siswa" }]
+            : [{ label: "Siswa" }]),
+        ]}
       />
       <StudentsHeader canManage={canManage} onCreate={() => openForm(null)} />
       <StudentStats students={visibleStudents} />
@@ -103,6 +109,9 @@ export function StudentsPage() {
         onDelete={handleDelete}
         onDetail={setDetailStudent}
         onEdit={openForm}
+        onBackToSchools={() => setSelectedSchoolName(null)}
+        onSelectSchool={setSelectedSchoolName}
+        selectedSchoolName={selectedSchoolName}
         students={visibleStudents}
       />
       <StudentDetailModal onClose={() => setDetailStudent(null)} student={detailStudent} />

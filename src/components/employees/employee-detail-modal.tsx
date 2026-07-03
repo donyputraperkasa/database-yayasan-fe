@@ -42,7 +42,7 @@ export function EmployeeDetailModal({ employee, onClose }: EmployeeDetailModalPr
       className="fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
       <section className="max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl">
-        <div className="grid gap-5 md:grid-cols-[320px_1fr]">
+        <div className="grid gap-5 md:grid-cols-[460px_1fr]">
           <DetailPhoto fill label="Foto pegawai" photoUrl={employee.photoUrl} />
           <div>
             <div className="flex items-start justify-between gap-4">

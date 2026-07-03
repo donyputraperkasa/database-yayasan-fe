@@ -1,4 +1,5 @@
 import { TableActions } from "@/components/ui/table-actions";
+import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
 import type { Employee } from "@/types";
 import {
   employeeStatusLabel,
@@ -9,29 +10,44 @@ import { groupEmployeesBySchool } from "./employee-page-utils";
 type EmployeesTableProps = {
   canManage: boolean;
   employees: Employee[];
+  onBackToSchools: () => void;
   onDelete: (employee: Employee) => void;
   onDetail: (employee: Employee) => void;
   onEdit: (employee: Employee) => void;
+  onSelectSchool: (schoolName: string) => void;
+  selectedSchoolName?: string | null;
 };
 
 export function EmployeesTable(props: EmployeesTableProps) {
   const groups = Object.entries(groupEmployeesBySchool(props.employees));
+  const selectedGroup = groups.find(([name]) => name === props.selectedSchoolName);
+
+  if (selectedGroup) {
+    const [schoolName, employees] = selectedGroup;
+
+    return (
+      <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
+        <DetailHeader count={employees.length} onBack={props.onBackToSchools} schoolName={schoolName} />
+        <div className="mt-5 grid gap-3 md:hidden">
+          {employees.map((employee) => (
+            <EmployeeCard key={employee.id} employee={employee} {...props} />
+          ))}
+        </div>
+        <DesktopTable {...props} employees={employees} />
+      </section>
+    );
+  }
 
   return (
-    <section className="space-y-4">
+    <section className="grid gap-4 lg:grid-cols-2">
       {groups.map(([schoolName, employees]) => (
-        <article
+        <SchoolSummaryCard
           key={schoolName}
-          className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm"
-        >
-          <GroupHeader count={employees.length} schoolName={schoolName} />
-          <div className="mt-5 grid gap-3 md:hidden">
-            {employees.map((employee) => (
-              <EmployeeCard key={employee.id} employee={employee} {...props} />
-            ))}
-          </div>
-          <DesktopTable {...props} employees={employees} />
-        </article>
+          countLabel={`${employees.length} data`}
+          description="Guru dan pegawai per sekolah."
+          onClick={() => props.onSelectSchool(schoolName)}
+          title={schoolName}
+        />
       ))}
       {props.employees.length === 0 ? (
         <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm">
@@ -52,6 +68,25 @@ function GroupHeader(props: { count: number; schoolName: string }) {
       <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
         {props.count} data
       </span>
+    </div>
+  );
+}
+
+function DetailHeader(props: {
+  count: number;
+  onBack: () => void;
+  schoolName: string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <GroupHeader count={props.count} schoolName={props.schoolName} />
+      <button
+        type="button"
+        onClick={props.onBack}
+        className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
+      >
+        Kembali ke sekolah
+      </button>
     </div>
   );
 }

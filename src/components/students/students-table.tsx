@@ -1,4 +1,5 @@
 import { TableActions } from "@/components/ui/table-actions";
+import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
 import type { Student } from "@/types";
 import { groupStudentsBySchool } from "./student-page-utils";
 
@@ -7,23 +8,38 @@ type StudentsTableProps = {
   onDelete: (student: Student) => void;
   onDetail: (student: Student) => void;
   onEdit: (student: Student) => void;
+  onBackToSchools: () => void;
+  onSelectSchool: (schoolName: string) => void;
+  selectedSchoolName?: string | null;
   students: Student[];
 };
 
 export function StudentsTable(props: StudentsTableProps) {
   const groups = Object.entries(groupStudentsBySchool(props.students));
+  const selectedGroup = groups.find(([name]) => name === props.selectedSchoolName);
+
+  if (selectedGroup) {
+    const [schoolName, students] = selectedGroup;
+
+    return (
+      <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
+        <DetailHeader count={students.length} onBack={props.onBackToSchools} schoolName={schoolName} />
+        <MobileList {...props} students={students} />
+        <DesktopTable {...props} students={students} />
+      </section>
+    );
+  }
 
   return (
-    <section className="space-y-4">
+    <section className="grid gap-4 lg:grid-cols-2">
       {groups.map(([schoolName, students]) => (
-        <article
+        <SchoolSummaryCard
           key={schoolName}
-          className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm"
-        >
-          <GroupHeader count={students.length} schoolName={schoolName} />
-          <MobileList {...props} students={students} />
-          <DesktopTable {...props} students={students} />
-        </article>
+          countLabel={`${students.length} siswa`}
+          description="Daftar siswa per sekolah."
+          onClick={() => props.onSelectSchool(schoolName)}
+          title={schoolName}
+        />
       ))}
       {props.students.length === 0 ? (
         <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm">
@@ -44,6 +60,25 @@ function GroupHeader(props: { count: number; schoolName: string }) {
       <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
         {props.count} siswa
       </span>
+    </div>
+  );
+}
+
+function DetailHeader(props: {
+  count: number;
+  onBack: () => void;
+  schoolName: string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <GroupHeader count={props.count} schoolName={props.schoolName} />
+      <button
+        type="button"
+        onClick={props.onBack}
+        className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
+      >
+        Kembali ke sekolah
+      </button>
     </div>
   );
 }

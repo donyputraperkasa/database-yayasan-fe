@@ -27,6 +27,7 @@ export function DocumentsPage() {
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [schools, setSchools] = useState<School[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<DocumentItem | null>(null);
+  const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [token] = useState(() => getAccessToken() ?? "");
   const [user] = useState<User | null>(() => getStoredUser());
 
@@ -76,11 +77,26 @@ export function DocumentsPage() {
 
   return (
     <div className="space-y-5">
-      <DashboardBreadcrumbs items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Dokumen" }]} />
+      <DashboardBreadcrumbs
+        items={[
+          { href: "/dashboard", label: "Dashboard" },
+          ...(selectedSchoolName
+            ? [{ label: selectedSchoolName }, { label: "Dokumen" }]
+            : [{ label: "Dokumen" }]),
+        ]}
+      />
       <DocumentsHeader canManage={canManage} onCreate={() => openForm(null)} />
       <DocumentStats documents={visibleDocuments} />
       <DocumentsFilter filters={filters} isSchoolUser={user?.role === "school"} onChange={setFilters} onSubmit={() => void loadDocuments()} schools={schools} />
-      <DocumentsTable canManage={canManage} documents={visibleDocuments} onDelete={handleDelete} onEdit={openForm} />
+      <DocumentsTable
+        canManage={canManage}
+        documents={visibleDocuments}
+        onBackToSchools={() => setSelectedSchoolName(null)}
+        onDelete={handleDelete}
+        onEdit={openForm}
+        onSelectSchool={setSelectedSchoolName}
+        selectedSchoolName={selectedSchoolName}
+      />
       <DocumentFormModal document={selectedDocument} isOpen={isFormOpen} isSchoolUser={user?.role === "school"} onClose={() => setIsFormOpen(false)} onSaved={(document) => setDocuments((current) => upsertDocument(current, document))} schools={schools} token={token} />
     </div>
   );

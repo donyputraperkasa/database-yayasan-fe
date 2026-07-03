@@ -29,6 +29,7 @@ export function AssetsPage() {
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [schools, setSchools] = useState<School[]>([]);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+  const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [token] = useState(() => getAccessToken() ?? "");
   const [user] = useState<User | null>(() => getStoredUser());
 
@@ -82,7 +83,12 @@ export function AssetsPage() {
   return (
     <div className="space-y-5">
       <DashboardBreadcrumbs
-        items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Aset" }]}
+        items={[
+          { href: "/dashboard", label: "Dashboard" },
+          ...(selectedSchoolName
+            ? [{ label: selectedSchoolName }, { label: "Aset" }]
+            : [{ label: "Aset" }]),
+        ]}
       />
       <AssetsHeader canManage={canManage} onCreate={() => openForm(null)} />
       <AssetStats assets={visibleAssets} />
@@ -96,9 +102,12 @@ export function AssetsPage() {
       <AssetsTable
         assets={visibleAssets}
         canManage={canManage}
+        onBackToSchools={() => setSelectedSchoolName(null)}
         onDelete={handleDelete}
         onDetail={setDetailAsset}
         onEdit={openForm}
+        onSelectSchool={setSelectedSchoolName}
+        selectedSchoolName={selectedSchoolName}
       />
       <AssetDetailModal asset={detailAsset} onClose={() => setDetailAsset(null)} />
       <AssetFormModal
