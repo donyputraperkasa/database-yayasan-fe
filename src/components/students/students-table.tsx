@@ -42,7 +42,7 @@ export function StudentsTable(props: StudentsTableProps) {
         />
       ))}
       {props.students.length === 0 ? (
-        <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm">
+        <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm lg:col-span-2">
           Data siswa belum ditemukan.
         </p>
       ) : null}

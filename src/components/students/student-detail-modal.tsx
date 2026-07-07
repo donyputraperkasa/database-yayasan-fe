@@ -11,17 +11,17 @@ export function StudentDetailModal({ onClose, student }: StudentDetailModalProps
   if (!student) return null;
 
   const details: Array<[string, string | null | undefined]> = [
+    ["Tempat/Tanggal Lahir", student.birthPlaceDate],
+    ["Gender", genderLabel(student.gender)],
+    ["Agama", student.religion],
+    ["Alamat", student.address],
     ["Sekolah", student.school.name],
     ["Kelas", student.className],
-    ["Agama", student.religion],
-    ["Gender", genderLabel(student.gender)],
-    ["Tempat/Tanggal Lahir", student.birthPlaceDate],
     ["Nama Ayah", student.fatherName],
     ["Pekerjaan Ayah", student.fatherJob],
     ["Nama Ibu", student.motherName],
     ["Pekerjaan Ibu", student.motherJob],
     ["SPP", student.sppAmount ? `Rp ${student.sppAmount.toLocaleString("id-ID")}` : null],
-    ["Alamat", student.address],
   ];
 
   return (

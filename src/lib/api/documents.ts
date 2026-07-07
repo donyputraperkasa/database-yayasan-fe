@@ -36,7 +36,21 @@ export function updateDocument(
   token: string,
   id: string,
   payload: DocumentPayload,
+  file?: File | null,
 ) {
+  if (file) {
+    const formData = new FormData();
+    formData.append("name", payload.name);
+    if (payload.schoolId) formData.append("schoolId", payload.schoolId);
+    formData.append("file", file);
+
+    return apiRequest<DocumentItem>(apiEndpoints.documents.update(id), {
+      body: formData,
+      method: "PATCH",
+      token,
+    });
+  }
+
   return apiRequest<DocumentItem>(apiEndpoints.documents.update(id), {
     body: JSON.stringify(payload),
     method: "PATCH",

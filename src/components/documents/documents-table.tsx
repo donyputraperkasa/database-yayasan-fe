@@ -1,8 +1,6 @@
 import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
 import { TableActions } from "@/components/ui/table-actions";
-import { getMediaUrl } from "@/lib/api/media";
 import type { DocumentItem } from "@/types";
-import { ExternalLink } from "lucide-react";
 import { groupDocumentsBySchool } from "./document-page-utils";
 
 type DocumentsTableProps = {
@@ -10,6 +8,7 @@ type DocumentsTableProps = {
   documents: DocumentItem[];
   onBackToSchools: () => void;
   onDelete: (document: DocumentItem) => void;
+  onDetail: (document: DocumentItem) => void;
   onEdit: (document: DocumentItem) => void;
   onSelectSchool: (schoolName: string) => void;
   selectedSchoolName?: string | null;
@@ -130,22 +129,11 @@ function DocumentGroupTable(props: {
 
 function DocumentActions(props: DocumentsTableProps & { document: DocumentItem }) {
   return (
-    <div className="flex flex-wrap justify-center gap-2">
-      <a
-        href={getMediaUrl(props.document.fileUrl) ?? "#"}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-2 rounded-md border border-[#cfe0f5] bg-[#eaf2ff] px-3 py-2 text-xs font-semibold text-[#0f2a4f]"
-      >
-        <ExternalLink size={14} aria-hidden="true" />
-        Buka
-      </a>
-      <TableActions
-        canManage={props.canManage}
-        onDelete={() => props.onDelete(props.document)}
-        onDetail={() => window.open(getMediaUrl(props.document.fileUrl) ?? "#", "_blank")}
-        onEdit={() => props.onEdit(props.document)}
-      />
-    </div>
+    <TableActions
+      canManage={props.canManage}
+      onDelete={() => props.onDelete(props.document)}
+      onDetail={() => props.onDetail(props.document)}
+      onEdit={() => props.onEdit(props.document)}
+    />
   );
 }

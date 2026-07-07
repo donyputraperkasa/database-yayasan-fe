@@ -42,7 +42,7 @@ export function AssetsTable(props: AssetsTableProps) {
         />
       ))}
       {props.assets.length === 0 ? (
-        <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm">
+        <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm lg:col-span-2">
           Data aset belum ditemukan.
         </p>
       ) : null}

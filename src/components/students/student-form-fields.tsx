@@ -15,21 +15,13 @@ export function StudentFormFields({
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Input label="Nama Siswa" name="name" required value={student?.name} />
-      <SelectSchool
-        isSchoolUser={isSchoolUser}
-        schools={schools}
-        value={student?.schoolId}
-      />
-      <Input label="Kelas" name="className" value={student?.className} />
+      <Input label="Tempat/Tanggal Lahir" name="birthPlaceDate" value={student?.birthPlaceDate}/>
       <GenderSelect value={student?.gender} />
-      <Input
-        label="Tempat/Tanggal Lahir"
-        name="birthPlaceDate"
-        value={student?.birthPlaceDate}
-      />
-      <Input label="SPP" name="sppAmount" type="number" value={student?.sppAmount} />
       <Input label="Agama" name="religion" value={student?.religion} />
       <Input label="Alamat" name="address" value={student?.address} />
+      <SelectSchool isSchoolUser={isSchoolUser} schools={schools} value={student?.schoolId}/>
+      <Input label="Kelas" name="className" value={student?.className} />
+      <Input label="SPP" name="sppAmount" type="number" value={student?.sppAmount} />
       <Input label="Nama Ayah" name="fatherName" value={student?.fatherName} />
       <Input label="Nama Ibu" name="motherName" value={student?.motherName} />
       <Input label="Pekerjaan Ayah" name="fatherJob" value={student?.fatherJob} />

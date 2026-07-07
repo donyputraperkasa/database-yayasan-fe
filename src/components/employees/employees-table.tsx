@@ -50,7 +50,7 @@ export function EmployeesTable(props: EmployeesTableProps) {
         />
       ))}
       {props.employees.length === 0 ? (
-        <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm">
+        <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm lg:col-span-2">
           Data pegawai belum ditemukan.
         </p>
       ) : null}

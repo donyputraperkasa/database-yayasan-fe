@@ -26,15 +26,15 @@ export function EmployeeFormFields(props: EmployeeFormFieldsProps) {
       />
       <Input label="Agama" name="religion" value={employee?.religion} />
       <Input label="Alamat" name="address" value={employee?.address} />
-      <SelectMap label="Jenis" name="type" options={employeeTypeLabel} required value={employee?.type} />
+      <SelectMap label="Jenis Kepegawaian" name="type" options={employeeTypeLabel} required value={employee?.type} />
       <SelectSchool {...props} />
       <Input label="Jabatan" name="position" value={employee?.position} />
       <Input label="Jabatan Lain" name="otherPosition" value={employee?.otherPosition} />
-      <SelectMap label="Status" name="status" options={employeeStatusLabel} value={employee?.status} />
+      <SelectMap label="Status Kepegawaian" name="status" options={employeeStatusLabel} value={employee?.status} />
       <SelectGender value={employee?.gender} />
       <Input label="Tanggal Masuk" name="joinDate" type="date" value={dateInputValue(employee?.joinDate)} />
       <Input label="Pendidikan Terakhir" name="lastEducation" value={employee?.lastEducation} />
-      <Input label="Telepon" name="phone" value={employee?.phone} />
+      <Input label="Nomor Telepon" name="phone" value={employee?.phone} />
       <Input label="Email" name="email" value={employee?.email} />
       <Input label="Nomor SK" name="decreeNumber" value={employee?.decreeNumber} />
       <Input label="Honor/Gaji" name="fee" value={employee?.fee} />
@@ -81,7 +81,7 @@ function SelectSchool(props: EmployeeFormFieldsProps) {
 function SelectGender({ value }: { value?: string | null }) {
   return (
     <SelectMap
-      label="Gender"
+      label="Jenis Kelamin"
       name="gender"
       options={{ female: "Perempuan", male: "Laki-laki" }}
       value={value}

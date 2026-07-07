@@ -13,6 +13,7 @@ import {
   getDocumentErrorMessage,
   upsertDocument,
 } from "./document-page-utils";
+import { DocumentDetailModal } from "./document-detail-modal";
 import { DocumentFormModal } from "./document-form-modal";
 import { DocumentStats } from "./document-stats";
 import { DocumentsFilter } from "./documents-filter";
@@ -26,6 +27,7 @@ export function DocumentsPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [schools, setSchools] = useState<School[]>([]);
+  const [detailDocument, setDetailDocument] = useState<DocumentItem | null>(null);
   const [selectedDocument, setSelectedDocument] = useState<DocumentItem | null>(null);
   const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [token] = useState(() => getAccessToken() ?? "");
@@ -93,10 +95,12 @@ export function DocumentsPage() {
         documents={visibleDocuments}
         onBackToSchools={() => setSelectedSchoolName(null)}
         onDelete={handleDelete}
+        onDetail={setDetailDocument}
         onEdit={openForm}
         onSelectSchool={setSelectedSchoolName}
         selectedSchoolName={selectedSchoolName}
       />
+      <DocumentDetailModal document={detailDocument} onClose={() => setDetailDocument(null)} />
       <DocumentFormModal document={selectedDocument} isOpen={isFormOpen} isSchoolUser={user?.role === "school"} onClose={() => setIsFormOpen(false)} onSaved={(document) => setDocuments((current) => upsertDocument(current, document))} schools={schools} token={token} />
     </div>
   );

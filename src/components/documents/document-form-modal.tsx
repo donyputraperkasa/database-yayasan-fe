@@ -3,7 +3,7 @@
 import { updateDocument, uploadDocument } from "@/lib/api/documents";
 import type { DocumentItem, School } from "@/types";
 import { X } from "lucide-react";
-import type { FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 
 type DocumentFormModalProps = {
@@ -35,10 +35,15 @@ export function DocumentFormModal(props: DocumentFormModalProps) {
       const schoolId = props.isSchoolUser
         ? undefined
         : String(formData.get("schoolId") ?? "").trim();
-      const file = formData.get("file");
+      const file = getDocumentFile(formData);
+
+      if (!isEdit && !file) {
+        throw new Error("File dokumen wajib dipilih.");
+      }
+
       const saved = isEdit
-        ? await updateDocument(props.token, props.document!.id, { name, schoolId })
-        : await uploadDocument(props.token, { name, schoolId }, file as File);
+        ? await updateDocument(props.token, props.document!.id, { name, schoolId }, file)
+        : await uploadDocument(props.token, { name, schoolId }, file!);
 
       props.onSaved(saved);
       props.onClose();
@@ -77,7 +82,10 @@ export function DocumentFormModal(props: DocumentFormModalProps) {
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {!props.isSchoolUser ? <SchoolSelect {...props} /> : null}
           <Input label="Nama Dokumen" name="name" value={props.document?.name} />
-          {!isEdit ? <FileInput /> : null}
+          <FileInput
+            isEdit={isEdit}
+            label={isEdit ? "Upload Dokumen Terbaru" : "File Dokumen"}
+          />
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
         <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
@@ -89,6 +97,12 @@ export function DocumentFormModal(props: DocumentFormModalProps) {
       </form>
     </div>
   );
+}
+
+function getDocumentFile(formData: FormData) {
+  const file = formData.get("file");
+
+  return file instanceof File && file.size > 0 ? file : null;
 }
 
 function SchoolSelect(props: DocumentFormModalProps) {
@@ -114,11 +128,42 @@ function Input(props: { label: string; name: string; value?: string | null }) {
   );
 }
 
-function FileInput() {
+function FileInput(props: { isEdit: boolean; label: string }) {
+  const [fileName, setFileName] = useState("");
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFileName(event.target.files?.[0]?.name ?? "");
+  };
+
   return (
     <label className="block md:col-span-2">
-      <span className="text-sm font-semibold">File Dokumen</span>
-      <input name="file" required type="file" className={`${inputClass} pt-2`} />
+      <span className="text-sm font-semibold">{props.label}</span>
+      <div className="mt-2 flex flex-col gap-4 rounded-lg border border-[#c9d8ed] bg-[#f8fbff] p-4 sm:flex-row sm:items-center">
+        <div className="grid h-24 w-full place-items-center rounded-lg bg-white px-4 text-center text-sm font-semibold text-[#748299] sm:w-28">
+          {props.isEdit ? "File lama" : "Belum ada"}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <span className="inline-flex h-11 w-fit items-center rounded-md bg-[#0f2a4f] px-5 text-sm font-semibold text-white">
+              Choose File
+            </span>
+            <span className="truncate text-sm text-[#526078]">
+              {fileName || "no file selected"}
+            </span>
+          </div>
+          <p className="mt-3 text-sm text-[#748299]">
+            Format PDF, DOC, DOCX, XLS, XLSX, JPG, PNG, atau WEBP. Maksimal 10 MB.
+          </p>
+        </div>
+      </div>
+      <input
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.webp"
+        className="sr-only"
+        name="file"
+        onChange={handleChange}
+        required={!props.isEdit}
+        type="file"
+      />
     </label>
   );
 }

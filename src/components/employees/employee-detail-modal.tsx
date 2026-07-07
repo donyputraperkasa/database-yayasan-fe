@@ -2,6 +2,7 @@ import { DetailPhoto } from "@/components/ui/detail-photo";
 import type { Employee } from "@/types";
 import { X } from "lucide-react";
 import {
+  birthPlaceDateValue,
   employeeStatusLabel,
   employeeTypeLabel,
   formatDate,
@@ -17,23 +18,25 @@ export function EmployeeDetailModal({ employee, onClose }: EmployeeDetailModalPr
   if (!employee) return null;
 
   const details = [
-    ["Sekolah", employee.school.name],
-    ["Jenis", employeeTypeLabel[employee.type]],
-    ["Jabatan", employee.position],
-    ["Jabatan lain", employee.otherPosition],
-    ["Status", employee.status ? employeeStatusLabel[employee.status] : null],
-    ["Gender", genderLabel(employee.gender)],
+    ["Nama", employee.name],
+    ["Tempat/Tanggal Lahir", birthPlaceDateValue(employee.birthPlaceDate, employee.birthDate)],
     ["Agama", employee.religion],
-    ["Tanggal lahir", formatDate(employee.birthDate)],
-    ["Tanggal masuk", formatDate(employee.joinDate)],
-    ["Masa kerja", employee.workingPeriod],
-    ["Usia pensiun", employee.retirementAge ? `${employee.retirementAge} tahun` : null],
-    ["Tanggal pensiun", formatDate(employee.retirementDate)],
-    ["Pendidikan", employee.lastEducation],
-    ["Telepon", employee.phone],
+    ["Alamat", employee.address],
+    ["Jenis Kepegawaian", employeeTypeLabel[employee.type]],
+    ["Sekolah", employee.school.name],
+    ["Jabatan", employee.position],
+    ["Jabatan Lain", employee.otherPosition],
+    ["Status Kepegawaian", employee.status ? employeeStatusLabel[employee.status] : null],
+    ["Jenis Kelamin", genderLabel(employee.gender)],
+    ["Tanggal Masuk", formatDate(employee.joinDate)],
+    ["Pendidikan Terakhir", employee.lastEducation],
+    ["Nomor Telepon", employee.phone],
     ["Email", employee.email],
     ["Nomor SK", employee.decreeNumber],
     ["Honor/Gaji", employee.fee],
+    ["Masa Kerja", employee.workingPeriod],
+    ["Usia Pensiun", employee.retirementAge ? `${employee.retirementAge} tahun` : null],
+    ["Tanggal Pensiun", formatDate(employee.retirementDate)],
   ];
 
   return (
