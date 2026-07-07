@@ -8,6 +8,7 @@ import {
   IdCard,
   Landmark,
   School,
+  Settings,
   UserRoundCheck,
   UserPlus,
   UsersRound,
@@ -38,7 +39,7 @@ export const dashboardNavigation = [
   {
     href: "/principals",
     icon: UserRoundCheck,
-    label: "Kepala Sekolah",
+    label: "Unit Sekolah",
     roles: ["owner", "office"],
   },
   { href: "/students", icon: GraduationCap, label: "Siswa", roles: allRoles() },
@@ -62,6 +63,12 @@ export const dashboardNavigation = [
     icon: IdCard,
     label: "Profil Sekolah",
     roles: ["school"],
+  },
+  {
+    href: "/settings",
+    icon: Settings,
+    label: "Pengaturan",
+    roles: ["office", "school"],
   },
 ] as const;
 

@@ -8,11 +8,13 @@ import { getAccessToken } from "@/lib/auth/storage";
 import type { School } from "@/types";
 import { Mail, MessageCircle, Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { PrincipalDetailModal } from "./principal-detail-modal";
 
 export function PrincipalsPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [query, setQuery] = useState("");
+  const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
   const [schools, setSchools] = useState<School[]>([]);
   const [token] = useState(() => getAccessToken() ?? "");
 
@@ -49,9 +51,17 @@ export function PrincipalsPage() {
       <SearchBox query={query} setQuery={setQuery} />
       <section className="grid gap-4 xl:grid-cols-2">
         {principals.map((school) => (
-          <PrincipalCard key={school.id} school={school} />
+          <PrincipalCard
+            key={school.id}
+            onOpen={() => setSelectedSchool(school)}
+            school={school}
+          />
         ))}
       </section>
+      <PrincipalDetailModal
+        onClose={() => setSelectedSchool(null)}
+        school={selectedSchool}
+      />
     </div>
   );
 }
@@ -59,15 +69,15 @@ export function PrincipalsPage() {
 function Header({ count }: { count: number }) {
   return (
     <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
-      <p className="text-sm font-semibold text-[#748299]">Kontak Unit</p>
+      <p className="text-sm font-semibold text-[#748299]">Data Kepala Sekolah</p>
       <div className="mt-1 flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Kepala Sekolah</h1>
+        <h1 className="text-2xl font-semibold">Profil Unit Sekolah</h1>
         <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
-          {count} kontak
+          {count} unit sekolah
         </span>
       </div>
       <p className="mt-2 text-sm text-[#748299]">
-        Daftar kepala sekolah beserta kontak WA dan email unit.
+        Menampilkan daftar unit sekolah beserta informasi kepala sekolah, alamat email, dan nomor WhatsApp yang terdaftar di lingkungan Yayasan BOPKRI.
       </p>
     </section>
   );
@@ -87,12 +97,16 @@ function SearchBox(props: { query: string; setQuery: (query: string) => void }) 
   );
 }
 
-function PrincipalCard({ school }: { school: School }) {
+function PrincipalCard(props: { onOpen: () => void; school: School }) {
+  const { school } = props;
   const whatsappUrl = buildWhatsappUrl(school.phone);
   const photoUrl = getMediaUrl(school.profile?.photoUrl) ?? "/logo-yayasan.png";
 
   return (
-    <article className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
+    <article
+      onClick={props.onOpen}
+      className="cursor-pointer rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div
           className="h-28 w-28 shrink-0 rounded-xl border border-[#dbe5f4] bg-[#f8fbff] bg-contain bg-center bg-no-repeat shadow-inner"
@@ -107,7 +121,13 @@ function PrincipalCard({ school }: { school: School }) {
           </h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {whatsappUrl ? (
-              <a href={whatsappUrl} target="_blank" rel="noreferrer" className={buttonClass}>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(event) => event.stopPropagation()}
+                className={buttonClass}
+              >
                 <MessageCircle size={16} aria-hidden="true" />
                 {school.phone}
               </a>
@@ -115,7 +135,11 @@ function PrincipalCard({ school }: { school: School }) {
               <span className={mutedClass}>WA belum diisi</span>
             )}
             {school.email ? (
-              <a href={`mailto:${school.email}`} className={buttonClass}>
+              <a
+                href={`mailto:${school.email}`}
+                onClick={(event) => event.stopPropagation()}
+                className={buttonClass}
+              >
                 <Mail size={16} aria-hidden="true" />
                 {school.email}
               </a>

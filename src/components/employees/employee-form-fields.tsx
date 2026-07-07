@@ -39,6 +39,11 @@ export function EmployeeFormFields(props: EmployeeFormFieldsProps) {
       <Input label="Nomor SK" name="decreeNumber" value={employee?.decreeNumber} />
       <Input label="Honor/Gaji" name="fee" value={employee?.fee} />
       <EmployeePhotoField photoUrl={employee?.photoUrl} />
+      <EmployeePhotoField
+        label="Scan SK Terakhir"
+        name="decree"
+        photoUrl={employee?.decreeUrl}
+      />
     </div>
   );
 }

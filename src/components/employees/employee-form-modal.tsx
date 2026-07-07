@@ -3,6 +3,7 @@
 import {
   createEmployee,
   updateEmployee,
+  uploadEmployeeDecree,
   uploadEmployeePhoto,
 } from "@/lib/api/employees";
 import type { Employee, School } from "@/types";
@@ -12,6 +13,7 @@ import { useState } from "react";
 import { EmployeeFormFields } from "./employee-form-fields";
 import {
   buildEmployeePayload,
+  getEmployeeDecreeFile,
   getEmployeePhotoFile,
 } from "./employee-form-payload";
 
@@ -45,9 +47,13 @@ export function EmployeeFormModal(props: EmployeeFormModalProps) {
         ? await updateEmployee(props.token, props.employee!.id, payload)
         : await createEmployee(props.token, payload);
       const photoFile = getEmployeePhotoFile(formData);
-      const employee = photoFile
+      const employeeWithPhoto = photoFile
         ? await uploadEmployeePhoto(props.token, savedEmployee.id, photoFile)
         : savedEmployee;
+      const decreeFile = getEmployeeDecreeFile(formData);
+      const employee = decreeFile
+        ? await uploadEmployeeDecree(props.token, employeeWithPhoto.id, decreeFile)
+        : employeeWithPhoto;
 
       props.onSaved(employee);
       props.onClose();

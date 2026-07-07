@@ -37,6 +37,16 @@ export function getEmployeePhotoFile(formData: FormData) {
   return null;
 }
 
+export function getEmployeeDecreeFile(formData: FormData) {
+  const file = formData.get("decree");
+
+  if (file instanceof File && file.size > 0) {
+    return file;
+  }
+
+  return null;
+}
+
 function getOptional(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
   return value || undefined;

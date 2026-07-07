@@ -99,7 +99,7 @@ export function SchoolProfilePage() {
       <SchoolEditAccessNotice school={school} user={user} />
       <form onSubmit={handleSubmit} className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
         <div className="grid gap-4 md:grid-cols-2">
-          <Input disabled={!canEdit} label="Kepala Sekolah" name="principal" value={school.principal} />
+          <Input disabled={!canEdit} label="Unit Sekolah" name="principal" value={school.principal} />
           <Input disabled={!canEdit} label="Email Sekolah" name="email" type="email" value={school.email} />
           <Input disabled={!canEdit} label="Nomor WA/Telepon" name="phone" value={school.phone} />
           <PhotoField disabled={!canEdit} photoUrl={profile?.photoUrl} />

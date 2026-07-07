@@ -53,3 +53,14 @@ export function uploadEmployeePhoto(token: string, id: string, file: File) {
     token,
   });
 }
+
+export function uploadEmployeeDecree(token: string, id: string, file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  return apiRequest<Employee>(apiEndpoints.employees.decree(id), {
+    body: formData,
+    method: "POST",
+    token,
+  });
+}

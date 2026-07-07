@@ -18,6 +18,7 @@ export type Employee = {
   email?: string | null;
   status?: EmployeeStatus | null;
   decreeNumber?: string | null;
+  decreeUrl?: string | null;
   joinDate?: string | null;
   workingPeriod?: string | null;
   retirementAge?: number | null;

@@ -25,7 +25,7 @@ export function DetailPhoto({ fill = false, label, photoUrl }: DetailPhotoProps)
   return (
     <div
       aria-label={label}
-      className={`shrink-0 rounded-xl border border-[#dbe5f4] bg-cover bg-center shadow-sm ${sizeClass}`}
+      className={`shrink-0 rounded-xl border border-[#dbe5f4] bg-contain bg-center bg-no-repeat shadow-sm ${sizeClass}`}
       style={{ backgroundImage: `url(${previewUrl})` }}
     />
   );

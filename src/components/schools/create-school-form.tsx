@@ -45,7 +45,7 @@ export function CreateSchoolForm({ onCreated, token }: CreateSchoolFormProps) {
         <LevelSelect />
         <Input label="Email" name="email" placeholder="sekolah@email.com" />
         <Input label="Telepon" name="phone" placeholder="0274..." />
-        <Input label="Kepala Sekolah" name="principal" placeholder="Nama kepala sekolah" />
+        <Input label="Unit Sekolah" name="principal" placeholder="Nama kepala sekolah" />
         <Input label="Alamat" name="address" placeholder="Alamat sekolah" />
       </div>
 

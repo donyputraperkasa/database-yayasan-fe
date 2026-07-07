@@ -22,6 +22,7 @@ export const apiEndpoints = {
   },
   employees: {
     create: "/employees",
+    decree: (id: string) => `/employees/${id}/decree`,
     list: "/employees",
     photo: (id: string) => `/employees/${id}/photo`,
     remove: (id: string) => `/employees/${id}`,
