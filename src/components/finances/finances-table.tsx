@@ -5,6 +5,7 @@ import { financeTypeLabel, formatRupiah } from "./finance-labels";
 import { groupFinancesBySchool } from "./finance-page-utils";
 
 type FinancesTableProps = {
+  canBackToSchools?: boolean;
   canManage: boolean;
   finances: Finance[];
   onBackToSchools: () => void;
@@ -27,6 +28,7 @@ export function FinancesTable(props: FinancesTableProps) {
     return (
       <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
         <DetailHeader
+          canBackToSchools={props.canBackToSchools ?? true}
           count={finances.length}
           onBack={props.onBackToSchools}
           schoolName={schoolName}
@@ -57,6 +59,7 @@ export function FinancesTable(props: FinancesTableProps) {
 }
 
 function DetailHeader(props: {
+  canBackToSchools: boolean;
   count: number;
   onBack: () => void;
   schoolName: string;
@@ -69,13 +72,15 @@ function DetailHeader(props: {
           {props.count} catatan keuangan tercatat.
         </p>
       </div>
-      <button
-        type="button"
-        onClick={props.onBack}
-        className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
-      >
-        Kembali ke sekolah
-      </button>
+      {props.canBackToSchools ? (
+        <button
+          type="button"
+          onClick={props.onBack}
+          className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
+        >
+          Kembali ke sekolah
+        </button>
+      ) : null}
     </div>
   );
 }

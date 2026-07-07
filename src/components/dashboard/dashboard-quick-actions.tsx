@@ -21,11 +21,24 @@ const officeActions = [
   { href: "/facilities", icon: ClipboardList, label: "Cek data fasilitas" },
 ];
 
+const schoolActions = [
+  { href: "/documents", icon: FileUp, label: "Kelola dokumen" },
+  { href: "/students", icon: UsersRound, label: "Kelola siswa" },
+  { href: "/facilities", icon: ClipboardList, label: "Kelola fasilitas" },
+];
+
 export function DashboardQuickActions({ role }: { role: Role }) {
-  const quickActions = role === "office" ? officeActions : ownerActions;
+  const quickActions =
+    role === "office"
+      ? officeActions
+      : role === "school"
+        ? schoolActions
+        : ownerActions;
   const subtitle =
     role === "office"
       ? "Akses pemantauan data sekolah dan dokumen dari satu tempat."
+      : role === "school"
+        ? "Kelola data sekolah sesuai akses edit yang dibuka owner."
       : "Akses pekerjaan yang sering dilakukan dari satu tempat.";
 
   return (

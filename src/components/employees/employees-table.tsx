@@ -8,6 +8,7 @@ import {
 import { groupEmployeesBySchool } from "./employee-page-utils";
 
 type EmployeesTableProps = {
+  canBackToSchools?: boolean;
   canManage: boolean;
   employees: Employee[];
   onBackToSchools: () => void;
@@ -27,7 +28,12 @@ export function EmployeesTable(props: EmployeesTableProps) {
 
     return (
       <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
-        <DetailHeader count={employees.length} onBack={props.onBackToSchools} schoolName={schoolName} />
+        <DetailHeader
+          canBackToSchools={props.canBackToSchools ?? true}
+          count={employees.length}
+          onBack={props.onBackToSchools}
+          schoolName={schoolName}
+        />
         <div className="mt-5 grid gap-3 md:hidden">
           {employees.map((employee) => (
             <EmployeeCard key={employee.id} employee={employee} {...props} />
@@ -73,6 +79,7 @@ function GroupHeader(props: { count: number; schoolName: string }) {
 }
 
 function DetailHeader(props: {
+  canBackToSchools: boolean;
   count: number;
   onBack: () => void;
   schoolName: string;
@@ -80,13 +87,15 @@ function DetailHeader(props: {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <GroupHeader count={props.count} schoolName={props.schoolName} />
-      <button
-        type="button"
-        onClick={props.onBack}
-        className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
-      >
-        Kembali ke sekolah
-      </button>
+      {props.canBackToSchools ? (
+        <button
+          type="button"
+          onClick={props.onBack}
+          className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
+        >
+          Kembali ke sekolah
+        </button>
+      ) : null}
     </div>
   );
 }
@@ -124,7 +133,7 @@ function EmployeeCard(props: EmployeesTableProps & { employee: Employee }) {
         <Badge>{employeeTypeLabel[employee.type]}</Badge>
         <Badge>{employee.position ?? "Tanpa jabatan"}</Badge>
       </div>
-      {props.canManage ? <Actions {...props} /> : null}
+      <Actions {...props} />
     </article>
   );
 }

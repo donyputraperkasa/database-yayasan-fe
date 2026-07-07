@@ -46,6 +46,11 @@ export const apiEndpoints = {
     remove: (id: string) => `/schools/${id}`,
     update: (id: string) => `/schools/${id}`,
   },
+  schoolProfile: {
+    detail: (schoolId: string) => `/school-profile/${schoolId}`,
+    photo: (schoolId: string) => `/school-profile/${schoolId}/photo`,
+    update: (schoolId: string) => `/school-profile/${schoolId}`,
+  },
   students: {
     create: "/students",
     list: "/students",

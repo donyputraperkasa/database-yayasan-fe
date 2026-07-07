@@ -5,6 +5,7 @@ import {
   Building2,
   GraduationCap,
   Home,
+  IdCard,
   Landmark,
   School,
   UserRoundCheck,
@@ -56,6 +57,12 @@ export const dashboardNavigation = [
     roles: allRoles(),
   },
   { href: "/documents", icon: Landmark, label: "Dokumen", roles: allRoles() },
+  {
+    href: "/school-profile",
+    icon: IdCard,
+    label: "Profil Sekolah",
+    roles: ["school"],
+  },
 ] as const;
 
 function allRoles(): Role[] {

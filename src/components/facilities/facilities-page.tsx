@@ -1,9 +1,11 @@
 "use client";
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
+import { SchoolEditAccessNotice } from "@/components/schools/school-edit-access-notice";
 import { PageState } from "@/components/ui/page-state";
 import { deleteFacility, listFacilities } from "@/lib/api/facilities";
 import { listSchools } from "@/lib/api/schools";
+import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { Facility, FacilityFilters, School, User } from "@/types";
 import { useEffect, useState } from "react";
@@ -68,7 +70,10 @@ export function FacilitiesPage() {
       .finally(() => setIsLoading(false));
   }, [token]);
 
-  const canManage = user?.role === "owner" || user?.role === "school";
+  const currentSchool = getCurrentSchool(user, schools);
+  const canManage = canManageSchoolData(user, schools);
+  const activeSchoolName =
+    user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleFacilities = filterFacilities(facilities, filters.query);
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
@@ -93,6 +98,7 @@ export function FacilitiesPage() {
         ]}
       />
       <FacilitiesHeader canManage={canManage} onCreate={() => openForm(null)} />
+      <SchoolEditAccessNotice school={currentSchool} user={user} />
       <FacilityStats facilities={visibleFacilities} />
       <FacilitiesFilter
         filters={filters}
@@ -102,6 +108,7 @@ export function FacilitiesPage() {
         schools={schools}
       />
       <FacilitiesTable
+        canBackToSchools={user?.role !== "school"}
         canManage={canManage}
         facilities={visibleFacilities}
         onBackToSchools={() => setSelectedSchoolName(null)}
@@ -109,7 +116,7 @@ export function FacilitiesPage() {
         onDetail={setDetailFacility}
         onEdit={openForm}
         onSelectSchool={setSelectedSchoolName}
-        selectedSchoolName={selectedSchoolName}
+        selectedSchoolName={activeSchoolName}
       />
       <FacilityDetailModal
         facility={detailFacility}

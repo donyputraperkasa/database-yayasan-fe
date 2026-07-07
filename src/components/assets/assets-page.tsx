@@ -1,9 +1,11 @@
 "use client";
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
+import { SchoolEditAccessNotice } from "@/components/schools/school-edit-access-notice";
 import { PageState } from "@/components/ui/page-state";
 import { deleteAsset, listAssets } from "@/lib/api/assets";
 import { listSchools } from "@/lib/api/schools";
+import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { Asset, AssetFilters, School, User } from "@/types";
 import { useEffect, useState } from "react";
@@ -73,7 +75,10 @@ export function AssetsPage() {
       .finally(() => setIsLoading(false));
   }, [token]);
 
-  const canManage = user?.role === "owner" || user?.role === "school";
+  const currentSchool = getCurrentSchool(user, schools);
+  const canManage = canManageSchoolData(user, schools);
+  const activeSchoolName =
+    user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleAssets = filterAssets(assets, filters.query);
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
@@ -98,6 +103,7 @@ export function AssetsPage() {
         ]}
       />
       <AssetsHeader canManage={canManage} onCreate={() => openForm(null)} />
+      <SchoolEditAccessNotice school={currentSchool} user={user} />
       <AssetStats assets={visibleAssets} />
       <AssetsFilter
         filters={filters}
@@ -108,13 +114,14 @@ export function AssetsPage() {
       />
       <AssetsTable
         assets={visibleAssets}
+        canBackToSchools={user?.role !== "school"}
         canManage={canManage}
         onBackToSchools={() => setSelectedSchoolName(null)}
         onDelete={handleDelete}
         onDetail={setDetailAsset}
         onEdit={openForm}
         onSelectSchool={setSelectedSchoolName}
-        selectedSchoolName={selectedSchoolName}
+        selectedSchoolName={activeSchoolName}
       />
       <AssetDetailModal asset={detailAsset} onClose={() => setDetailAsset(null)} />
       <AssetFormModal

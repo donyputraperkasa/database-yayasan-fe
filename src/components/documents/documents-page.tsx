@@ -1,9 +1,11 @@
 "use client";
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
+import { SchoolEditAccessNotice } from "@/components/schools/school-edit-access-notice";
 import { PageState } from "@/components/ui/page-state";
 import { deleteDocument, listDocuments } from "@/lib/api/documents";
 import { listSchools } from "@/lib/api/schools";
+import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { DocumentFilters, DocumentItem, School, User } from "@/types";
 import { useEffect, useState } from "react";
@@ -70,7 +72,10 @@ export function DocumentsPage() {
       .finally(() => setIsLoading(false));
   }, [token]);
 
-  const canManage = user?.role === "owner" || user?.role === "school";
+  const currentSchool = getCurrentSchool(user, schools);
+  const canManage = canManageSchoolData(user, schools);
+  const activeSchoolName =
+    user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleDocuments = filterDocuments(documents, filters.query);
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
@@ -95,9 +100,11 @@ export function DocumentsPage() {
         ]}
       />
       <DocumentsHeader canManage={canManage} onCreate={() => openForm(null)} />
+      <SchoolEditAccessNotice school={currentSchool} user={user} />
       <DocumentStats documents={visibleDocuments} />
       <DocumentsFilter filters={filters} isSchoolUser={user?.role === "school"} onChange={setFilters} onSubmit={() => void loadDocuments()} schools={schools} />
       <DocumentsTable
+        canBackToSchools={user?.role !== "school"}
         canManage={canManage}
         documents={visibleDocuments}
         onBackToSchools={() => setSelectedSchoolName(null)}
@@ -105,7 +112,7 @@ export function DocumentsPage() {
         onDetail={setDetailDocument}
         onEdit={openForm}
         onSelectSchool={setSelectedSchoolName}
-        selectedSchoolName={selectedSchoolName}
+        selectedSchoolName={activeSchoolName}
       />
       <DocumentDetailModal document={detailDocument} onClose={() => setDetailDocument(null)} />
       <DocumentFormModal document={selectedDocument} isOpen={isFormOpen} isSchoolUser={user?.role === "school"} onClose={() => setIsFormOpen(false)} onSaved={(document) => setDocuments((current) => upsertDocument(current, document))} schools={schools} token={token} />

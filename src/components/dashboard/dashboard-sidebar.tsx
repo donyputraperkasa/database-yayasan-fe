@@ -67,7 +67,7 @@ export function DashboardSidebar({
                   Yayasan BOPKRI
                 </p>
                 <p className="text-xs text-[#b8c8df]">
-                  {roleLabel} Dashboard
+                  Dashboard {roleLabel}
                 </p>
               </div>
             </Link>

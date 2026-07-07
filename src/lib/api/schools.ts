@@ -1,4 +1,10 @@
-import type { CreateSchoolPayload, School } from "@/types";
+import type {
+  CreateSchoolPayload,
+  School,
+  SchoolProfile,
+  UpdateSchoolPayload,
+  UpdateSchoolProfilePayload,
+} from "@/types";
 import { apiRequest } from "./client";
 import { apiEndpoints } from "./endpoints";
 
@@ -17,6 +23,51 @@ export function createSchool(token: string, payload: CreateSchoolPayload) {
 export function deleteSchool(token: string, id: string) {
   return apiRequest(apiEndpoints.schools.remove(id), {
     method: "DELETE",
+    token,
+  });
+}
+
+export function updateSchool(
+  token: string,
+  id: string,
+  payload: UpdateSchoolPayload,
+) {
+  return apiRequest<School>(apiEndpoints.schools.update(id), {
+    body: JSON.stringify(payload),
+    method: "PATCH",
+    token,
+  });
+}
+
+export function getSchoolProfile(token: string, schoolId: string) {
+  return apiRequest<SchoolProfile | null>(apiEndpoints.schoolProfile.detail(schoolId), {
+    token,
+  });
+}
+
+export function updateSchoolProfile(
+  token: string,
+  schoolId: string,
+  payload: UpdateSchoolProfilePayload,
+) {
+  return apiRequest<SchoolProfile>(apiEndpoints.schoolProfile.update(schoolId), {
+    body: JSON.stringify(payload),
+    method: "PATCH",
+    token,
+  });
+}
+
+export function uploadSchoolProfilePhoto(
+  token: string,
+  schoolId: string,
+  file: File,
+) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  return apiRequest<SchoolProfile>(apiEndpoints.schoolProfile.photo(schoolId), {
+    body: formData,
+    method: "POST",
     token,
   });
 }

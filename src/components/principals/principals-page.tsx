@@ -2,11 +2,11 @@
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import { PageState } from "@/components/ui/page-state";
+import { getMediaUrl } from "@/lib/api/media";
 import { listSchools } from "@/lib/api/schools";
 import { getAccessToken } from "@/lib/auth/storage";
 import type { School } from "@/types";
 import { Mail, MessageCircle, Search } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export function PrincipalsPage() {
@@ -89,19 +89,17 @@ function SearchBox(props: { query: string; setQuery: (query: string) => void }) 
 
 function PrincipalCard({ school }: { school: School }) {
   const whatsappUrl = buildWhatsappUrl(school.phone);
+  const photoUrl = getMediaUrl(school.profile?.photoUrl) ?? "/logo-yayasan.png";
 
   return (
     <article className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-[#dbe5f4] bg-[#f8fbff]">
-          <Image
-            src="/logo-yayasan.png"
-            alt={school.principal ?? "Kepala sekolah"}
-            fill
-            sizes="96px"
-            className="object-contain p-3"
-          />
-        </div>
+        <div
+          className="h-28 w-28 shrink-0 rounded-xl border border-[#dbe5f4] bg-[#f8fbff] bg-contain bg-center bg-no-repeat shadow-inner"
+          role="img"
+          aria-label={school.principal ?? "Kepala sekolah"}
+          style={{ backgroundImage: `url(${photoUrl})` }}
+        />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-[#748299]">{school.name}</p>
           <h2 className="mt-1 text-xl font-semibold text-[#172033]">

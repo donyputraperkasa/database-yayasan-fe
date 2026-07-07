@@ -1,9 +1,11 @@
 "use client";
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
+import { SchoolEditAccessNotice } from "@/components/schools/school-edit-access-notice";
 import { PageState } from "@/components/ui/page-state";
 import { listSchools } from "@/lib/api/schools";
 import { deleteStudent, listStudents } from "@/lib/api/students";
+import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { School, Student, StudentFilters, User } from "@/types";
 import { useEffect, useState } from "react";
@@ -26,6 +28,7 @@ export function StudentsPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [schools, setSchools] = useState<School[]>([]);
   const [detailStudent, setDetailStudent] = useState<Student | null>(null);
+  const [selectedClassName, setSelectedClassName] = useState<string | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [selectedSchoolName, setSelectedSchoolName] = useState<string | null>(null);
   const [students, setStudents] = useState<Student[]>([]);
@@ -78,8 +81,37 @@ export function StudentsPage() {
       .finally(() => setIsLoading(false));
   }, [token]);
 
-  const canManage = user?.role === "owner" || user?.role === "school";
+  const currentSchool = getCurrentSchool(user, schools);
+  const canManage = canManageSchoolData(user, schools);
+  const activeSchoolName =
+    user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleStudents = filterStudents(students, filters.query);
+
+  const selectSchool = (schoolName: string | null) => {
+    setSelectedSchoolName(schoolName);
+    setSelectedClassName(null);
+  };
+
+  const breadcrumbItems = [
+    { href: "/dashboard", label: "Dashboard" },
+    {
+      href: "/students",
+      label: "Siswa",
+      onClick: () => {
+        selectSchool(null);
+      },
+    },
+    ...(activeSchoolName
+      ? [
+          {
+            href: "/students",
+            label: activeSchoolName,
+            onClick: () => setSelectedClassName(null),
+          },
+        ]
+      : []),
+    ...(selectedClassName ? [{ label: `Kelas ${selectedClassName}` }] : []),
+  ];
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
   if (isLoading) return <PageState text="Memuat data siswa..." />;
@@ -88,21 +120,10 @@ export function StudentsPage() {
   return (
     <div className="space-y-5">
       <DashboardBreadcrumbs
-        items={[
-          { href: "/dashboard", label: "Dashboard" },
-          ...(selectedSchoolName
-            ? [
-                {
-                  href: "/students",
-                  label: selectedSchoolName,
-                  onClick: () => setSelectedSchoolName(null),
-                },
-                { label: "Siswa" },
-              ]
-            : [{ label: "Siswa" }]),
-        ]}
+        items={breadcrumbItems}
       />
       <StudentsHeader canManage={canManage} onCreate={() => openForm(null)} />
+      <SchoolEditAccessNotice school={currentSchool} user={user} />
       <StudentStats students={visibleStudents} />
       <StudentsFilter
         filters={filters}
@@ -112,13 +133,17 @@ export function StudentsPage() {
         schools={schools}
       />
       <StudentsTable
+        canBackToSchools={user?.role !== "school"}
         canManage={canManage}
         onDelete={handleDelete}
         onDetail={setDetailStudent}
         onEdit={openForm}
-        onBackToSchools={() => setSelectedSchoolName(null)}
-        onSelectSchool={setSelectedSchoolName}
-        selectedSchoolName={selectedSchoolName}
+        onBackToClasses={() => setSelectedClassName(null)}
+        onBackToSchools={() => selectSchool(null)}
+        onSelectClass={setSelectedClassName}
+        onSelectSchool={selectSchool}
+        selectedClassName={selectedClassName}
+        selectedSchoolName={activeSchoolName}
         students={visibleStudents}
       />
       <StudentDetailModal onClose={() => setDetailStudent(null)} student={detailStudent} />

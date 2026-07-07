@@ -4,6 +4,7 @@ import type { DocumentItem } from "@/types";
 import { groupDocumentsBySchool } from "./document-page-utils";
 
 type DocumentsTableProps = {
+  canBackToSchools?: boolean;
   canManage: boolean;
   documents: DocumentItem[];
   onBackToSchools: () => void;
@@ -26,6 +27,7 @@ export function DocumentsTable(props: DocumentsTableProps) {
     return (
       <section className="space-y-4">
         <DetailHeader
+          canBackToSchools={props.canBackToSchools ?? true}
           count={documents.length}
           onBack={props.onBackToSchools}
           schoolName={schoolName}
@@ -56,6 +58,7 @@ export function DocumentsTable(props: DocumentsTableProps) {
 }
 
 function DetailHeader(props: {
+  canBackToSchools: boolean;
   count: number;
   onBack: () => void;
   schoolName: string;
@@ -75,13 +78,15 @@ function DetailHeader(props: {
           <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
             {props.count} file
           </span>
-          <button
-            type="button"
-            onClick={props.onBack}
-            className="rounded-md border border-[#dbe5f4] px-4 py-2 text-sm font-semibold text-[#0f2a4f]"
-          >
-            Semua sekolah
-          </button>
+          {props.canBackToSchools ? (
+            <button
+              type="button"
+              onClick={props.onBack}
+              className="rounded-md border border-[#dbe5f4] px-4 py-2 text-sm font-semibold text-[#0f2a4f]"
+            >
+              Semua sekolah
+            </button>
+          ) : null}
         </div>
       </div>
     </article>

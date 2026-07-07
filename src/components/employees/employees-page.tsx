@@ -2,8 +2,10 @@
 
 import { deleteEmployee, listEmployees } from "@/lib/api/employees";
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
+import { SchoolEditAccessNotice } from "@/components/schools/school-edit-access-notice";
 import { PageState } from "@/components/ui/page-state";
 import { listSchools } from "@/lib/api/schools";
+import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { Employee, EmployeeFilters, School, User } from "@/types";
 import { useEffect, useState } from "react";
@@ -58,7 +60,10 @@ export function EmployeesPage() {
       .finally(() => setIsLoading(false));
   }, [token]);
 
-  const canManage = user?.role === "owner" || user?.role === "school";
+  const currentSchool = getCurrentSchool(user, schools);
+  const canManage = canManageSchoolData(user, schools);
+  const activeSchoolName =
+    user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleEmployees = filterEmployees(employees, filters.query);
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
@@ -83,6 +88,7 @@ export function EmployeesPage() {
         ]}
       />
       <EmployeesHeader canManage={canManage} onCreate={() => openForm(null)} />
+      <SchoolEditAccessNotice school={currentSchool} user={user} />
       <EmployeeStats employees={visibleEmployees} />
       <EmployeesFilter
         filters={filters}
@@ -92,6 +98,7 @@ export function EmployeesPage() {
         schools={schools}
       />
       <EmployeesTable
+        canBackToSchools={user?.role !== "school"}
         canManage={canManage}
         employees={visibleEmployees}
         onBackToSchools={() => setSelectedSchoolName(null)}
@@ -99,7 +106,7 @@ export function EmployeesPage() {
         onDetail={setDetailEmployee}
         onEdit={openForm}
         onSelectSchool={setSelectedSchoolName}
-        selectedSchoolName={selectedSchoolName}
+        selectedSchoolName={activeSchoolName}
       />
       <EmployeeDetailModal employee={detailEmployee} onClose={() => setDetailEmployee(null)} />
       <EmployeeFormModal

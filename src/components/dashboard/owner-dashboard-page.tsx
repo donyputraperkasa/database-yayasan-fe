@@ -124,7 +124,11 @@ function buildProgress(
 ): DashboardProgress[] {
   const schools = summary.totals.schools;
   const unitTitle =
-    role === "office" ? "Unit sekolah dipantau" : "Unit sekolah terdaftar";
+    role === "school"
+      ? "Data sekolah Anda"
+      : role === "office"
+        ? "Unit sekolah dipantau"
+        : "Unit sekolah terdaftar";
 
   return [
     { title: unitTitle, progress: ratio(schools, 36) },

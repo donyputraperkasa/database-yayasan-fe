@@ -8,6 +8,7 @@ import {
 import { groupFacilitiesBySchool } from "./facility-page-utils";
 
 type FacilitiesTableProps = {
+  canBackToSchools?: boolean;
   canManage: boolean;
   facilities: Facility[];
   onBackToSchools: () => void;
@@ -29,6 +30,7 @@ export function FacilitiesTable(props: FacilitiesTableProps) {
     return (
       <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
         <DetailHeader
+          canBackToSchools={props.canBackToSchools ?? true}
           count={facilities.length}
           onBack={props.onBackToSchools}
           schoolName={schoolName}
@@ -60,6 +62,7 @@ export function FacilitiesTable(props: FacilitiesTableProps) {
 }
 
 function DetailHeader(props: {
+  canBackToSchools: boolean;
   count: number;
   onBack: () => void;
   schoolName: string;
@@ -73,13 +76,15 @@ function DetailHeader(props: {
           {props.count} jenis fasilitas, {props.totalUnit} unit.
         </p>
       </div>
-      <button
-        type="button"
-        onClick={props.onBack}
-        className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
-      >
-        Kembali ke sekolah
-      </button>
+      {props.canBackToSchools ? (
+        <button
+          type="button"
+          onClick={props.onBack}
+          className="h-10 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
+        >
+          Kembali ke sekolah
+        </button>
+      ) : null}
     </div>
   );
 }

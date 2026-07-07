@@ -1,9 +1,11 @@
 "use client";
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
+import { SchoolEditAccessNotice } from "@/components/schools/school-edit-access-notice";
 import { PageState } from "@/components/ui/page-state";
 import { deleteFinance, listFinances } from "@/lib/api/finances";
 import { listSchools } from "@/lib/api/schools";
+import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { Finance, FinanceFilters, School, User } from "@/types";
 import { useEffect, useState } from "react";
@@ -68,10 +70,13 @@ export function FinancesPage() {
       .finally(() => setIsLoading(false));
   }, [token]);
 
-  const canManage = user?.role === "owner" || user?.role === "school";
+  const currentSchool = getCurrentSchool(user, schools);
+  const canManage = canManageSchoolData(user, schools);
   const visibleFinances = filterFinances(finances, filters.query);
-  const statsFinances = selectedSchoolName
-    ? visibleFinances.filter((finance) => finance.school.name === selectedSchoolName)
+  const activeSchoolName =
+    user?.role === "school" ? currentSchool?.name : selectedSchoolName;
+  const statsFinances = activeSchoolName
+    ? visibleFinances.filter((finance) => finance.school.name === activeSchoolName)
     : visibleFinances;
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
@@ -96,12 +101,14 @@ export function FinancesPage() {
         ]}
       />
       <FinancesHeader canManage={canManage} onCreate={() => openForm(null)} />
+      <SchoolEditAccessNotice school={currentSchool} user={user} />
       <FinanceStats
         finances={statsFinances}
-        showNominal={Boolean(selectedSchoolName)}
+        showNominal={Boolean(activeSchoolName)}
       />
       <FinancesFilter filters={filters} isSchoolUser={user?.role === "school"} onChange={setFilters} onSubmit={() => void loadFinances()} schools={schools} />
       <FinancesTable
+        canBackToSchools={user?.role !== "school"}
         canManage={canManage}
         finances={visibleFinances}
         onBackToSchools={() => setSelectedSchoolName(null)}
@@ -109,7 +116,7 @@ export function FinancesPage() {
         onDetail={setDetailFinance}
         onEdit={openForm}
         onSelectSchool={setSelectedSchoolName}
-        selectedSchoolName={selectedSchoolName}
+        selectedSchoolName={activeSchoolName}
       />
       <FinanceDetailModal finance={detailFinance} onClose={() => setDetailFinance(null)} />
       <FinanceFormModal finance={selectedFinance} isOpen={isFormOpen} isSchoolUser={user?.role === "school"} onClose={() => setIsFormOpen(false)} onSaved={(finance) => setFinances((current) => upsertFinance(current, finance))} schools={schools} token={token} />
