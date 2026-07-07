@@ -86,7 +86,14 @@ export function AssetsPage() {
         items={[
           { href: "/dashboard", label: "Dashboard" },
           ...(selectedSchoolName
-            ? [{ label: selectedSchoolName }, { label: "Aset" }]
+            ? [
+                {
+                  href: "/assets",
+                  label: selectedSchoolName,
+                  onClick: () => setSelectedSchoolName(null),
+                },
+                { label: "Aset" },
+              ]
             : [{ label: "Aset" }]),
         ]}
       />

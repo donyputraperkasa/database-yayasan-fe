@@ -3,6 +3,7 @@ import Link from "next/link";
 type BreadcrumbItem = {
   href?: string;
   label: string;
+  onClick?: () => void;
 };
 
 type DashboardBreadcrumbsProps = {
@@ -19,7 +20,11 @@ export function DashboardBreadcrumbs({ items }: DashboardBreadcrumbsProps) {
           return (
             <li key={item.label} className="flex items-center gap-2">
               {item.href && !isLast ? (
-                <Link href={item.href} className="text-[#1f4f8f] hover:underline">
+                <Link
+                  href={item.href}
+                  onClick={item.onClick}
+                  className="text-[#1f4f8f] hover:underline"
+                >
                   {item.label}
                 </Link>
               ) : (

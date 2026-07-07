@@ -1,4 +1,4 @@
-import type { DashboardProgress, DashboardStat } from "@/types";
+import type { DashboardProgress, DashboardStat, Role } from "@/types";
 import { DashboardProgressCard } from "./dashboard-progress-card";
 import { DashboardQuickActions } from "./dashboard-quick-actions";
 import { DashboardSearchPanel } from "./dashboard-search-panel";
@@ -9,6 +9,7 @@ type DashboardHomeProps = {
   isLoading?: boolean;
   onRetry?: () => void;
   progress: DashboardProgress[];
+  role: Role;
   stats: DashboardStat[];
 };
 
@@ -17,6 +18,7 @@ export function DashboardHome({
   isLoading = false,
   onRetry,
   progress,
+  role,
   stats,
 }: DashboardHomeProps) {
   return (
@@ -26,7 +28,7 @@ export function DashboardHome({
 
       <section className="grid gap-5 xl:grid-cols-[1.4fr_0.8fr]">
         <DashboardProgressCard items={progress} />
-        <DashboardQuickActions />
+        <DashboardQuickActions role={role} />
       </section>
     </div>
   );

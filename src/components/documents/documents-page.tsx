@@ -83,7 +83,14 @@ export function DocumentsPage() {
         items={[
           { href: "/dashboard", label: "Dashboard" },
           ...(selectedSchoolName
-            ? [{ label: selectedSchoolName }, { label: "Dokumen" }]
+            ? [
+                {
+                  href: "/documents",
+                  label: selectedSchoolName,
+                  onClick: () => setSelectedSchoolName(null),
+                },
+                { label: "Dokumen" },
+              ]
             : [{ label: "Dokumen" }]),
         ]}
       />

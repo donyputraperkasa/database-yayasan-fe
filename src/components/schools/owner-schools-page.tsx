@@ -6,8 +6,8 @@ import {
   listSchools,
   setSchoolEditAccess,
 } from "@/lib/api/schools";
-import { getAccessToken } from "@/lib/auth/storage";
-import type { School } from "@/types";
+import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
+import type { School, User } from "@/types";
 import { useEffect, useState } from "react";
 import { CreateSchoolForm } from "./create-school-form";
 import { SchoolsHeader } from "./schools-header";
@@ -16,11 +16,12 @@ import { SchoolsTable } from "./schools-table";
 export function OwnerSchoolsPage() {
   const [error, setError] = useState<string | null>(null);
   const [schools, setSchools] = useState<School[]>([]);
+  const [user] = useState<User | null>(() => getStoredUser());
   const [token] = useState(() => getAccessToken() ?? "");
   const [isLoading, setIsLoading] = useState(() => Boolean(token));
 
   useEffect(() => {
-    if (!token) {
+    if (!token || user?.role !== "owner") {
       return;
     }
 
@@ -30,7 +31,7 @@ export function OwnerSchoolsPage() {
         setError(loadError instanceof Error ? loadError.message : "Gagal mengambil data.");
       })
       .finally(() => setIsLoading(false));
-  }, [token]);
+  }, [token, user?.role]);
 
   const handleDelete = async (school: School) => {
     if (!confirm(`Hapus ${school.name}?`)) {
@@ -55,6 +56,10 @@ export function OwnerSchoolsPage() {
 
   if (!token) {
     return <PageState text="Sesi login tidak ditemukan." />;
+  }
+
+  if (user?.role !== "owner") {
+    return <PageState text="Halaman ini khusus owner." />;
   }
 
   if (isLoading) {

@@ -9,6 +9,8 @@ type DashboardTopbarProps = {
 };
 
 export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
+  const roleLabel = formatRole(user?.role);
+
   return (
     <header className="sticky top-0 z-20 border-b border-[#dbe5f4] bg-[#f8fbff]/92 px-4 py-4 backdrop-blur lg:px-8">
       <div className="flex items-center justify-between gap-4">
@@ -26,7 +28,7 @@ export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
               Selamat datang, {user?.name ?? "Pengguna"}
             </span>
             <h1 className="mt-1 truncate text-2xl font-semibold text-[#0f172a]">
-              Dashboard Owner
+              Dashboard {roleLabel}
             </h1>
           </div>
         </div>
@@ -37,10 +39,17 @@ export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
             Juli 2026
           </div>
           <div className="rounded-full bg-[#f2d35f] px-4 py-2 text-sm font-semibold text-[#172033]">
-            Owner
+            {roleLabel}
           </div>
         </div>
       </div>
     </header>
   );
+}
+
+function formatRole(role?: string) {
+  if (role === "office") return "Office";
+  if (role === "school") return "School";
+
+  return "Owner";
 }

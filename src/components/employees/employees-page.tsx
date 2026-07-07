@@ -71,7 +71,14 @@ export function EmployeesPage() {
         items={[
           { href: "/dashboard", label: "Dashboard" },
           ...(selectedSchoolName
-            ? [{ label: selectedSchoolName }, { label: "Pegawai" }]
+            ? [
+                {
+                  href: "/employees",
+                  label: selectedSchoolName,
+                  onClick: () => setSelectedSchoolName(null),
+                },
+                { label: "Pegawai" },
+              ]
             : [{ label: "Pegawai" }]),
         ]}
       />

@@ -4,6 +4,7 @@ import { getStoredUser } from "@/lib/auth/storage";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import type { User } from "@/types";
+import { FloatingContact } from "@/components/landing/floating-contact";
 import { DashboardSidebar } from "./dashboard-sidebar";
 import { DashboardTopbar } from "./dashboard-topbar";
 
@@ -31,6 +32,9 @@ export function DashboardShell({ children }: DashboardShellProps) {
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 lg:px-8">
             {children}
           </div>
+          {user?.role === "office" || user?.role === "school" ? (
+            <FloatingContact />
+          ) : null}
         </section>
       </div>
     </main>

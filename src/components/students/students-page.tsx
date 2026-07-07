@@ -91,7 +91,14 @@ export function StudentsPage() {
         items={[
           { href: "/dashboard", label: "Dashboard" },
           ...(selectedSchoolName
-            ? [{ label: selectedSchoolName }, { label: "Siswa" }]
+            ? [
+                {
+                  href: "/students",
+                  label: selectedSchoolName,
+                  onClick: () => setSelectedSchoolName(null),
+                },
+                { label: "Siswa" },
+              ]
             : [{ label: "Siswa" }]),
         ]}
       />

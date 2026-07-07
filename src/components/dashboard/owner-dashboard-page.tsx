@@ -1,7 +1,7 @@
 "use client";
 
 import { getDashboardSummary } from "@/lib/api/dashboard";
-import { getAccessToken } from "@/lib/auth/storage";
+import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { DashboardProgress, DashboardStat, DashboardSummary } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { DashboardHome } from "./dashboard-home";
@@ -27,6 +27,7 @@ const emptySummary: DashboardSummary = {
 };
 
 export function OwnerDashboardPage() {
+  const [role] = useState(() => getStoredUser()?.role ?? "school");
   const [summary, setSummary] = useState<DashboardSummary>(emptySummary);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -68,8 +69,8 @@ export function OwnerDashboardPage() {
     };
   }, []);
 
-  const stats = useMemo(() => buildStats(summary), [summary]);
-  const progress = useMemo(() => buildProgress(summary), [summary]);
+  const stats = useMemo(() => buildStats(summary, role), [summary, role]);
+  const progress = useMemo(() => buildProgress(summary, role), [summary, role]);
 
   return (
     <DashboardHome
@@ -77,29 +78,39 @@ export function OwnerDashboardPage() {
       isLoading={isLoading}
       onRetry={loadSummary}
       progress={progress}
+      role={role}
       stats={stats}
     />
   );
 }
 
-function buildStats(summary: DashboardSummary): DashboardStat[] {
+function buildStats(
+  summary: DashboardSummary,
+  role: "owner" | "office" | "school",
+): DashboardStat[] {
+  const schoolHref = role === "owner" ? "/schools" : "/principals";
+
   return [
     {
+      href: schoolHref,
       label: "Sekolah",
       value: formatNumber(summary.totals.schools),
       note: "Unit terdaftar",
     },
     {
+      href: "/students",
       label: "Siswa",
       value: formatNumber(summary.totals.students),
       note: "Data aktif",
     },
     {
+      href: "/employees",
       label: "Pegawai",
       value: formatNumber(summary.totals.employees),
       note: "Guru dan pegawai",
     },
     {
+      href: "/documents",
       label: "Dokumen",
       value: formatNumber(summary.totals.documents),
       note: "File terunggah",
@@ -107,11 +118,16 @@ function buildStats(summary: DashboardSummary): DashboardStat[] {
   ];
 }
 
-function buildProgress(summary: DashboardSummary): DashboardProgress[] {
+function buildProgress(
+  summary: DashboardSummary,
+  role: "owner" | "office" | "school",
+): DashboardProgress[] {
   const schools = summary.totals.schools;
+  const unitTitle =
+    role === "office" ? "Unit sekolah dipantau" : "Unit sekolah terdaftar";
 
   return [
-    { title: "Unit sekolah terdaftar", progress: ratio(schools, 36) },
+    { title: unitTitle, progress: ratio(schools, 36) },
     {
       title: "Dokumen per sekolah",
       progress: ratio(summary.totals.documents, schools),

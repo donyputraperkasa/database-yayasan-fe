@@ -23,6 +23,7 @@ export function DashboardSidebar({
   const pathname = usePathname();
   const router = useRouter();
   const role = user?.role ?? "school";
+  const roleLabel = formatRole(role);
   const items = dashboardNavigation.filter((item) =>
     item.roles.some((itemRole: Role) => itemRole === role),
   );
@@ -65,7 +66,9 @@ export function DashboardSidebar({
                 <p className="text-sm font-semibold uppercase text-white">
                   Yayasan BOPKRI
                 </p>
-                <p className="text-xs text-[#b8c8df]">Owner Dashboard</p>
+                <p className="text-xs text-[#b8c8df]">
+                  {roleLabel} Dashboard
+                </p>
               </div>
             </Link>
             <button
@@ -109,7 +112,7 @@ export function DashboardSidebar({
               Role aktif
             </p>
             <p className="mt-2 text-sm font-semibold capitalize text-white">
-              {role}
+              {roleLabel}
             </p>
           </div>
 
@@ -125,4 +128,11 @@ export function DashboardSidebar({
       </aside>
     </>
   );
+}
+
+function formatRole(role: Role) {
+  if (role === "office") return "Office";
+  if (role === "school") return "School";
+
+  return "Owner";
 }

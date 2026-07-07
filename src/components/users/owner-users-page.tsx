@@ -3,7 +3,7 @@
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import { listSchools } from "@/lib/api/schools";
 import { listUsers } from "@/lib/api/users";
-import { getAccessToken } from "@/lib/auth/storage";
+import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { School, User } from "@/types";
 import { useEffect, useState } from "react";
 import { CreateUserForm } from "./create-user-form";
@@ -14,13 +14,14 @@ import { UsersTable } from "./users-table";
 export function OwnerUsersPage() {
   const [error, setError] = useState<string | null>(null);
   const [schools, setSchools] = useState<School[]>([]);
+  const [user] = useState<User | null>(() => getStoredUser());
   const [token] = useState(() => getAccessToken() ?? "");
   const [isLoading, setIsLoading] = useState(() => Boolean(token));
   const [resetTarget, setResetTarget] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    if (!token) {
+    if (!token || user?.role !== "owner") {
       return;
     }
 
@@ -33,10 +34,14 @@ export function OwnerUsersPage() {
         setError(loadError instanceof Error ? loadError.message : "Gagal mengambil data.");
       })
       .finally(() => setIsLoading(false));
-  }, [token]);
+  }, [token, user?.role]);
 
   if (!token) {
     return <PageState text="Sesi login tidak ditemukan." />;
+  }
+
+  if (user?.role !== "owner") {
+    return <PageState text="Halaman ini khusus owner." />;
   }
 
   if (isLoading) {

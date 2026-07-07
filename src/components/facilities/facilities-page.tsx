@@ -81,7 +81,14 @@ export function FacilitiesPage() {
         items={[
           { href: "/dashboard", label: "Dashboard" },
           ...(selectedSchoolName
-            ? [{ label: selectedSchoolName }, { label: "Fasilitas" }]
+            ? [
+                {
+                  href: "/facilities",
+                  label: selectedSchoolName,
+                  onClick: () => setSelectedSchoolName(null),
+                },
+                { label: "Fasilitas" },
+              ]
             : [{ label: "Fasilitas" }]),
         ]}
       />

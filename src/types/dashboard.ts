@@ -35,6 +35,7 @@ export type DashboardSummary = {
 };
 
 export type DashboardStat = {
+  href?: string;
   label: string;
   value: string;
   note: string;

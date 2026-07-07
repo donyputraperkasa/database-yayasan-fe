@@ -84,7 +84,14 @@ export function FinancesPage() {
         items={[
           { href: "/dashboard", label: "Dashboard" },
           ...(selectedSchoolName
-            ? [{ label: selectedSchoolName }, { label: "Keuangan" }]
+            ? [
+                {
+                  href: "/finances",
+                  label: selectedSchoolName,
+                  onClick: () => setSelectedSchoolName(null),
+                },
+                { label: "Keuangan" },
+              ]
             : [{ label: "Keuangan" }]),
         ]}
       />

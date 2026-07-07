@@ -32,7 +32,7 @@ export const dashboardNavigation = [
     href: "/schools",
     icon: School,
     label: "Sekolah",
-    roles: ["owner", "office"],
+    roles: ["owner"],
   },
   {
     href: "/principals",
