@@ -1,6 +1,7 @@
 "use client";
 
 import { resetUserPassword } from "@/lib/api/users";
+import { showToast } from "@/lib/feedback/toast";
 import type { User } from "@/types";
 import { FormEvent, useState } from "react";
 
@@ -17,7 +18,8 @@ export function ResetPasswordModal(props: ResetPasswordModalProps) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const newPassword = String(formData.get("newPassword") ?? "");
 
     if (newPassword.length < 6) {
@@ -31,21 +33,23 @@ export function ResetPasswordModal(props: ResetPasswordModalProps) {
       setIsLoading(true);
       await resetUserPassword(props.token, props.user.id, { newPassword });
       setSuccess("Password berhasil direset.");
-      event.currentTarget.reset();
+      showToast({ message: "Password berhasil direset." });
+      form.reset();
     } catch (resetError) {
-      setError(
+      const message =
         resetError instanceof Error
           ? resetError.message
-          : "Gagal reset password.",
-      );
+          : "Gagal reset password.";
+      setError(message);
+      showToast({ message, type: "error" });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-[#0f172a]/45 px-5 backdrop-blur-sm">
-      <section className="w-full max-w-md rounded-lg bg-white p-5 shadow-2xl">
+    <div className="modal-backdrop-enter fixed inset-0 z-50 grid place-items-center bg-[#0f172a]/45 px-5 backdrop-blur-sm">
+      <section className="modal-panel-enter w-full max-w-md rounded-lg bg-white p-5 shadow-2xl">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold">Reset Password</h2>

@@ -26,9 +26,9 @@ export function PrincipalDetailModal({ onClose, school }: PrincipalDetailModalPr
   return (
     <div
       onMouseDown={(event) => event.target === event.currentTarget && onClose()}
-      className="fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
+      className="modal-backdrop-enter fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
-      <section className="max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-6 shadow-2xl">
+      <section className="modal-panel-enter max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-6 shadow-2xl">
         <div className="grid items-stretch gap-8 lg:grid-cols-[360px_1fr]">
           <div className="flex h-full flex-col items-center justify-center rounded-2xl bg-[#f8fbff] p-4">
             <div

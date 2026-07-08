@@ -1,9 +1,15 @@
+import { PageSkeleton } from "./page-skeleton";
+
 type PageStateProps = {
   action?: () => void;
   text: string;
 };
 
 export function PageState({ action, text }: PageStateProps) {
+  if (text.toLowerCase().startsWith("memuat")) {
+    return <PageSkeleton />;
+  }
+
   return (
     <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 text-sm font-semibold text-[#1f4f8f] shadow-sm">
       <p>{text}</p>

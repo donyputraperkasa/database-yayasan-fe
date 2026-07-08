@@ -50,9 +50,9 @@ export function EmployeeDetailModal({ employee, onClose }: EmployeeDetailModalPr
   return (
     <div
       onMouseDown={(event) => event.target === event.currentTarget && onClose()}
-      className="fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
+      className="modal-backdrop-enter fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
-      <section className="max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl">
+      <section className="modal-panel-enter max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl">
         <div className="grid gap-5 md:grid-cols-[460px_1fr]">
           <div className="rounded-xl border border-[#e4ecf7] bg-[#f8fbff] p-4">
             <p className="text-sm font-semibold text-[#1f2a44]">Dokumen Pegawai</p>
@@ -123,9 +123,9 @@ export function EmployeeDetailModal({ employee, onClose }: EmployeeDetailModalPr
       {preview && (
         <div
           onMouseDown={(event) => event.target === event.currentTarget && setPreview(null)}
-          className="fixed inset-0 z-[80] grid place-items-center bg-[#071529]/70 p-4 backdrop-blur-md"
+          className="modal-backdrop-enter fixed inset-0 z-[80] grid place-items-center bg-[#071529]/70 p-4 backdrop-blur-md"
         >
-          <section className="max-h-[92vh] w-full max-w-4xl overflow-hidden rounded-xl bg-white shadow-2xl">
+          <section className="modal-panel-enter max-h-[92vh] w-full max-w-4xl overflow-hidden rounded-xl bg-white shadow-2xl">
             <div className="flex items-center justify-between gap-4 border-b border-[#e4ecf7] px-5 py-4">
               <div>
                 <h3 className="text-lg font-semibold text-[#1f2a44]">{preview.title}</h3>

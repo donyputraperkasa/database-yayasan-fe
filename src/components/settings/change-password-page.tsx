@@ -4,6 +4,7 @@ import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrum
 import { PageState } from "@/components/ui/page-state";
 import { changePassword } from "@/lib/api/auth";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
+import { showToast } from "@/lib/feedback/toast";
 import { KeyRound } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
@@ -19,9 +20,10 @@ export function ChangePasswordPage() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = event.currentTarget;
     setError(null);
     setSuccess(null);
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const oldPassword = String(formData.get("oldPassword") ?? "");
     const newPassword = String(formData.get("newPassword") ?? "");
     const confirmPassword = String(formData.get("confirmPassword") ?? "");
@@ -39,10 +41,13 @@ export function ChangePasswordPage() {
     setIsLoading(true);
     try {
       await changePassword(token, { newPassword, oldPassword });
-      event.currentTarget.reset();
+      form.reset();
       setSuccess("Password berhasil diganti.");
+      showToast({ message: "Password berhasil diganti." });
     } catch (changeError) {
-      setError(changeError instanceof Error ? changeError.message : "Password gagal diganti.");
+      const message = changeError instanceof Error ? changeError.message : "Password gagal diganti.";
+      setError(message);
+      showToast({ message, type: "error" });
     } finally {
       setIsLoading(false);
     }

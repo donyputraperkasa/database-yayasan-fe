@@ -59,12 +59,12 @@ export function DocumentFormModal(props: DocumentFormModalProps) {
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) props.onClose();
       }}
-      className="fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
+      className="modal-backdrop-enter fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
       <form
         key={props.document?.id ?? "create-document"}
         onSubmit={handleSubmit}
-        className="w-full max-w-2xl rounded-xl bg-white p-5 shadow-2xl"
+        className="modal-panel-enter w-full max-w-2xl rounded-xl bg-white p-5 shadow-2xl"
       >
         <div className="flex items-start justify-between gap-4">
           <div>

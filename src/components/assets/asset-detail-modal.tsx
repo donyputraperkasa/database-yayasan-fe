@@ -26,9 +26,9 @@ export function AssetDetailModal({ asset, onClose }: AssetDetailModalProps) {
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-[80] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
+      className="modal-backdrop-enter fixed inset-0 z-[80] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
-      <section className="grid max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl md:grid-cols-[460px_1fr] md:gap-6">
+      <section className="modal-panel-enter grid max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl md:grid-cols-[460px_1fr] md:gap-6">
         <DetailPhoto fill label="Foto aset" photoUrl={asset.photoUrl} />
         <div>
           <div className="flex items-start justify-between gap-4">

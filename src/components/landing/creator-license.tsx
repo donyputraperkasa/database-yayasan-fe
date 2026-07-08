@@ -72,11 +72,11 @@ export function CreatorLicense({ open, onClose }: CreatorLicenseProps) {
     return (
         <div
         onClick={onClose}
-        className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#0f172a]/45 px-3 py-6 backdrop-blur-sm sm:px-4"
+        className="modal-backdrop-enter fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#0f172a]/45 px-3 py-6 backdrop-blur-sm sm:px-4"
         >
         <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-h-[82vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/70 bg-white/92 p-4 text-[#1f2f46] shadow-2xl shadow-[#1f4f8f]/20 backdrop-blur-xl sm:rounded-3xl sm:p-7"
+            className="modal-panel-enter relative max-h-[82vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/70 bg-white/92 p-4 text-[#1f2f46] shadow-2xl shadow-[#1f4f8f]/20 backdrop-blur-xl sm:rounded-3xl sm:p-7"
         >
             <button
             type="button"

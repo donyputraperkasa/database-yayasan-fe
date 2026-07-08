@@ -56,12 +56,12 @@ export function AssetFormModal(props: AssetFormModalProps) {
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) props.onClose();
       }}
-      className="fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
+      className="modal-backdrop-enter fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
       <form
         key={props.asset?.id ?? "create-asset"}
         onSubmit={handleSubmit}
-        className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl"
+        className="modal-panel-enter max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl"
       >
         <div className="flex items-start justify-between gap-4">
           <div>

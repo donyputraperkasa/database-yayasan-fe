@@ -1,4 +1,5 @@
 export type * from "./api";
+export type * from "./audit-log";
 export type * from "./asset";
 export type * from "./auth";
 export type * from "./dashboard";

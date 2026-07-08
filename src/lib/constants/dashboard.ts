@@ -9,6 +9,7 @@ import {
   Landmark,
   School,
   Settings,
+  ShieldCheck,
   UserRoundCheck,
   UserPlus,
   UsersRound,
@@ -58,6 +59,12 @@ export const dashboardNavigation = [
     roles: allRoles(),
   },
   { href: "/documents", icon: Landmark, label: "Dokumen", roles: allRoles() },
+  {
+    href: "/audit-logs",
+    icon: ShieldCheck,
+    label: "Audit Log",
+    roles: allRoles(),
+  },
   {
     href: "/school-profile",
     icon: IdCard,

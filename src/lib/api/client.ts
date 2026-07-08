@@ -1,4 +1,5 @@
 import type { ApiErrorBody, ApiRequestOptions } from "@/types";
+import { clearAuthSession } from "@/lib/auth/storage";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 const API_BASE_URL = API_URL.replace(/\/$/, "");
@@ -25,7 +26,13 @@ export async function apiRequest<TResponse>(
   const response = await sendRequest(path, requestOptions, headers, token);
 
   if (!response.ok) {
-    throw new ApiError(response.status, await parseApiError(response));
+    const body = await parseApiError(response);
+
+    if (response.status === 401) {
+      handleUnauthorizedSession();
+    }
+
+    throw new ApiError(response.status, body);
   }
 
   if (response.status === 204) {
@@ -87,4 +94,16 @@ function formatApiMessage(body: ApiErrorBody | null) {
   }
 
   return body?.message ?? body?.error;
+}
+
+function handleUnauthorizedSession() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  clearAuthSession();
+
+  if (window.location.pathname !== "/") {
+    window.location.href = "/";
+  }
 }

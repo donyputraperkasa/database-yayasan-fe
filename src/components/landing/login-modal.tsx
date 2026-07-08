@@ -11,14 +11,14 @@ type LoginModalProps = {
 export function LoginModal({ onClose }: LoginModalProps) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#0f172a]/45 px-5 py-8 backdrop-blur-md"
+      className="modal-backdrop-enter fixed inset-0 z-50 flex items-center justify-center bg-[#0f172a]/45 px-5 py-8 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-labelledby="login-title"
       onMouseDown={onClose}
     >
       <section
-        className="w-full max-w-md rounded-lg border border-white/70 bg-white p-6 shadow-2xl shadow-[#0f172a]/20"
+        className="modal-panel-enter w-full max-w-md rounded-lg border border-white/70 bg-white p-6 shadow-2xl shadow-[#0f172a]/20"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <div className="mb-7 flex items-start justify-between gap-4">

@@ -1,4 +1,7 @@
 export const apiEndpoints = {
+  auditLogs: {
+    list: "/audit-logs",
+  },
   auth: {
     changePassword: "/auth/change-password",
     login: "/auth/login",

@@ -4,6 +4,7 @@ import { getStoredUser } from "@/lib/auth/storage";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import type { User } from "@/types";
+import { Toaster } from "@/components/feedback/toaster";
 import { FloatingContact } from "@/components/landing/floating-contact";
 import { DashboardCreatorFooter } from "./dashboard-creator-footer";
 import { DashboardSidebar } from "./dashboard-sidebar";
@@ -39,6 +40,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
           {user?.role === "office" || user?.role === "school" ? (
             <FloatingContact />
           ) : null}
+          <Toaster />
         </section>
       </div>
     </main>
