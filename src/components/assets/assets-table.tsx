@@ -2,7 +2,6 @@ import { TableActions } from "@/components/ui/table-actions";
 import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
 import type { Asset } from "@/types";
 import { groupAssetsBySchool } from "./asset-page-utils";
-
 type AssetsTableProps = {
   assets: Asset[];
   canBackToSchools?: boolean;
@@ -14,7 +13,6 @@ type AssetsTableProps = {
   onSelectSchool: (schoolName: string) => void;
   selectedSchoolName?: string | null;
 };
-
 export function AssetsTable(props: AssetsTableProps) {
   const groups = groupAssetsBySchool(props.assets);
   const entries = Object.entries(groups);
@@ -22,7 +20,6 @@ export function AssetsTable(props: AssetsTableProps) {
 
   if (selectedGroup) {
     const [schoolName, assets] = selectedGroup;
-
     return (
       <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
         <DetailHeader
@@ -35,7 +32,6 @@ export function AssetsTable(props: AssetsTableProps) {
       </section>
     );
   }
-
   return (
     <section className="grid gap-4 lg:grid-cols-2">
       {entries.map(([schoolName, assets]) => (
@@ -55,7 +51,6 @@ export function AssetsTable(props: AssetsTableProps) {
     </section>
   );
 }
-
 function DetailHeader(props: {
   canBackToSchools: boolean;
   count: number;
@@ -82,7 +77,6 @@ function DetailHeader(props: {
     </div>
   );
 }
-
 function AssetGroupTable(props: AssetsTableProps) {
   return (
     <div className="mt-5 overflow-x-auto">
