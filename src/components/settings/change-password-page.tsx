@@ -3,12 +3,18 @@
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import { PageState } from "@/components/ui/page-state";
 import { changePassword } from "@/lib/api/auth";
-import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
+import {
+  clearAuthSession,
+  getAccessToken,
+  getStoredUser,
+} from "@/lib/auth/storage";
 import { showToast } from "@/lib/feedback/toast";
 import { KeyRound } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 export function ChangePasswordPage() {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -44,6 +50,8 @@ export function ChangePasswordPage() {
       form.reset();
       setSuccess("Password berhasil diganti.");
       showToast({ message: "Password berhasil diganti." });
+      clearAuthSession();
+      router.replace("/");
     } catch (changeError) {
       const message = changeError instanceof Error ? changeError.message : "Password gagal diganti.";
       setError(message);

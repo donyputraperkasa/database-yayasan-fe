@@ -1,5 +1,5 @@
 import type { Employee, EmployeeFilters, EmployeePayload } from "@/types";
-import { apiRequest } from "./client";
+import { apiFileRequest, apiRequest } from "./client";
 import { apiEndpoints } from "./endpoints";
 
 export function listEmployees(token: string, filters: EmployeeFilters = {}) {
@@ -63,4 +63,8 @@ export function uploadEmployeeDecree(token: string, id: string, file: File) {
     method: "POST",
     token,
   });
+}
+
+export function getEmployeeDecree(token: string, id: string) {
+  return apiFileRequest(apiEndpoints.employees.decreeFile(id), token);
 }

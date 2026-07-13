@@ -9,6 +9,7 @@ export type School = {
   email?: string | null;
   principal?: string | null;
   canEdit: boolean;
+  archivedAt?: string | null;
   profile?: SchoolProfile | null;
   createdAt: string;
   updatedAt: string;

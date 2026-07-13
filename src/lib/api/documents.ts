@@ -1,5 +1,5 @@
 import type { DocumentFilters, DocumentItem, DocumentPayload } from "@/types";
-import { apiRequest } from "./client";
+import { apiFileRequest, apiRequest } from "./client";
 import { apiEndpoints } from "./endpoints";
 
 export function listDocuments(token: string, filters: DocumentFilters = {}) {
@@ -63,4 +63,8 @@ export function deleteDocument(token: string, id: string) {
     method: "DELETE",
     token,
   });
+}
+
+export function getDocumentFile(token: string, id: string) {
+  return apiFileRequest(apiEndpoints.documents.file(id), token);
 }

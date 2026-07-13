@@ -5,6 +5,7 @@ export const apiEndpoints = {
   auth: {
     changePassword: "/auth/change-password",
     login: "/auth/login",
+    logout: "/auth/logout",
     me: "/auth/me",
   },
   assets: {
@@ -18,6 +19,7 @@ export const apiEndpoints = {
     summary: "/dashboard/summary",
   },
   documents: {
+    file: (id: string) => `/documents/${id}/file`,
     list: "/documents",
     remove: (id: string) => `/documents/${id}`,
     update: (id: string) => `/documents/${id}`,
@@ -26,6 +28,7 @@ export const apiEndpoints = {
   employees: {
     create: "/employees",
     decree: (id: string) => `/employees/${id}/decree`,
+    decreeFile: (id: string) => `/employees/${id}/decree-file`,
     list: "/employees",
     photo: (id: string) => `/employees/${id}/photo`,
     remove: (id: string) => `/employees/${id}`,
@@ -44,10 +47,12 @@ export const apiEndpoints = {
     update: (id: string) => `/finances/${id}`,
   },
   schools: {
+    archived: "/schools/archived",
     create: "/schools",
     editAccess: (id: string) => `/schools/${id}/edit-access`,
     list: "/schools",
     remove: (id: string) => `/schools/${id}`,
+    restore: (id: string) => `/schools/${id}/restore`,
     update: (id: string) => `/schools/${id}`,
   },
   schoolProfile: {

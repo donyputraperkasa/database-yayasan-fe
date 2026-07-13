@@ -1,6 +1,8 @@
 "use client";
 
 import { clearAuthSession } from "@/lib/auth/storage";
+import { getAccessToken } from "@/lib/auth/storage";
+import { logout } from "@/lib/api/auth";
 import { dashboardNavigation } from "@/lib/constants/dashboard";
 import type { Role, User } from "@/types";
 import { LogOut, X } from "lucide-react";
@@ -28,9 +30,14 @@ export function DashboardSidebar({
     item.roles.some((itemRole: Role) => itemRole === role),
   );
 
-  const handleLogout = () => {
-    clearAuthSession();
-    router.replace("/");
+  const handleLogout = async () => {
+    try {
+      const token = getAccessToken();
+      if (token) await logout(token);
+    } finally {
+      clearAuthSession();
+      router.replace("/");
+    }
   };
 
   return (
@@ -118,7 +125,7 @@ export function DashboardSidebar({
 
           <button
             type="button"
-            onClick={handleLogout}
+            onClick={() => void handleLogout()}
             className="flex w-full items-center justify-center gap-2 rounded-md bg-[#f2d35f] px-4 py-3 text-sm font-semibold text-[#172033] transition hover:bg-[#e6c64c]"
           >
             <LogOut size={17} aria-hidden="true" />

@@ -12,6 +12,10 @@ export function listSchools(token: string) {
   return apiRequest<School[]>(apiEndpoints.schools.list, { token });
 }
 
+export function listArchivedSchools(token: string) {
+  return apiRequest<School[]>(apiEndpoints.schools.archived, { token });
+}
+
 export function createSchool(token: string, payload: CreateSchoolPayload) {
   return apiRequest<School>(apiEndpoints.schools.create, {
     body: JSON.stringify(payload),
@@ -23,6 +27,13 @@ export function createSchool(token: string, payload: CreateSchoolPayload) {
 export function deleteSchool(token: string, id: string) {
   return apiRequest(apiEndpoints.schools.remove(id), {
     method: "DELETE",
+    token,
+  });
+}
+
+export function restoreSchool(token: string, id: string) {
+  return apiRequest<School>(apiEndpoints.schools.restore(id), {
+    method: "PATCH",
     token,
   });
 }

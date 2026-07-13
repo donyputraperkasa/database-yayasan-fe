@@ -6,7 +6,6 @@ export type LoginPayload = {
 };
 
 export type LoginResponse = {
-  accessToken: string;
   user: User;
 };
 

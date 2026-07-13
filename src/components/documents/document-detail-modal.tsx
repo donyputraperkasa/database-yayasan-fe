@@ -1,9 +1,11 @@
 "use client";
 
-import { getMediaUrl } from "@/lib/api/media";
+import { getDocumentFile } from "@/lib/api/documents";
+import { getAccessToken } from "@/lib/auth/storage";
+import { usePrivateFile } from "@/hooks/use-private-file";
 import type { DocumentItem } from "@/types";
 import { Download, FileText, X } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type DocumentDetailModalProps = {
   document: DocumentItem | null;
@@ -16,28 +18,29 @@ export function DocumentDetailModal({
 }: DocumentDetailModalProps) {
   const [error, setError] = useState<string | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const token = getAccessToken() ?? "";
+  const loadFile = useCallback(
+    () => getDocumentFile(token, item?.id ?? ""),
+    [item?.id, token],
+  );
+  const privateFile = usePrivateFile(item?.id, item ? loadFile : null);
 
   if (!item) return null;
 
-  const fileUrl = getMediaUrl(item.fileUrl);
   const extension = getExtension(item.fileUrl);
 
   const handleDownload = async () => {
-    if (!fileUrl) return;
+    if (!privateFile.url) return;
     setError(null);
     setIsDownloading(true);
 
     try {
-      const response = await fetch(fileUrl);
-      if (!response.ok) throw new Error("File gagal diunduh.");
-      const blobUrl = URL.createObjectURL(await response.blob());
       const link = window.document.createElement("a");
-      link.href = blobUrl;
+      link.href = privateFile.url;
       link.download = buildDownloadName(item.name, extension);
       window.document.body.appendChild(link);
       link.click();
       link.remove();
-      URL.revokeObjectURL(blobUrl);
     } catch (downloadError) {
       setError(
         downloadError instanceof Error
@@ -75,7 +78,12 @@ export function DocumentDetailModal({
           </button>
         </header>
         <div className="grid max-h-[calc(92vh-92px)] gap-4 overflow-y-auto p-5 lg:grid-cols-[1fr_260px]">
-          <Preview fileUrl={fileUrl} extension={extension} name={item.name} />
+          <Preview
+            fileUrl={privateFile.url}
+            extension={extension}
+            isLoading={privateFile.isLoading}
+            name={item.name}
+          />
           <aside className="rounded-lg border border-[#dbe5f4] bg-[#f8fbff] p-4">
             <p className="text-sm font-semibold text-[#748299]">Update</p>
             <p className="mt-1 font-semibold text-[#172033]">
@@ -84,15 +92,15 @@ export function DocumentDetailModal({
             <button
               type="button"
               onClick={() => void handleDownload()}
-              disabled={isDownloading || !fileUrl}
+              disabled={isDownloading || !privateFile.url}
               className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#0f2a4f] px-4 text-sm font-semibold text-white disabled:bg-[#7f98bd]"
             >
               <Download size={17} aria-hidden="true" />
               {isDownloading ? "Mengunduh..." : "Download"}
             </button>
-            {error ? (
+            {error || privateFile.error ? (
               <p className="mt-3 rounded-md bg-red-50 p-3 text-sm text-red-700">
-                {error}
+                {error ?? privateFile.error}
               </p>
             ) : null}
           </aside>
@@ -105,8 +113,10 @@ export function DocumentDetailModal({
 function Preview(props: {
   extension: string;
   fileUrl: string | null;
+  isLoading: boolean;
   name: string;
 }) {
+  if (props.isLoading) return <PreviewFallback text="Memuat file privat..." />;
   if (!props.fileUrl) return <PreviewFallback text="File tidak tersedia." />;
 
   if (

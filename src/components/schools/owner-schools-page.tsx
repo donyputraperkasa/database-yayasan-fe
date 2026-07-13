@@ -3,7 +3,9 @@
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import {
   deleteSchool,
+  listArchivedSchools,
   listSchools,
+  restoreSchool,
   setSchoolEditAccess,
 } from "@/lib/api/schools";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
@@ -13,11 +15,14 @@ import { useEffect, useState } from "react";
 import { CreateSchoolForm } from "./create-school-form";
 import { SchoolsHeader } from "./schools-header";
 import { SchoolsTable } from "./schools-table";
+import { ArchivedSchools } from "./archived-schools";
 
 export function OwnerSchoolsPage() {
   const [deleteTarget, setDeleteTarget] = useState<School | null>(null);
+  const [archivedSchools, setArchivedSchools] = useState<School[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isRestoring, setIsRestoring] = useState<string | null>(null);
   const [schools, setSchools] = useState<School[]>([]);
   const [user] = useState<User | null>(() => getStoredUser());
   const [token] = useState(() => getAccessToken() ?? "");
@@ -28,8 +33,11 @@ export function OwnerSchoolsPage() {
       return;
     }
 
-    listSchools(token)
-      .then(setSchools)
+    Promise.all([listSchools(token), listArchivedSchools(token)])
+      .then(([active, archived]) => {
+        setSchools(active);
+        setArchivedSchools(archived);
+      })
       .catch((loadError) => {
         setError(loadError instanceof Error ? loadError.message : "Gagal mengambil data.");
       })
@@ -46,7 +54,11 @@ export function OwnerSchoolsPage() {
       setSchools((current) =>
         current.filter((item) => item.id !== deleteTarget.id),
       );
-      showToast({ message: `${deleteTarget.name} berhasil dihapus.` });
+      setArchivedSchools((current) => [
+        { ...deleteTarget, archivedAt: new Date().toISOString() },
+        ...current,
+      ]);
+      showToast({ message: `${deleteTarget.name} berhasil diarsipkan.` });
       setDeleteTarget(null);
     } catch (deleteError) {
       const message =
@@ -55,6 +67,23 @@ export function OwnerSchoolsPage() {
       showToast({ message, type: "error" });
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const handleRestore = async (school: School) => {
+    try {
+      setIsRestoring(school.id);
+      const restored = await restoreSchool(token, school.id);
+      setArchivedSchools((current) => current.filter((item) => item.id !== school.id));
+      setSchools((current) => [restored, ...current]);
+      showToast({ message: `${school.name} berhasil dipulihkan.` });
+    } catch (restoreError) {
+      showToast({
+        message: restoreError instanceof Error ? restoreError.message : "Gagal memulihkan sekolah.",
+        type: "error",
+      });
+    } finally {
+      setIsRestoring(null);
     }
   };
 
@@ -101,6 +130,11 @@ export function OwnerSchoolsPage() {
         onToggleEditAccess={handleToggleEditAccess}
         schools={schools}
       />
+      <ArchivedSchools
+        isRestoring={isRestoring}
+        onRestore={(school) => void handleRestore(school)}
+        schools={archivedSchools}
+      />
       <DeleteSchoolModal
         isLoading={isDeleting}
         onClose={() => setDeleteTarget(null)}
@@ -125,13 +159,13 @@ function DeleteSchoolModal(props: {
       className="modal-backdrop-enter fixed inset-0 z-[80] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
       <section className="modal-panel-enter w-full max-w-md rounded-xl bg-white p-5 shadow-2xl">
-        <p className="text-sm font-semibold text-red-700">Konfirmasi Hapus</p>
+        <p className="text-sm font-semibold text-amber-700">Konfirmasi Arsip</p>
         <h2 className="mt-2 text-xl font-semibold text-[#172033]">
-          Anda yakin hapus sekolah?
+          Anda yakin mengarsipkan sekolah?
         </h2>
         <p className="mt-2 text-sm leading-6 text-[#748299]">
-          Data sekolah <strong>{props.school.name}</strong> akan dihapus dari sistem.
-          Pastikan data ini memang sudah tidak diperlukan.
+          Data <strong>{props.school.name}</strong> disembunyikan dari sistem aktif,
+          tetapi tetap tersimpan dan dapat dipulihkan oleh owner.
         </p>
         <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button
@@ -145,9 +179,9 @@ function DeleteSchoolModal(props: {
             type="button"
             disabled={props.isLoading}
             onClick={props.onConfirm}
-            className="h-11 rounded-md bg-red-600 px-5 text-sm font-semibold text-white disabled:bg-red-300"
+            className="h-11 rounded-md bg-amber-600 px-5 text-sm font-semibold text-white disabled:bg-amber-300"
           >
-            {props.isLoading ? "Menghapus..." : "Ya, Hapus"}
+            {props.isLoading ? "Mengarsipkan..." : "Ya, Arsipkan"}
           </button>
         </div>
       </section>

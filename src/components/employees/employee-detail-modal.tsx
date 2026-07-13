@@ -1,6 +1,10 @@
 import { useState } from "react";
 import type { Employee } from "@/types";
 import { Download, FileText, ImageIcon, X } from "lucide-react";
+import { getEmployeeDecree } from "@/lib/api/employees";
+import { getAccessToken } from "@/lib/auth/storage";
+import { usePrivateFile } from "@/hooks/use-private-file";
+import { useCallback } from "react";
 import {
   birthPlaceDateValue,
   employeeStatusLabel,
@@ -16,9 +20,18 @@ type EmployeeDetailModalProps = {
 
 export function EmployeeDetailModal({ employee, onClose }: EmployeeDetailModalProps) {
   const [preview, setPreview] = useState<{ title: string; url: string } | null>(null);
+  const token = getAccessToken() ?? "";
+  const loadDecree = useCallback(
+    () => getEmployeeDecree(token, employee?.id ?? ""),
+    [employee?.id, token],
+  );
+  const decreeFile = usePrivateFile(
+    employee?.decreeUrl ? employee.id : null,
+    employee?.decreeUrl ? loadDecree : null,
+  );
   if (!employee) return null;
   const fileSrc = (url: string) => {
-    if (url.startsWith("http")) return url;
+    if (/^(https?:|blob:)/.test(url)) return url;
 
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
     const normalizedUrl = url.startsWith("/") ? url : `/${url}`;
@@ -81,17 +94,23 @@ export function EmployeeDetailModal({ employee, onClose }: EmployeeDetailModalPr
 
               <button
                 type="button"
-                disabled={!employee.decreeUrl}
+                disabled={!decreeFile.url}
                 onClick={() =>
-                  employee.decreeUrl &&
-                  setPreview({ title: "Scan SK Terakhir", url: employee.decreeUrl })
+                  decreeFile.url &&
+                  setPreview({ title: "Scan SK Terakhir", url: decreeFile.url })
                 }
                 className="flex items-center justify-between gap-3 rounded-lg border border-[#dbe7f5] bg-white px-4 py-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
               >
                 <span>
                   <span className="block text-sm font-semibold text-[#1f2a44]">Lihat Scan SK</span>
                   <span className="mt-0.5 block text-xs text-[#748299]">
-                    {employee.decreeUrl ? "Preview scan SK terakhir" : "Scan SK belum tersedia"}
+                    {decreeFile.isLoading
+                      ? "Memuat scan SK..."
+                      : decreeFile.error
+                        ? "Scan SK gagal dimuat"
+                        : employee.decreeUrl
+                          ? "Preview scan SK terakhir"
+                          : "Scan SK belum tersedia"}
                   </span>
                 </span>
                 <FileText size={20} className="text-[#2563eb]" aria-hidden="true" />

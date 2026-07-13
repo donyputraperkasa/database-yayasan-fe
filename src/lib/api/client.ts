@@ -1,5 +1,8 @@
 import type { ApiErrorBody, ApiRequestOptions } from "@/types";
-import { clearAuthSession } from "@/lib/auth/storage";
+import {
+  clearAuthSession,
+  COOKIE_SESSION_MARKER,
+} from "@/lib/auth/storage";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 const API_BASE_URL = API_URL.replace(/\/$/, "");
@@ -51,6 +54,7 @@ async function sendRequest(
   try {
     return await fetch(`${API_BASE_URL}${path}`, {
       ...requestOptions,
+      credentials: "include",
       headers: buildHeaders(headers, token, requestOptions.body),
     });
   } catch {
@@ -68,16 +72,29 @@ function buildHeaders(
 ) {
   const nextHeaders = new Headers(headers);
   const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
+  nextHeaders.set("X-Requested-With", "XMLHttpRequest");
 
   if (!nextHeaders.has("Content-Type") && !isFormData) {
     nextHeaders.set("Content-Type", "application/json");
   }
 
-  if (token) {
+  if (token && token !== COOKIE_SESSION_MARKER) {
     nextHeaders.set("Authorization", `Bearer ${token}`);
   }
 
   return nextHeaders;
+}
+
+export async function apiFileRequest(path: string, token?: string | null) {
+  const response = await sendRequest(path, { method: "GET" }, undefined, token);
+
+  if (!response.ok) {
+    const body = await parseApiError(response);
+    if (response.status === 401) handleUnauthorizedSession();
+    throw new ApiError(response.status, body);
+  }
+
+  return response.blob();
 }
 
 async function parseApiError(response: Response) {

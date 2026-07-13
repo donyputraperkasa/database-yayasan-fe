@@ -28,3 +28,10 @@ export function changePassword(
     token,
   });
 }
+
+export function logout(token: string) {
+  return apiRequest<{ message: string }>(apiEndpoints.auth.logout, {
+    method: "POST",
+    token,
+  });
+}
