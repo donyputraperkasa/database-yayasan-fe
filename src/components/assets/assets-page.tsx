@@ -54,7 +54,7 @@ export function AssetsPage() {
   };
 
   const handleDelete = async (asset: Asset) => {
-    if (!confirm(`Hapus data aset ${asset.school.name}?`)) return;
+    if (!confirm(`Hapus profil sekolah ${asset.school.name}?`)) return;
     try {
       await deleteAsset(token, asset.id);
       setAssets((current) => current.filter((item) => item.id !== asset.id));
@@ -82,7 +82,7 @@ export function AssetsPage() {
   const visibleAssets = filterAssets(assets, filters.query);
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
-  if (isLoading) return <PageState text="Memuat data aset..." />;
+  if (isLoading) return <PageState text="Memuat profil sekolah..." />;
   if (error) return <PageState text={error} action={() => void loadAssets()} />;
 
   return (
@@ -97,9 +97,9 @@ export function AssetsPage() {
                   label: selectedSchoolName,
                   onClick: () => setSelectedSchoolName(null),
                 },
-                { label: "Aset" },
+                { label: "Profil Sekolah" },
               ]
-            : [{ label: "Aset" }]),
+            : [{ label: "Profil Sekolah" }]),
         ]}
       />
       <AssetsHeader canManage={canManage} onCreate={() => openForm(null)} />

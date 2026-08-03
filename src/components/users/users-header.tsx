@@ -9,7 +9,7 @@ export function UsersHeader() {
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-[#617089]">
         Buat akun kantor dan akun sekolah. Akun sekolah wajib dihubungkan ke
-        unit sekolah agar akses datanya tetap sesuai.
+        profil sekolah agar akses datanya tetap sesuai.
       </p>
     </section>
   );

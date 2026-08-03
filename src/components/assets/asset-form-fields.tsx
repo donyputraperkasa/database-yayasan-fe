@@ -8,13 +8,16 @@ type AssetFormFieldsProps = {
 };
 
 export function AssetFormFields(props: AssetFormFieldsProps) {
+  const defaultSchoolId =
+    props.asset?.schoolId ?? (props.schools.length === 1 ? props.schools[0].id : "");
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {!props.isSchoolUser ? (
         <Field label="Sekolah">
           <select
             name="schoolId"
-            defaultValue={props.asset?.schoolId ?? ""}
+            defaultValue={defaultSchoolId}
             required
             className={inputClass}
           >
@@ -38,7 +41,7 @@ export function AssetFormFields(props: AssetFormFieldsProps) {
         name="certificateOwner"
         value={props.asset?.certificateOwner}
       />
-      <Input label="Asal Aset" name="origin" value={props.asset?.origin} />
+      <Input label="Asal Perolehan" name="origin" value={props.asset?.origin} />
       <Input
         label="Tahun Pengadaan"
         name="procurementYear"

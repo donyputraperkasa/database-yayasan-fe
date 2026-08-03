@@ -1,30 +1,37 @@
 "use client";
 
-import { createFacility, updateFacility } from "@/lib/api/facilities";
-import type { Facility, School } from "@/types";
+import {
+  createInventory,
+  updateInventory,
+  uploadInventoryPhoto,
+} from "@/lib/api/inventory";
+import type { Inventory, School } from "@/types";
 import { X } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { FacilityFormFields } from "./facility-form-fields";
-import { buildFacilityPayload } from "./facility-form-payload";
+import { InventoryFormFields } from "./inventory-form-fields";
+import {
+  buildInventoryPayload,
+  getInventoryPhotoFile,
+} from "./inventory-form-payload";
 
-type FacilityFormModalProps = {
-  facility?: Facility | null;
+type InventoryFormModalProps = {
+  inventory?: Inventory | null;
   isOpen: boolean;
   isSchoolUser: boolean;
   onClose: () => void;
-  onSaved: (facility: Facility) => void;
+  onSaved: (inventory: Inventory) => void;
   schools: School[];
   token: string;
 };
 
-export function FacilityFormModal(props: FacilityFormModalProps) {
+export function InventoryFormModal(props: InventoryFormModalProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   if (!props.isOpen) return null;
 
-  const isEdit = Boolean(props.facility);
+  const isEdit = Boolean(props.inventory);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,18 +39,20 @@ export function FacilityFormModal(props: FacilityFormModalProps) {
     setIsLoading(true);
 
     try {
-      const payload = buildFacilityPayload(
-        new FormData(event.currentTarget),
-        props.isSchoolUser,
-      );
-      const saved = isEdit
-        ? await updateFacility(props.token, props.facility!.id, payload)
-        : await createFacility(props.token, payload);
+      const formData = new FormData(event.currentTarget);
+      const payload = buildInventoryPayload(formData, props.isSchoolUser);
+      const savedInventory = isEdit
+        ? await updateInventory(props.token, props.inventory!.id, payload)
+        : await createInventory(props.token, payload);
+      const photoFile = getInventoryPhotoFile(formData);
+      const saved = photoFile
+        ? await uploadInventoryPhoto(props.token, savedInventory.id, photoFile)
+        : savedInventory;
 
       props.onSaved(saved);
       props.onClose();
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : "Fasilitas gagal disimpan.");
+      setError(saveError instanceof Error ? saveError.message : "Inventaris gagal disimpan.");
     } finally {
       setIsLoading(false);
     }
@@ -57,29 +66,29 @@ export function FacilityFormModal(props: FacilityFormModalProps) {
       className="modal-backdrop-enter fixed inset-0 z-[70] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
       <form
-        key={props.facility?.id ?? "create-facility"}
+        key={props.inventory?.id ?? "create-inventory"}
         onSubmit={handleSubmit}
-        className="modal-panel-enter w-full max-w-3xl rounded-xl bg-white p-5 shadow-2xl"
+        className="modal-panel-enter max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl"
       >
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold">
-              {isEdit ? "Edit Fasilitas" : "Tambah Fasilitas"}
+              {isEdit ? "Edit Inventaris" : "Tambah Inventaris"}
             </h2>
             <p className="mt-1 text-sm text-[#748299]">
-              Catat fasilitas sekolah beserta jumlah dan kondisinya.
+              Catat jumlah tiap kondisi, keterangan, dan foto inventaris.
             </p>
           </div>
           <button type="button" onClick={props.onClose} className="rounded-md p-2">
             <X size={20} aria-hidden="true" />
           </button>
         </div>
-        <div className="mt-5"><FacilityFormFields {...props} /></div>
+        <div className="mt-5"><InventoryFormFields {...props} /></div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
         <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button type="button" onClick={props.onClose} className="h-11 rounded-md border border-[#dbe5f4] px-5 text-sm font-semibold">Batal</button>
           <button disabled={isLoading} className="h-11 rounded-md bg-[#0f2a4f] px-5 text-sm font-semibold text-white disabled:bg-[#7f98bd]">
-            {isLoading ? "Menyimpan..." : "Simpan Fasilitas"}
+            {isLoading ? "Menyimpan..." : "Simpan Inventaris"}
           </button>
         </div>
       </form>

@@ -46,5 +46,5 @@ export function upsertAsset(assets: Asset[], savedAsset: Asset) {
 }
 
 export function getAssetErrorMessage(error: unknown) {
-  return error instanceof Error ? error.message : "Data aset gagal diproses.";
+  return error instanceof Error ? error.message : "Profil sekolah gagal diproses.";
 }

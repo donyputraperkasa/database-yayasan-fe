@@ -65,6 +65,11 @@ export function EmployeesPage() {
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleEmployees = filterEmployees(employees, filters.query);
+  const scopedEmployees = activeSchoolName
+    ? visibleEmployees.filter(
+        (employee) => employee.school.name === activeSchoolName,
+      )
+    : visibleEmployees;
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
   if (isLoading) return <PageState text="Memuat data pegawai..." />;
@@ -89,7 +94,7 @@ export function EmployeesPage() {
       />
       <EmployeesHeader canManage={canManage} onCreate={() => openForm(null)} />
       <SchoolEditAccessNotice school={currentSchool} user={user} />
-      <EmployeeStats employees={visibleEmployees} />
+      <EmployeeStats employees={scopedEmployees} />
       <EmployeesFilter
         filters={filters}
         isSchoolUser={user?.role === "school"}

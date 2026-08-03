@@ -4,6 +4,7 @@ import { login } from "@/lib/api/auth";
 import { ApiError } from "@/lib/api/client";
 import { getDashboardPath } from "@/lib/auth/routes";
 import { saveAuthSession } from "@/lib/auth/storage";
+import { showToast } from "@/lib/feedback/toast";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -30,6 +31,11 @@ export function useLoginForm() {
 
       const session = await login({ email, password });
       saveAuthSession(session);
+      showToast({
+        message: "Tunggu sebentar, sedang menyiapkan dashboard untukmu...",
+        title: "Berhasil masuk",
+        type: "success",
+      });
       router.push(getDashboardPath(session.user.role));
       router.refresh();
     } catch (loginError) {
@@ -47,5 +53,5 @@ function getLoginErrorMessage(error: unknown) {
     return error.message;
   }
 
-  return "Login gagal. Silakan coba lagi.";
+  return "Waduhh login gagal. Silakan coba lagi.";
 }

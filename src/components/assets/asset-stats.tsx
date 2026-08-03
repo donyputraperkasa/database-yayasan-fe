@@ -6,7 +6,7 @@ type AssetStatsProps = {
 
 export function AssetStats({ assets }: AssetStatsProps) {
   const stats = [
-    { label: "Total aset", value: assets.length },
+    { label: "Total profil", value: assets.length },
     { label: "Ada foto", value: assets.filter((asset) => asset.photoUrl).length },
     { label: "Tanah terdata", value: assets.filter((asset) => asset.landArea).length },
     {

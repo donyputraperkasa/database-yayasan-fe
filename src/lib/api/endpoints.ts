@@ -34,11 +34,12 @@ export const apiEndpoints = {
     remove: (id: string) => `/employees/${id}`,
     update: (id: string) => `/employees/${id}`,
   },
-  facilities: {
-    create: "/facilities",
-    list: "/facilities",
-    remove: (id: string) => `/facilities/${id}`,
-    update: (id: string) => `/facilities/${id}`,
+  inventory: {
+    create: "/inventory",
+    list: "/inventory",
+    photo: (id: string) => `/inventory/${id}/photo`,
+    remove: (id: string) => `/inventory/${id}`,
+    update: (id: string) => `/inventory/${id}`,
   },
   finances: {
     create: "/finances",

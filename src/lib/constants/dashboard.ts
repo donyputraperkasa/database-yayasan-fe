@@ -1,6 +1,5 @@
 import type { Role } from "@/types";
 import {
-  Archive,
   Banknote,
   Building2,
   GraduationCap,
@@ -23,33 +22,48 @@ export const dashboardStats = [
 ];
 
 export const dashboardModules = [
-  { title: "Profil sekolah", progress: 86 },
+  { title: "Biodata sekolah", progress: 86 },
   { title: "Dokumen terunggah", progress: 64 },
-  { title: "Data fasilitas", progress: 72 },
+  { title: "Data inventaris", progress: 72 },
 ];
 
 export const dashboardNavigation = [
-  { href: "/dashboard", icon: Home, label: "Dashboard", roles: allRoles() },
-  { href: "/users", icon: UserPlus, label: "Tambah User", roles: ["owner"] },
+  { href: "/dashboard", 
+    icon: Home, 
+    label: "Dashboard", 
+    roles: allRoles() 
+  },
+  { href: "/users", 
+    icon: UserPlus, 
+    label: "Tambah User", 
+    roles: ["owner"] 
+  },
   {
     href: "/schools",
     icon: School,
-    label: "Sekolah",
+    label: "Tambah Sekolah",
     roles: ["owner"],
   },
   {
     href: "/principals",
     icon: UserRoundCheck,
-    label: "Unit Sekolah",
+    label: "Profil Sekolah",
     roles: ["owner", "office"],
   },
-  { href: "/students", icon: GraduationCap, label: "Siswa", roles: allRoles() },
-  { href: "/employees", icon: UsersRound, label: "Pegawai", roles: allRoles() },
-  { href: "/assets", icon: Archive, label: "Aset", roles: allRoles() },
+  { href: "/students", 
+    icon: GraduationCap, 
+    label: "Daftar Siswa", 
+    roles: allRoles() 
+  },
+  { href: "/employees", 
+    icon: UsersRound, 
+    label: "Daftar Pegawai", 
+    roles: ["owner", "psdm"] 
+  },
   {
-    href: "/facilities",
+    href: "/inventory",
     icon: Building2,
-    label: "Fasilitas",
+    label: "Daftar Inventaris",
     roles: allRoles(),
   },
   {
@@ -58,7 +72,11 @@ export const dashboardNavigation = [
     label: "Keuangan",
     roles: allRoles(),
   },
-  { href: "/documents", icon: Landmark, label: "Dokumen", roles: allRoles() },
+  { href: "/documents", 
+    icon: Landmark, 
+    label: "Dokumen", 
+    roles: allRoles() 
+  },
   {
     href: "/audit-logs",
     icon: ShieldCheck,
@@ -68,17 +86,17 @@ export const dashboardNavigation = [
   {
     href: "/school-profile",
     icon: IdCard,
-    label: "Profil Sekolah",
+    label: "Biodata Sekolah",
     roles: ["school"],
   },
   {
     href: "/settings",
     icon: Settings,
     label: "Pengaturan",
-    roles: ["office", "school"],
+    roles: ["office", "school", "psdm"],
   },
 ] as const;
 
 function allRoles(): Role[] {
-  return ["owner", "office", "school"];
+  return ["owner", "office", "school", "psdm"];
 }

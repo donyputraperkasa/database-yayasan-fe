@@ -45,7 +45,7 @@ export function AssetFormModal(props: AssetFormModalProps) {
       props.onSaved(nextAsset);
       props.onClose();
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : "Aset gagal disimpan.");
+      setError(saveError instanceof Error ? saveError.message : "Profil sekolah gagal disimpan.");
     } finally {
       setIsLoading(false);
     }
@@ -66,10 +66,10 @@ export function AssetFormModal(props: AssetFormModalProps) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold">
-              {isEdit ? "Edit Aset" : "Tambah Aset"}
+              {isEdit ? "Edit Profil Sekolah" : "Tambah Profil Sekolah"}
             </h2>
             <p className="mt-1 text-sm text-[#748299]">
-              Lengkapi data aset sekolah beserta foto pendukung.
+              Lengkapi data tanah, bangunan, legalitas, dan foto pendukung.
             </p>
           </div>
           <button type="button" onClick={props.onClose} className="rounded-md p-2">
@@ -83,7 +83,7 @@ export function AssetFormModal(props: AssetFormModalProps) {
         <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button type="button" onClick={props.onClose} className="h-11 rounded-md border border-[#dbe5f4] px-5 text-sm font-semibold">Batal</button>
           <button disabled={isLoading} className="h-11 rounded-md bg-[#0f2a4f] px-5 text-sm font-semibold text-white disabled:bg-[#7f98bd]">
-            {isLoading ? "Menyimpan..." : "Simpan Aset"}
+            {isLoading ? "Menyimpan..." : "Simpan Profil"}
           </button>
         </div>
       </form>

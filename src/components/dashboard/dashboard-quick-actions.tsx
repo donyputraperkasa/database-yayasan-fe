@@ -18,13 +18,13 @@ const ownerActions = [
 const officeActions = [
   { href: "/documents", icon: FileDown, label: "Download dokumen" },
   { href: "/students", icon: UsersRound, label: "Pantau siswa dan pegawai" },
-  { href: "/facilities", icon: ClipboardList, label: "Cek data fasilitas" },
+  { href: "/inventory", icon: ClipboardList, label: "Cek inventaris" },
 ];
 
 const schoolActions = [
   { href: "/documents", icon: FileUp, label: "Kelola dokumen" },
   { href: "/students", icon: UsersRound, label: "Kelola siswa" },
-  { href: "/facilities", icon: ClipboardList, label: "Kelola fasilitas" },
+  { href: "/inventory", icon: ClipboardList, label: "Kelola inventaris" },
 ];
 
 export function DashboardQuickActions({ role }: { role: Role }) {

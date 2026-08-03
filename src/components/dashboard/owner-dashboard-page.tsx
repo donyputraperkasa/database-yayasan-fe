@@ -17,7 +17,7 @@ const emptySummary: DashboardSummary = {
     nonPermanentEmployees: 0,
     honoraryEmployees: 0,
     assets: 0,
-    facilities: 0,
+    inventory: 0,
     finances: 0,
     documents: 0,
   },
@@ -86,7 +86,7 @@ export function OwnerDashboardPage() {
 
 function buildStats(
   summary: DashboardSummary,
-  role: "owner" | "office" | "school",
+  role: "owner" | "office" | "school" | "psdm",
 ): DashboardStat[] {
   const schoolHref = role === "owner" ? "/schools" : "/principals";
 
@@ -120,7 +120,7 @@ function buildStats(
 
 function buildProgress(
   summary: DashboardSummary,
-  role: "owner" | "office" | "school",
+  role: "owner" | "office" | "school" | "psdm",
 ): DashboardProgress[] {
   const schools = summary.totals.schools;
   const unitTitle =
@@ -137,8 +137,8 @@ function buildProgress(
       progress: ratio(summary.totals.documents, schools),
     },
     {
-      title: "Data fasilitas",
-      progress: ratio(summary.totals.facilities, schools),
+      title: "Data inventaris",
+      progress: ratio(summary.totals.inventory, schools),
     },
   ];
 }

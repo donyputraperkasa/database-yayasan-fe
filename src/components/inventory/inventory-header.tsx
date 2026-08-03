@@ -1,18 +1,18 @@
 import { Plus } from "lucide-react";
 
-type FacilitiesHeaderProps = {
+type InventoryHeaderProps = {
   canManage: boolean;
   onCreate: () => void;
 };
 
-export function FacilitiesHeader({ canManage, onCreate }: FacilitiesHeaderProps) {
+export function InventoryHeader({ canManage, onCreate }: InventoryHeaderProps) {
   return (
     <section className="flex flex-col gap-4 rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <p className="text-sm font-semibold text-[#748299]">Sarana Prasarana</p>
-        <h1 className="mt-1 text-2xl font-semibold">Data Fasilitas</h1>
+        <p className="text-sm font-semibold text-[#748299]">Inventaris Sekolah</p>
+        <h1 className="mt-1 text-2xl font-semibold">Data Inventaris</h1>
         <p className="mt-2 text-sm text-[#748299]">
-          Pantau fasilitas setiap sekolah berdasarkan jumlah dan kondisi.
+          Pantau inventaris setiap sekolah berdasarkan jumlah dan kondisi.
         </p>
       </div>
       {canManage ? (
@@ -22,7 +22,7 @@ export function FacilitiesHeader({ canManage, onCreate }: FacilitiesHeaderProps)
           className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#0f2a4f] px-4 text-sm font-semibold text-white"
         >
           <Plus size={18} aria-hidden="true" />
-          Tambah Fasilitas
+          Tambah Inventaris
         </button>
       ) : null}
     </section>

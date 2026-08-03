@@ -1,1 +1,2 @@
-export type Role = "owner" | "office" | "school";
+export type Role = "owner" | "office" | "school" | "psdm";
+

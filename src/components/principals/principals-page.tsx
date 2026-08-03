@@ -2,33 +2,48 @@
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import { PageState } from "@/components/ui/page-state";
+import { deleteAsset, listAssets } from "@/lib/api/assets";
 import { getMediaUrl } from "@/lib/api/media";
 import { listSchools } from "@/lib/api/schools";
 import { getAccessToken } from "@/lib/auth/storage";
-import type { School } from "@/types";
+import { getStoredUser } from "@/lib/auth/storage";
+import type { Asset, School, User } from "@/types";
 import { Mail, MessageCircle, Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { getAssetErrorMessage, upsertAsset } from "../assets/asset-page-utils";
 import { PrincipalDetailModal } from "./principal-detail-modal";
+import { PrincipalProfileFormModal } from "./principal-profile-form-modal";
 
 export function PrincipalsPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [query, setQuery] = useState("");
+  const [assets, setAssets] = useState<Asset[]>([]);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
+  const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
+  const [editingSchool, setEditingSchool] = useState<School | null>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [schools, setSchools] = useState<School[]>([]);
   const [token] = useState(() => getAccessToken() ?? "");
+  const [user] = useState<User | null>(() => getStoredUser());
 
   useEffect(() => {
     if (!token) return;
 
-    listSchools(token)
-      .then(setSchools)
+    Promise.all([listSchools(token), listAssets(token)])
+      .then(([schoolData, assetData]) => {
+        setSchools(schoolData);
+        setAssets(assetData);
+      })
       .catch((loadError) => {
         setError(loadError instanceof Error ? loadError.message : "Gagal mengambil data.");
       })
       .finally(() => setIsLoading(false));
   }, [token]);
 
+  const selectedAsset =
+    assets.find((asset) => asset.schoolId === selectedSchool?.id) ?? null;
+  const canManage = user?.role === "owner";
   const principals = schools.filter((school) =>
     [school.name, school.principal, school.email, school.phone]
       .filter(Boolean)
@@ -38,6 +53,24 @@ export function PrincipalsPage() {
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
   if (isLoading) return <PageState text="Memuat kepala sekolah..." />;
   if (error) return <PageState text={error} />;
+
+  const openAssetForm = (school: School) => {
+    setEditingAsset(assets.find((asset) => asset.schoolId === school.id) ?? null);
+    setEditingSchool(school);
+    setIsFormOpen(true);
+  };
+
+  const handleDeleteAsset = async (school: School) => {
+    const asset = assets.find((item) => item.schoolId === school.id);
+    if (!asset || !confirm(`Hapus profil sekolah ${school.name}?`)) return;
+
+    try {
+      await deleteAsset(token, asset.id);
+      setAssets((current) => current.filter((item) => item.id !== asset.id));
+    } catch (deleteError) {
+      setError(getAssetErrorMessage(deleteError));
+    }
+  };
 
   return (
     <div className="space-y-5">
@@ -52,15 +85,31 @@ export function PrincipalsPage() {
       <section className="grid gap-4 xl:grid-cols-2">
         {principals.map((school) => (
           <PrincipalCard
+            asset={assets.find((asset) => asset.schoolId === school.id) ?? null}
+            canManage={canManage}
             key={school.id}
+            onDelete={() => void handleDeleteAsset(school)}
+            onEdit={() => openAssetForm(school)}
             onOpen={() => setSelectedSchool(school)}
             school={school}
           />
         ))}
       </section>
       <PrincipalDetailModal
+        asset={selectedAsset}
         onClose={() => setSelectedSchool(null)}
         school={selectedSchool}
+      />
+      <PrincipalProfileFormModal
+        asset={editingAsset}
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        onSaved={(school, asset) => {
+          setSchools((current) => current.map((item) => (item.id === school.id ? school : item)));
+          if (asset) setAssets((current) => upsertAsset(current, asset));
+        }}
+        school={editingSchool}
+        token={token}
       />
     </div>
   );
@@ -69,9 +118,9 @@ export function PrincipalsPage() {
 function Header({ count }: { count: number }) {
   return (
     <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
-      <p className="text-sm font-semibold text-[#748299]">Data Kepala Sekolah</p>
+      <p className="text-sm font-semibold text-[#748299]">Daftar Unit Sekolah BOPKRI</p>
       <div className="mt-1 flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Profil Unit Sekolah</h1>
+        <h1 className="text-2xl font-semibold">Profil Sekolah</h1>
         <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
           {count} unit sekolah
         </span>
@@ -97,7 +146,14 @@ function SearchBox(props: { query: string; setQuery: (query: string) => void }) 
   );
 }
 
-function PrincipalCard(props: { onOpen: () => void; school: School }) {
+function PrincipalCard(props: {
+  asset: Asset | null;
+  canManage: boolean;
+  onDelete: () => void;
+  onEdit: () => void;
+  onOpen: () => void;
+  school: School;
+}) {
   const { school } = props;
   const whatsappUrl = buildWhatsappUrl(school.phone);
   const photoUrl = getMediaUrl(school.profile?.photoUrl) ?? "/logo-yayasan.png";
@@ -147,6 +203,32 @@ function PrincipalCard(props: { onOpen: () => void; school: School }) {
               <span className={mutedClass}>Email belum diisi</span>
             )}
           </div>
+          {props.canManage ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  props.onEdit();
+                }}
+                className={manageClass}
+              >
+                {props.asset ? "Edit Biodata" : "Lengkapi Biodata"}
+              </button>
+              {props.asset ? (
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    props.onDelete();
+                  }}
+                  className={dangerClass}
+                >
+                  Hapus Profil
+                </button>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
     </article>
@@ -164,3 +246,7 @@ const buttonClass =
   "inline-flex items-center gap-2 rounded-md border border-[#cfe0f5] bg-[#eaf2ff] px-3 py-2 text-sm font-semibold text-[#0f2a4f]";
 const mutedClass =
   "inline-flex items-center rounded-md bg-[#f8fbff] px-3 py-2 text-sm font-semibold text-[#748299]";
+const manageClass =
+  "rounded-md border border-[#cfe0f5] bg-[#f8fbff] px-3 py-2 text-sm font-semibold text-[#0f2a4f]";
+const dangerClass =
+  "rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700";

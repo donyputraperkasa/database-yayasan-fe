@@ -1,20 +1,21 @@
-import type { Facility, School } from "@/types";
-import { facilityConditionLabel } from "./facility-labels";
+import type { Inventory, School } from "@/types";
+import { InventoryConditionFields } from "./inventory-condition-fields";
+import { InventoryPhotoField } from "./inventory-photo-field";
 
-type FacilityFormFieldsProps = {
-  facility?: Facility | null;
+type InventoryFormFieldsProps = {
+  inventory?: Inventory | null;
   isSchoolUser: boolean;
   schools: School[];
 };
 
-export function FacilityFormFields(props: FacilityFormFieldsProps) {
+export function InventoryFormFields(props: InventoryFormFieldsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {!props.isSchoolUser ? (
         <Field label="Sekolah">
           <select
             name="schoolId"
-            defaultValue={props.facility?.schoolId ?? ""}
+            defaultValue={props.inventory?.schoolId ?? ""}
             required
             className={inputClass}
           >
@@ -27,28 +28,20 @@ export function FacilityFormFields(props: FacilityFormFieldsProps) {
           </select>
         </Field>
       ) : null}
-      <Input label="Nama Fasilitas" name="name" required value={props.facility?.name} />
-      <Input
-        label="Jumlah"
-        name="quantity"
-        required
-        type="number"
-        value={props.facility?.quantity}
-      />
-      <Field label="Kondisi">
-        <select
-          name="condition"
-          defaultValue={props.facility?.condition ?? "baik"}
-          required
-          className={inputClass}
-        >
-          {Object.entries(facilityConditionLabel).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </Field>
+      <Input label="Nama Inventaris" name="name" required value={props.inventory?.name} />
+      <InventoryConditionFields inventory={props.inventory} />
+      <label className="block md:col-span-2">
+        <span className="text-sm font-semibold">Keterangan</span>
+        <textarea
+          name="description"
+          maxLength={2000}
+          rows={4}
+          defaultValue={props.inventory?.description ?? ""}
+          placeholder="Contoh: dibeli tahun 2024 menggunakan dana BOS."
+          className={`${inputClass} h-auto resize-y py-3`}
+        />
+      </label>
+      <InventoryPhotoField photoUrl={props.inventory?.photoUrl} />
     </div>
   );
 }

@@ -16,8 +16,8 @@ export function HeroContent({ onOpenLogin }: HeroContentProps) {
       </h1>
 
       <p className="mt-4 max-w-xl text-base leading-7 text-[#526078] sm:text-lg sm:leading-8">
-        Satu tempat untuk mengelola data sekolah, siswa, guru, pegawai, aset,
-        fasilitas, dokumen, dan ringkasan keuangan dengan akses sesuai role.
+        Satu tempat untuk mengelola data sekolah, siswa, guru, pegawai, profil
+        tanah dan bangunan, inventaris, dokumen, serta ringkasan keuangan.
       </p>
 
       <button

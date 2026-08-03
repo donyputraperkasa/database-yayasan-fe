@@ -17,7 +17,7 @@ export function AssetDetailModal({ asset, onClose }: AssetDetailModalProps) {
     ["Luas Tanah", asset.landArea],
     ["Luas Bangunan", asset.buildingArea],
     ["Pemilik Sertifikat", asset.certificateOwner],
-    ["Asal Aset", asset.origin],
+    ["Asal Perolehan", asset.origin],
     ["Tahun Pengadaan", asset.procurementYear?.toString()],
   ];
 
@@ -29,13 +29,13 @@ export function AssetDetailModal({ asset, onClose }: AssetDetailModalProps) {
       className="modal-backdrop-enter fixed inset-0 z-[80] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
     >
       <section className="modal-panel-enter grid max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl md:grid-cols-[460px_1fr] md:gap-6">
-        <DetailPhoto fill label="Foto aset" photoUrl={asset.photoUrl} />
+        <DetailPhoto fill label="Foto tanah atau bangunan" photoUrl={asset.photoUrl} />
         <div>
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-semibold">Detail Aset</h2>
+              <h2 className="text-2xl font-semibold">Detail Profil Sekolah</h2>
               <p className="mt-1 text-sm text-[#748299]">
-                Informasi aset sekolah yang tercatat.
+                Informasi tanah, bangunan, dan legalitas sekolah.
               </p>
             </div>
             <button type="button" onClick={onClose} className="rounded-md p-2">

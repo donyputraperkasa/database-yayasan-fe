@@ -3,6 +3,7 @@ import type { Role } from "@/types";
 const dashboardPathByRole: Record<Role, string> = {
   office: "/dashboard",
   owner: "/dashboard",
+  psdm: "/dashboard",
   school: "/dashboard",
 };
 

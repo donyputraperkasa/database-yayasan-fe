@@ -50,6 +50,7 @@ export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
 function formatRole(role?: string) {
   if (role === "office") return "Office";
   if (role === "school") return "School";
+  if (role === "psdm") return "PSDM";
 
   return "Owner";
 }

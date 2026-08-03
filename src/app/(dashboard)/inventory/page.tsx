@@ -1,12 +1,12 @@
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
-import { FacilitiesPage } from "@/components/facilities/facilities-page";
+import { InventoryPage } from "@/components/inventory/inventory-page";
 
-export default function FacilitiesRoutePage() {
+export default function InventoryRoutePage() {
   return (
     <AuthGuard>
       <DashboardShell>
-        <FacilitiesPage />
+        <InventoryPage />
       </DashboardShell>
     </AuthGuard>
   );

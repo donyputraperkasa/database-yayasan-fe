@@ -2,6 +2,12 @@
 
 import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrumbs";
 import { PageState } from "@/components/ui/page-state";
+import {
+  createAsset,
+  listAssets,
+  updateAsset,
+  uploadAssetPhoto,
+} from "@/lib/api/assets";
 import { getMediaUrl } from "@/lib/api/media";
 import {
   getSchoolProfile,
@@ -12,13 +18,15 @@ import {
 } from "@/lib/api/schools";
 import { getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
-import type { School, SchoolProfile, User } from "@/types";
+import { showToast } from "@/lib/feedback/toast";
+import type { Asset, AssetPayload, School, SchoolProfile, User } from "@/types";
 import { Save } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { SchoolEditAccessNotice } from "./school-edit-access-notice";
 
 export function SchoolProfilePage() {
   const [error, setError] = useState<string | null>(null);
+  const [asset, setAsset] = useState<Asset | null>(null);
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [isSaving, setIsSaving] = useState(false);
   const [profile, setProfile] = useState<SchoolProfile | null>(null);
@@ -38,7 +46,12 @@ export function SchoolProfilePage() {
         setSchools(schoolData);
         const currentSchool = getCurrentSchool(user, schoolData);
         if (currentSchool) {
-          setProfile(await getSchoolProfile(token, currentSchool.id));
+          const [profileData, assetData] = await Promise.all([
+            getSchoolProfile(token, currentSchool.id),
+            listAssets(token, { schoolId: currentSchool.id }),
+          ]);
+          setProfile(profileData);
+          setAsset(assetData[0] ?? null);
         }
       })
       .catch((loadError) => {
@@ -72,14 +85,28 @@ export function SchoolProfilePage() {
       const nextProfile = photoFile
         ? await uploadSchoolProfilePhoto(token, school.id, photoFile)
         : savedProfile;
+      const assetPayload = buildAssetPayload(formData);
+      const assetPhotoFile = getFile(formData, "assetPhoto");
+      const savedAsset =
+        asset || hasAssetPayload(assetPayload) || assetPhotoFile
+          ? asset
+            ? await updateAsset(token, asset.id, assetPayload)
+            : await createAsset(token, assetPayload)
+          : null;
+      const nextAsset =
+        savedAsset && assetPhotoFile
+          ? await uploadAssetPhoto(token, savedAsset.id, assetPhotoFile)
+          : savedAsset;
 
       setSchools((current) =>
         current.map((item) => (item.id === savedSchool.id ? savedSchool : item)),
       );
       setProfile(nextProfile);
-      setSuccess("Profil sekolah berhasil disimpan.");
+      setAsset(nextAsset);
+      setSuccess("Biodata sekolah berhasil disimpan.");
+      showToast({ message: "Biodata sekolah berhasil disimpan.", type: "success" });
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : "Profil gagal disimpan.");
+      setError(saveError instanceof Error ? saveError.message : "Biodata gagal disimpan.");
     } finally {
       setIsSaving(false);
     }
@@ -87,13 +114,13 @@ export function SchoolProfilePage() {
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
   if (user?.role !== "school") return <PageState text="Halaman ini khusus role school." />;
-  if (isLoading) return <PageState text="Memuat profil sekolah..." />;
+  if (isLoading) return <PageState text="Memuat biodata sekolah..." />;
   if (!school) return <PageState text="Akun belum terhubung ke sekolah." />;
 
   return (
     <div className="space-y-5">
       <DashboardBreadcrumbs
-        items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Profil Sekolah" }]}
+        items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Biodata Sekolah" }]}
       />
       <Header school={school} profile={profile} />
       <SchoolEditAccessNotice school={school} user={user} />
@@ -108,6 +135,7 @@ export function SchoolProfilePage() {
           <Textarea disabled={!canEdit} label="Visi" name="vision" value={profile?.vision} />
           <Textarea disabled={!canEdit} label="Misi" name="mission" value={profile?.mission} />
           <Input disabled={!canEdit} label="Motto" name="motto" value={profile?.motto} />
+          <ProfileAssetFields asset={asset} disabled={!canEdit} />
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
         {success ? <p className="mt-4 rounded-md bg-emerald-50 p-3 text-sm text-emerald-700">{success}</p> : null}
@@ -116,10 +144,23 @@ export function SchoolProfilePage() {
           className="mt-5 inline-flex h-11 items-center gap-2 rounded-md bg-[#0f2a4f] px-5 text-sm font-semibold text-white disabled:bg-[#93a4bd]"
         >
           <Save size={17} aria-hidden="true" />
-          {isSaving ? "Menyimpan..." : "Simpan Profil"}
+          {isSaving ? "Menyimpan..." : "Simpan Biodata"}
         </button>
       </form>
     </div>
+  );
+}
+
+function ProfileAssetFields(props: { asset: Asset | null; disabled: boolean }) {
+  return (
+    <>
+      <Input disabled={props.disabled} label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
+      <Input disabled={props.disabled} label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
+      <Input disabled={props.disabled} label="Pemilik Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
+      <Input disabled={props.disabled} label="Asal Perolehan" name="origin" value={props.asset?.origin} />
+      <Input disabled={props.disabled} label="Tahun Perolehan" name="procurementYear" type="number" value={props.asset?.procurementYear} />
+      <AssetPhotoField disabled={props.disabled} photoUrl={props.asset?.photoUrl} />
+    </>
   );
 }
 
@@ -133,7 +174,7 @@ function Header({ profile, school }: { profile: SchoolProfile | null; school: Sc
         style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : undefined}
       />
       <div>
-        <p className="text-sm font-semibold text-[#748299]">Profil Sekolah</p>
+        <p className="text-sm font-semibold text-[#748299]">Biodata Sekolah</p>
         <h1 className="mt-1 text-2xl font-semibold text-[#172033]">{school.name}</h1>
         <p className="mt-2 text-sm text-[#748299]">
           Lengkapi kontak dan bio sekolah yang akan terlihat oleh owner dan office.
@@ -148,7 +189,7 @@ function Input(props: {
   label: string;
   name: string;
   type?: string;
-  value?: string | null;
+  value?: number | string | null;
 }) {
   return (
     <label className="block">
@@ -218,14 +259,90 @@ function PhotoField(props: { disabled: boolean; photoUrl?: string | null }) {
   );
 }
 
+function AssetPhotoField(props: { disabled: boolean; photoUrl?: string | null }) {
+  const previewUrl = getMediaUrl(props.photoUrl);
+
+  return (
+    <label className="block md:col-span-2">
+      <span className="text-sm font-semibold text-[#172033]">Foto Tanah/Bangunan</span>
+      <div className="mt-2 flex flex-col gap-3 rounded-lg border border-[#ced9eb] bg-[#f8fbff] p-3 sm:flex-row sm:items-center">
+        <PhotoPreview label="Foto tanah atau bangunan saat ini" previewUrl={previewUrl} />
+        <div className="min-w-0 flex-1">
+          <input
+            accept="image/jpeg,image/png,image/webp"
+            disabled={props.disabled}
+            name="assetPhoto"
+            type="file"
+            className="w-full text-sm text-[#526078] file:mr-3 file:rounded-md file:border-0 file:bg-[#0f2a4f] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white disabled:text-[#8b98ad] disabled:file:bg-[#93a4bd]"
+          />
+          <p className="mt-2 text-xs leading-5 text-[#748299]">
+            Format JPG, PNG, atau WEBP. Maksimal 2 MB.
+          </p>
+        </div>
+      </div>
+    </label>
+  );
+}
+
+function PhotoPreview(props: { label: string; previewUrl: string | null }) {
+  if (!props.previewUrl) {
+    return (
+      <div className="grid h-24 w-24 place-items-center rounded-lg bg-white text-xs font-semibold text-[#748299]">
+        Belum ada
+      </div>
+    );
+  }
+
+  return (
+    <div
+      aria-label={props.label}
+      className="h-24 w-24 rounded-lg bg-white bg-contain bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${props.previewUrl})` }}
+    />
+  );
+}
+
 function getValue(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
 }
 
 function getPhotoFile(formData: FormData) {
-  const file = formData.get("photo");
+  return getFile(formData, "photo");
+}
 
+function getFile(formData: FormData, key: string) {
+  const file = formData.get(key);
   return file instanceof File && file.size > 0 ? file : null;
+}
+
+function buildAssetPayload(formData: FormData): AssetPayload {
+  return {
+    buildingArea: getOptional(formData, "buildingArea"),
+    certificateOwner: getOptional(formData, "certificateOwner"),
+    landArea: getOptional(formData, "landArea"),
+    origin: getOptional(formData, "origin"),
+    procurementYear: getOptionalNumber(formData, "procurementYear"),
+  };
+}
+
+function hasAssetPayload(payload: AssetPayload) {
+  return Boolean(
+    payload.buildingArea ||
+      payload.certificateOwner ||
+      payload.landArea ||
+      payload.origin ||
+      payload.procurementYear,
+  );
+}
+
+function getOptional(formData: FormData, key: string) {
+  const value = getValue(formData, key);
+  return value || undefined;
+}
+
+function getOptionalNumber(formData: FormData, key: string) {
+  const value = getOptional(formData, key);
+  return value ? Number(value) : undefined;
 }
 
 const fieldClass =

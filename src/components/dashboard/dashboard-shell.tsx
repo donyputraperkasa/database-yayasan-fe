@@ -4,7 +4,7 @@ import { getStoredUser } from "@/lib/auth/storage";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import type { User } from "@/types";
-import { Toaster } from "@/components/feedback/toaster";
+import { SessionActivityGuard } from "@/components/auth/session-activity-guard";
 import { FloatingContact } from "@/components/landing/floating-contact";
 import { DashboardCreatorFooter } from "./dashboard-creator-footer";
 import { DashboardSidebar } from "./dashboard-sidebar";
@@ -20,6 +20,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
   return (
     <main className="h-screen overflow-hidden bg-[#eef4fb] text-[#172033]">
+      <SessionActivityGuard />
       <div className="flex h-full min-h-0">
         <DashboardSidebar
           isOpen={isMenuOpen}
@@ -40,7 +41,6 @@ export function DashboardShell({ children }: DashboardShellProps) {
           {user?.role === "office" || user?.role === "school" ? (
             <FloatingContact />
           ) : null}
-          <Toaster />
         </section>
       </div>
     </main>

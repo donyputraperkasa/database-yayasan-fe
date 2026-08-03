@@ -69,8 +69,8 @@ export function SchoolsTable({
                       onClick={() => onToggleEditAccess(school)}
                       className={`rounded-md border px-3 py-2 text-xs font-semibold transition ${
                         school.canEdit
-                          ? "border-amber-200 bg-amber-50 text-amber-700"
-                          : "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          ? "border-amber-300 bg-amber-100 hover:bg-amber-200 text-amber-700"
+                          : "border-emerald-200 bg-green-300 hover:bg-green-400 text-emerald-700"
                       }`}
                     >
                       {school.canEdit ? "Kunci edit" : "Buka edit"}

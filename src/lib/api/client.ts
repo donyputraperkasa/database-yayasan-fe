@@ -3,6 +3,7 @@ import {
   clearAuthSession,
   COOKIE_SESSION_MARKER,
 } from "@/lib/auth/storage";
+import { queueToast } from "@/lib/feedback/toast";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 const API_BASE_URL = API_URL.replace(/\/$/, "");
@@ -119,6 +120,10 @@ function handleUnauthorizedSession() {
   }
 
   clearAuthSession();
+  queueToast({
+    message: "Sesi berakhir atau akun sedang login di perangkat lain.",
+    type: "error",
+  });
 
   if (window.location.pathname !== "/") {
     window.location.href = "/";

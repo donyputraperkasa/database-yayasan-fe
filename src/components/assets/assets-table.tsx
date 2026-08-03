@@ -37,15 +37,15 @@ export function AssetsTable(props: AssetsTableProps) {
       {entries.map(([schoolName, assets]) => (
         <SchoolSummaryCard
           key={schoolName}
-          countLabel={`${assets.length} aset`}
-          description="Aset sekolah yang sudah tercatat."
+          countLabel={`${assets.length} profil`}
+          description="Data tanah dan bangunan sekolah yang sudah tercatat."
           onClick={() => props.onSelectSchool(schoolName)}
           title={schoolName}
         />
       ))}
       {props.assets.length === 0 ? (
         <p className="rounded-lg bg-white p-5 text-sm font-semibold text-[#748299] shadow-sm lg:col-span-2">
-          Data aset belum ditemukan.
+          Profil sekolah belum ditemukan.
         </p>
       ) : null}
     </section>
@@ -62,7 +62,7 @@ function DetailHeader(props: {
       <div>
         <h2 className="text-lg font-semibold">{props.schoolName}</h2>
         <p className="mt-1 text-sm text-[#748299]">
-          {props.count} aset sekolah tercatat.
+          {props.count} profil sekolah tercatat.
         </p>
       </div>
       {props.canBackToSchools ? (

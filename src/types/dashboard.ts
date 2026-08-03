@@ -8,7 +8,7 @@ export type DashboardTotals = {
   nonPermanentEmployees: number;
   honoraryEmployees: number;
   assets: number;
-  facilities: number;
+  inventory: number;
   finances: number;
   documents: number;
 };

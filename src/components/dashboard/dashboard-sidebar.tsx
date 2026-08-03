@@ -4,6 +4,7 @@ import { clearAuthSession } from "@/lib/auth/storage";
 import { getAccessToken } from "@/lib/auth/storage";
 import { logout } from "@/lib/api/auth";
 import { dashboardNavigation } from "@/lib/constants/dashboard";
+import { showToast } from "@/lib/feedback/toast";
 import type { Role, User } from "@/types";
 import { LogOut, X } from "lucide-react";
 import Image from "next/image";
@@ -36,6 +37,11 @@ export function DashboardSidebar({
       if (token) await logout(token);
     } finally {
       clearAuthSession();
+      showToast({
+        message: "Sampai jumpa lagi di MyBOPKRI.",
+        title: "Dadaahhh sayonara",
+        type: "success",
+      });
       router.replace("/");
     }
   };
@@ -140,6 +146,7 @@ export function DashboardSidebar({
 function formatRole(role: Role) {
   if (role === "office") return "Office";
   if (role === "school") return "School";
+  if (role === "psdm") return "PSDM";
 
   return "Owner";
 }

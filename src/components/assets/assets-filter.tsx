@@ -18,7 +18,7 @@ export function AssetsFilter(props: AssetsFilterProps) {
           onChange={(event) =>
             props.onChange({ ...props.filters, query: event.target.value })
           }
-          placeholder="Cari pemilik, asal aset, sekolah..."
+          placeholder="Cari pemilik sertifikat, asal perolehan, atau sekolah..."
           className="h-11 rounded-md border border-[#dbe5f4] px-3 text-sm outline-none focus:border-[#1f4f8f]"
         />
         {!props.isSchoolUser ? (

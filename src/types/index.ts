@@ -5,7 +5,7 @@ export type * from "./auth";
 export type * from "./dashboard";
 export type * from "./document";
 export type * from "./employee";
-export type * from "./facility";
+export type * from "./inventory";
 export type * from "./finance";
 export type * from "./role";
 export type * from "./school";
