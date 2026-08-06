@@ -1,4 +1,5 @@
 type TableActionsProps = {
+  canDetail?: boolean;
   canManage: boolean;
   onDelete: () => void;
   onDetail: () => void;
@@ -6,14 +7,21 @@ type TableActionsProps = {
 };
 
 export function TableActions({
+  canDetail = true,
   canManage,
   onDelete,
   onDetail,
   onEdit,
 }: TableActionsProps) {
+  if (!canManage && !canDetail) {
+    return <span className="text-xs text-[#94a3b8]">-</span>;
+  }
+
   return (
     <div className="mt-4 flex flex-wrap justify-center gap-2 md:mt-0">
-      <ActionButton tone="info" onClick={onDetail}>Detail</ActionButton>
+      {canDetail ? (
+        <ActionButton tone="info" onClick={onDetail}>Detail</ActionButton>
+      ) : null}
       {canManage ? (
         <>
           <ActionButton tone="edit" onClick={onEdit}>Edit</ActionButton>

@@ -18,27 +18,100 @@ export function EmployeeFormFields(props: EmployeeFormFieldsProps) {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <Input label="Nama" name="name" required value={employee?.name} />
+      <Input
+        label="Nama"
+        name="name"
+        placeholder="Masukkan nama pegawai"
+        required
+        value={employee?.name}
+      />
       <Input
         label="Tempat/Tanggal Lahir"
         name="birthPlaceDate"
+        placeholder="Masukkan tempat tanggal lahir"
         value={birthPlaceDateValue(employee?.birthPlaceDate, employee?.birthDate)}
       />
-      <Input label="Agama" name="religion" value={employee?.religion} />
-      <Input label="Alamat" name="address" value={employee?.address} />
-      <SelectMap label="Jenis Kepegawaian" name="type" options={employeeTypeLabel} required value={employee?.type} />
+      <Input
+        label="Agama"
+        name="religion"
+        placeholder="Masukkan agama"
+        value={employee?.religion}
+      />
+      <Input
+        label="Alamat"
+        name="address"
+        placeholder="Masukkan alamat"
+        value={employee?.address}
+      />
+      <SelectMap
+        label="Jenis Kepegawaian"
+        name="type"
+        options={employeeTypeLabel}
+        placeholder="Masukkan jenis kepegawaian"
+        required
+        value={employee?.type}
+      />
       <SelectSchool {...props} />
-      <Input label="Jabatan" name="position" value={employee?.position} />
-      <Input label="Jabatan Lain" name="otherPosition" value={employee?.otherPosition} />
-      <SelectMap label="Status Kepegawaian" name="status" options={employeeStatusLabel} value={employee?.status} />
-      <SelectGender value={employee?.gender} />
-      <Input label="Tanggal Masuk" name="joinDate" type="date" value={dateInputValue(employee?.joinDate)} />
-      <Input label="Pendidikan Terakhir" name="lastEducation" value={employee?.lastEducation} />
-      <Input label="Nomor Telepon" name="phone" value={employee?.phone} />
-      <Input label="Email" name="email" value={employee?.email} />
-      <Input label="Nomor SK" name="decreeNumber" value={employee?.decreeNumber} />
-      <Input label="Honor/Gaji" name="fee" value={employee?.fee} />
-      <EmployeePhotoField photoUrl={employee?.photoUrl} />
+      <Input
+        label="Jabatan"
+        name="position"
+        placeholder="Masukkan jabatan"
+        value={employee?.position} 
+      />
+      <Input 
+        label="Jabatan Lain"
+        name="otherPosition"
+        placeholder="Masukkan jabatan lain"
+        value={employee?.otherPosition} 
+      />
+      <SelectMap
+        label="Status Kepegawaian"
+        name="status"
+        options={employeeStatusLabel}
+        placeholder="Masukkan status kepegawaian"
+        value={employee?.status}
+      />
+      <SelectGender
+        value={employee?.gender}
+      />
+      <Input 
+        label="Tanggal Masuk" 
+        name="joinDate" 
+        type="date" 
+        value={dateInputValue(employee?.joinDate)} />
+      <Input 
+        label="Pendidikan Terakhir" 
+        name="lastEducation" 
+        placeholder="Contoh: S1 Pendidikan Matematika"
+        value={employee?.lastEducation} 
+      />
+      <Input 
+        label="Nomor Telepon" 
+        name="phone" 
+        placeholder="Contoh: 08123456789"
+        value={employee?.phone} 
+      />
+      <Input 
+        label="Email" 
+        name="email" 
+        placeholder="Contoh: budi@bopkri.org"
+        value={employee?.email} 
+      />
+      <Input 
+        label="Nomor SK" 
+        name="decreeNumber" 
+        placeholder="Contoh: 012/YAY/SK/2023"
+        value={employee?.decreeNumber} 
+      />
+      <Input 
+        label="Honor/Gaji" 
+        name="fee" 
+        placeholder="Contoh: Rp 3.500.000"
+        value={employee?.fee} 
+      />
+      <EmployeePhotoField 
+        photoUrl={employee?.photoUrl} 
+      />
       <EmployeePhotoField
         label="Scan SK Terakhir"
         name="decree"
@@ -51,6 +124,7 @@ export function EmployeeFormFields(props: EmployeeFormFieldsProps) {
 function Input(props: {
   label: string;
   name: string;
+  placeholder?: string;
   required?: boolean;
   type?: string;
   value?: string | null;
@@ -61,6 +135,7 @@ function Input(props: {
       <input
         defaultValue={props.value ?? ""}
         name={props.name}
+        placeholder={props.placeholder}
         required={props.required}
         type={props.type ?? "text"}
         className="mt-2 h-11 w-full rounded-md border border-[#ced9eb] px-3 text-sm outline-none focus:border-[#1f4f8f]"
@@ -98,6 +173,7 @@ function SelectMap(props: {
   label: string;
   name: string;
   options: Record<string, string>;
+  placeholder?: string;
   required?: boolean;
   value?: string | null;
 }) {
@@ -110,7 +186,7 @@ function SelectMap(props: {
         required={props.required}
         className="mt-2 h-11 w-full rounded-md border border-[#ced9eb] px-3 text-sm outline-none focus:border-[#1f4f8f]"
       >
-        <option value="">Pilih {props.label.toLowerCase()}</option>
+        <option value="">{props.placeholder ?? `Pilih ${props.label.toLowerCase()}`}</option>
         {Object.entries(props.options).map(([value, label]) => (
           <option key={value} value={value}>
             {label}

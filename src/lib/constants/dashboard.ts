@@ -58,7 +58,7 @@ export const dashboardNavigation = [
   { href: "/employees", 
     icon: UsersRound, 
     label: "Daftar Pegawai", 
-    roles: ["owner", "psdm"] 
+    roles: ["owner", "office", "school", "psdm"] 
   },
   {
     href: "/inventory",
@@ -75,13 +75,13 @@ export const dashboardNavigation = [
   { href: "/documents", 
     icon: Landmark, 
     label: "Dokumen", 
-    roles: allRoles() 
+    roles: allRoles()
   },
   {
     href: "/audit-logs",
     icon: ShieldCheck,
     label: "Audit Log",
-    roles: allRoles(),
+    roles: ["owner"],
   },
   {
     href: "/school-profile",
@@ -95,6 +95,18 @@ export const dashboardNavigation = [
     label: "Pengaturan",
     roles: ["office", "school", "psdm"],
   },
+  {
+    href:"/dapodik",
+    icon:Building2,
+    label:"Dapodik",
+    roles: ["school", "owner"],
+  },
+  {
+    href:"https://presensi.yayasan-bopkri.org",
+    icon:Settings,
+    label:"Simpeg",
+    roles: ["office","psdm", "owner"],
+  }
 ] as const;
 
 function allRoles(): Role[] {

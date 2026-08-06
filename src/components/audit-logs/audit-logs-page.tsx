@@ -138,5 +138,4 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
-const fieldClass =
-  "h-11 rounded-md border border-[#ced9eb] bg-white px-3 text-sm outline-none focus:border-[#1f4f8f]";
+const fieldClass ="h-11 rounded-md border border-[#ced9eb] bg-white px-3 text-sm outline-none focus:border-[#1f4f8f]";

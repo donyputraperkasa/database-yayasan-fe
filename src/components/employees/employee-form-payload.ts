@@ -56,18 +56,18 @@ function parseBirthDate(value?: string) {
   if (!value) return undefined;
 
   const months: Record<string, string> = {
-    agustus: "08",
-    april: "04",
-    desember: "12",
-    februari: "02",
     januari: "01",
-    juli: "07",
-    juni: "06",
+    februari: "02",
     maret: "03",
+    april: "04",
     mei: "05",
-    november: "11",
-    oktober: "10",
+    juni: "06",
+    juli: "07",
+    agustus: "08",
     september: "09",
+    oktober: "10",
+    november: "11",
+    desember: "12",
   };
   const match = value.toLowerCase().match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/);
   if (!match) return undefined;

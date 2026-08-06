@@ -9,6 +9,7 @@ import { groupEmployeesBySchool } from "./employee-page-utils";
 
 type EmployeesTableProps = {
   canBackToSchools?: boolean;
+  canDetail?: boolean;
   canManage: boolean;
   employees: Employee[];
   onBackToSchools: () => void;
@@ -110,6 +111,7 @@ function DesktopTable(props: EmployeesTableProps) {
             <th className="py-3 font-semibold">Jenis</th>
             <th className="py-3 font-semibold">Jabatan</th>
             <th className="py-3 font-semibold">Status</th>
+            <th className="py-3 font-semibold">Nomor WhatsApp</th>
             <th className="py-3 text-center font-semibold">Aksi</th>
           </tr>
         </thead>
@@ -149,7 +151,8 @@ function EmployeeRow(props: EmployeesTableProps & { employee: Employee }) {
       <td className="py-3 text-[#526078]">
         {employee.status ? employeeStatusLabel[employee.status] : "-"}
       </td>
-      <td className="py-3 text-center"><Actions {...props} /></td>
+      <td className="py-3 text-[#526078]">{employee.phone ?? "-"}</td>
+      <td className="py-3 text-[#526078]"><Actions {...props} /></td>
     </tr>
   );
 }
@@ -157,6 +160,7 @@ function EmployeeRow(props: EmployeesTableProps & { employee: Employee }) {
 function Actions(props: EmployeesTableProps & { employee: Employee }) {
   return (
     <TableActions
+      canDetail={props.canDetail}
       canManage={props.canManage}
       onDelete={() => props.onDelete(props.employee)}
       onDetail={() => props.onDetail(props.employee)}

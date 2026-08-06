@@ -62,6 +62,7 @@ export function EmployeesPage() {
 
   const currentSchool = getCurrentSchool(user, schools);
   const canManage = canManageSchoolData(user, schools);
+  const canDetail = user?.role !== "office";
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleEmployees = filterEmployees(employees, filters.query);
@@ -104,6 +105,7 @@ export function EmployeesPage() {
       />
       <EmployeesTable
         canBackToSchools={user?.role !== "school"}
+        canDetail={canDetail}
         canManage={canManage}
         employees={visibleEmployees}
         onBackToSchools={() => setSelectedSchoolName(null)}

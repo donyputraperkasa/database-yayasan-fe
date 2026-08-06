@@ -28,7 +28,13 @@ export function InventoryFormFields(props: InventoryFormFieldsProps) {
           </select>
         </Field>
       ) : null}
-      <Input label="Nama Inventaris" name="name" required value={props.inventory?.name} />
+      <Input
+        label="Nama Inventaris"
+        name="name"
+        placeholder="Contoh: Laptop Asus Vivobook / Meja Guru / Proyektor Epson"
+        required
+        value={props.inventory?.name}
+      />
       <InventoryConditionFields inventory={props.inventory} />
       <label className="block md:col-span-2">
         <span className="text-sm font-semibold">Keterangan</span>
@@ -37,7 +43,7 @@ export function InventoryFormFields(props: InventoryFormFieldsProps) {
           maxLength={2000}
           rows={4}
           defaultValue={props.inventory?.description ?? ""}
-          placeholder="Contoh: dibeli tahun 2024 menggunakan dana BOS."
+          placeholder="Contoh: Dibeli tahun 2024 menggunakan dana BOS / Sumbangan Alumni."
           className={`${inputClass} h-auto resize-y py-3`}
         />
       </label>
@@ -49,6 +55,7 @@ export function InventoryFormFields(props: InventoryFormFieldsProps) {
 function Input(props: {
   label: string;
   name: string;
+  placeholder?: string;
   required?: boolean;
   type?: string;
   value?: number | string | null;
@@ -57,6 +64,7 @@ function Input(props: {
     <Field label={props.label}>
       <input
         name={props.name}
+        placeholder={props.placeholder}
         required={props.required}
         type={props.type ?? "text"}
         defaultValue={props.value ?? ""}

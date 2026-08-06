@@ -43,6 +43,7 @@ export function InventoryConditionFields(props: {
                   [field.key]: event.target.value,
                 }))
               }
+              placeholder="0"
               required
               type="number"
               value={values[field.key]}
