@@ -2,7 +2,7 @@
 
 import { getDashboardSummary } from "@/lib/api/dashboard";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
-import type { DashboardProgress, DashboardStat, DashboardSummary } from "@/types";
+import type { DashboardProgress, DashboardStat, DashboardSummary, Role } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { DashboardHome } from "./dashboard-home";
 
@@ -86,7 +86,7 @@ export function OwnerDashboardPage() {
 
 function buildStats(
   summary: DashboardSummary,
-  role: "owner" | "office" | "school" | "psdm",
+  role: Role,
 ): DashboardStat[] {
   const schoolHref = role === "owner" ? "/schools" : "/principals";
 
@@ -120,15 +120,15 @@ function buildStats(
 
 function buildProgress(
   summary: DashboardSummary,
-  role: "owner" | "office" | "school" | "psdm",
+  role: Role,
 ): DashboardProgress[] {
   const schools = summary.totals.schools;
   const unitTitle =
     role === "school"
       ? "Data sekolah Anda"
-      : role === "office"
-        ? "Unit sekolah dipantau"
-        : "Unit sekolah terdaftar";
+      : role === "owner"
+        ? "Unit sekolah terdaftar"
+        : "Unit sekolah dipantau";
 
   return [
     { title: unitTitle, progress: ratio(schools, 36) },

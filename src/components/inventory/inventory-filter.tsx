@@ -1,6 +1,5 @@
 import type { InventoryFilters, School } from "@/types";
 import { Search } from "lucide-react";
-import { inventoryConditionLabel } from "./inventory-labels";
 
 type InventoryFilterProps = {
   filters: InventoryFilters;
@@ -13,7 +12,7 @@ type InventoryFilterProps = {
 export function InventoryFilter(props: InventoryFilterProps) {
   return (
     <section className="rounded-lg border border-[#dbe5f4] bg-white p-4 shadow-sm">
-      <div className="grid gap-3 xl:grid-cols-[1fr_220px_280px_auto]">
+      <div className="grid gap-3 xl:grid-cols-[1fr_280px_auto]">
         <input
           value={props.filters.query ?? ""}
           onChange={(event) =>
@@ -22,18 +21,6 @@ export function InventoryFilter(props: InventoryFilterProps) {
           placeholder="Cari inventaris atau sekolah..."
           className="h-11 rounded-md border border-[#dbe5f4] px-3 text-sm outline-none"
         />
-        <select
-          value={props.filters.condition ?? ""}
-          onChange={(event) =>
-            props.onChange({ ...props.filters, condition: event.target.value as InventoryFilters["condition"] })
-          }
-          className="h-11 rounded-md border border-[#dbe5f4] px-3 text-sm outline-none"
-        >
-          <option value="">Semua kondisi</option>
-          {Object.entries(inventoryConditionLabel).map(([value, label]) => (
-            <option key={value} value={value}>{label}</option>
-          ))}
-        </select>
         {!props.isSchoolUser ? <SchoolSelect {...props} /> : null}
         <button
           type="button"

@@ -1,16 +1,13 @@
 import type { School } from "./school";
 
-export type InventoryCondition = "baik" | "rusak_ringan" | "rusak_berat";
-
 export type Inventory = {
+  condition?: string | null;
   description?: string | null;
-  goodQuantity: number;
   id: string;
-  majorDamageQuantity: number;
-  minorDamageQuantity: number;
   name: string;
+  origin?: string | null;
   photoUrl?: string | null;
-  quantity: number;
+  procurementYear?: number | null;
   schoolId: string;
   school: School;
   createdAt: string;
@@ -18,16 +15,18 @@ export type Inventory = {
 };
 
 export type InventoryFilters = {
-  condition?: InventoryCondition | "";
+  condition?: string;
   query?: string;
   schoolId?: string;
 };
 
 export type InventoryPayload = {
+  condition?: string;
   description?: string;
-  goodQuantity: number;
-  majorDamageQuantity: number;
-  minorDamageQuantity: number;
   name: string;
+  origin?: string;
+  procurementYear?: number;
   schoolId?: string;
 };
+
+export type InventoryCondition = "baik" | "rusak_ringan" | "rusak_berat";

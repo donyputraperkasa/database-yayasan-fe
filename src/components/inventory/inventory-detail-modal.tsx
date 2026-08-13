@@ -14,10 +14,9 @@ export function InventoryDetailModal({ inventory, onClose }: InventoryDetailModa
 
   const details = [
     ["Sekolah", inventory.school.name],
-    ["Total Unit", inventory.quantity.toString()],
-    ["Kondisi Baik", inventory.goodQuantity.toString()],
-    ["Rusak Ringan", inventory.minorDamageQuantity.toString()],
-    ["Rusak Berat", inventory.majorDamageQuantity.toString()],
+    ["Kondisi", inventory.condition ?? "-"],
+    ["Asal Perolehan", inventory.origin ?? "-"],
+    ["Tahun Perolehan", inventory.procurementYear?.toString() ?? "-"],
   ];
 
   return (
@@ -33,9 +32,6 @@ export function InventoryDetailModal({ inventory, onClose }: InventoryDetailModa
           <div>
             <div className="flex items-start justify-between gap-4">
               <div>
-                <span className="rounded-full bg-[#fff4c7] px-3 py-1 text-xs font-semibold text-[#8a6500]">
-                  {inventory.quantity} unit
-                </span>
                 <h2 className="mt-4 text-2xl font-semibold">{inventory.name}</h2>
               </div>
               <button type="button" onClick={onClose} className="rounded-md p-2">

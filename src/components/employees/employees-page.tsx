@@ -62,7 +62,7 @@ export function EmployeesPage() {
 
   const currentSchool = getCurrentSchool(user, schools);
   const canManage = canManageSchoolData(user, schools);
-  const canDetail = user?.role !== "office";
+  const canDetail = user?.role === "owner" || user?.role === "school" || user?.role === "general_psdm" || user?.role === "general_director";
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const visibleEmployees = filterEmployees(employees, filters.query);

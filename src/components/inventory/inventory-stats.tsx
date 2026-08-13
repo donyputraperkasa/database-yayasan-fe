@@ -5,11 +5,15 @@ type InventoryStatsProps = {
 };
 
 export function InventoryStats({ inventory }: InventoryStatsProps) {
+  const baik = inventory.filter((i) => i.condition === "Baik").length;
+  const rusakRingan = inventory.filter((i) => i.condition === "Rusak Ringan").length;
+  const rusakBerat = inventory.filter((i) => i.condition === "Rusak Berat").length;
+
   const stats = [
-    { label: "Total unit", value: sumBy(inventory, "quantity") },
-    { label: "Kondisi baik", value: sumBy(inventory, "goodQuantity") },
-    { label: "Rusak ringan", value: sumBy(inventory, "minorDamageQuantity") },
-    { label: "Rusak berat", value: sumBy(inventory, "majorDamageQuantity") },
+    { label: "Total inventaris", value: inventory.length },
+    { label: "Kondisi Baik", value: baik },
+    { label: "Rusak Ringan", value: rusakRingan },
+    { label: "Rusak Berat", value: rusakBerat },
   ];
 
   return (
@@ -25,11 +29,4 @@ export function InventoryStats({ inventory }: InventoryStatsProps) {
       ))}
     </section>
   );
-}
-
-function sumBy(
-  inventory: Inventory[],
-  key: "quantity" | "goodQuantity" | "minorDamageQuantity" | "majorDamageQuantity",
-) {
-  return inventory.reduce((sum, inventory) => sum + inventory[key], 0);
 }

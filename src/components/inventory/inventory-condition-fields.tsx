@@ -18,9 +18,9 @@ export function InventoryConditionFields(props: {
   inventory?: Inventory | null;
 }) {
   const [values, setValues] = useState<Record<ConditionKey, string>>({
-    goodQuantity: String(props.inventory?.goodQuantity ?? 0),
-    majorDamageQuantity: String(props.inventory?.majorDamageQuantity ?? 0),
-    minorDamageQuantity: String(props.inventory?.minorDamageQuantity ?? 0),
+    goodQuantity: String((props.inventory as any)?.goodQuantity ?? 0),
+    majorDamageQuantity: String((props.inventory as any)?.majorDamageQuantity ?? 0),
+    minorDamageQuantity: String((props.inventory as any)?.minorDamageQuantity ?? 0),
   });
   const total = fields.reduce(
     (sum, field) => sum + Number(values[field.key] || 0),

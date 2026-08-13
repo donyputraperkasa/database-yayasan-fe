@@ -76,7 +76,7 @@ export function InventoryFormModal(props: InventoryFormModalProps) {
               {isEdit ? "Edit Inventaris" : "Tambah Inventaris"}
             </h2>
             <p className="mt-1 text-sm text-[#748299]">
-              Catat jumlah tiap kondisi, keterangan, dan foto inventaris.
+              Isi nama, kondisi, asal perolehan, tahun, keterangan, dan foto.
             </p>
           </div>
           <button type="button" onClick={props.onClose} className="rounded-md p-2">

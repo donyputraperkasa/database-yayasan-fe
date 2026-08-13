@@ -6,7 +6,16 @@ import { EmployeesPage } from "@/components/employees/employees-page";
 export default function EmployeesRoutePage() {
   return (
     <AuthGuard>
-      <RoleGuard allowedRoles={["owner", "office", "school", "psdm"]}>
+      <RoleGuard
+        allowedRoles={[
+          "owner",
+          "general_office",
+          "general_psdm",
+          "general_manager",
+          "general_director",
+          "school",
+        ]}
+      >
         <DashboardShell>
           <EmployeesPage />
         </DashboardShell>

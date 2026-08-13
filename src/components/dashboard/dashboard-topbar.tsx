@@ -36,7 +36,7 @@ export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
         <div className="hidden items-center gap-3 md:flex">
           <div className="inline-flex h-10 items-center gap-2 rounded-md border border-[#dbe5f4] bg-white px-3 text-sm font-semibold text-[#526078] shadow-sm">
             <CalendarDays size={16} aria-hidden="true" />
-            Juli 2026
+            Agustus 2026
           </div>
           <div className="rounded-full bg-[#f2d35f] px-4 py-2 text-sm font-semibold text-[#172033]">
             {roleLabel}
@@ -48,9 +48,11 @@ export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
 }
 
 function formatRole(role?: string) {
-  if (role === "office") return "Office";
-  if (role === "school") return "School";
-  if (role === "psdm") return "PSDM";
+  if (role === "school") return "Sekolah";
+  if (role === "general_office") return "Kantor Yayasan";
+  if (role === "general_psdm") return "Bidang PSDM";
+  if (role === "general_manager") return "Manager";
+  if (role === "general_director") return "Direktur Yayasan";
 
   return "Owner";
 }

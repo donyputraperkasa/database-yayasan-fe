@@ -29,17 +29,17 @@ const schoolActions = [
 
 export function DashboardQuickActions({ role }: { role: Role }) {
   const quickActions =
-    role === "office"
-      ? officeActions
-      : role === "school"
-        ? schoolActions
-        : ownerActions;
+    role === "school"
+      ? schoolActions
+      : role === "owner"
+        ? ownerActions
+        : officeActions;
   const subtitle =
-    role === "office"
-      ? "Akses pemantauan data sekolah dan dokumen dari satu tempat."
-      : role === "school"
-        ? "Kelola data sekolah sesuai akses edit yang dibuka owner."
-      : "Akses pekerjaan yang sering dilakukan dari satu tempat.";
+    role === "school"
+      ? "Kelola data sekolah sesuai akses edit yang dibuka owner."
+      : role === "owner"
+        ? "Akses pekerjaan yang sering dilakukan dari satu tempat."
+        : "Akses pemantauan data sekolah dan dokumen dari satu tempat.";
 
   return (
     <div className="rounded-lg border border-[#173b6b] bg-[#0f2a4f] p-5 text-white shadow-sm">

@@ -5,11 +5,11 @@ export function buildInventoryPayload(
   isSchoolUser: boolean,
 ): InventoryPayload {
   return {
+    condition: getOptional(formData, "condition"),
     description: getOptional(formData, "description"),
-    goodQuantity: getQuantity(formData, "goodQuantity"),
-    majorDamageQuantity: getQuantity(formData, "majorDamageQuantity"),
-    minorDamageQuantity: getQuantity(formData, "minorDamageQuantity"),
     name: String(formData.get("name") ?? "").trim(),
+    origin: getOptional(formData, "origin"),
+    procurementYear: getOptionalNumber(formData, "procurementYear"),
     schoolId: isSchoolUser
       ? undefined
       : String(formData.get("schoolId") ?? "").trim(),
@@ -26,6 +26,7 @@ function getOptional(formData: FormData, key: string) {
   return value || undefined;
 }
 
-function getQuantity(formData: FormData, key: string) {
-  return Number(formData.get(key) ?? 0);
+function getOptionalNumber(formData: FormData, key: string) {
+  const value = getOptional(formData, key);
+  return value ? Number(value) : undefined;
 }

@@ -48,7 +48,7 @@ export const dashboardNavigation = [
     href: "/principals",
     icon: UserRoundCheck,
     label: "Profil Sekolah",
-    roles: ["owner", "office"],
+    roles: ["owner", "general_office", "general_psdm", "general_manager", "general_director", "school"],
   },
   { href: "/students", 
     icon: GraduationCap, 
@@ -58,7 +58,7 @@ export const dashboardNavigation = [
   { href: "/employees", 
     icon: UsersRound, 
     label: "Daftar Pegawai", 
-    roles: ["owner", "office", "school", "psdm"] 
+    roles: ["owner", "general_office", "general_psdm", "general_manager", "general_director", "school"] 
   },
   {
     href: "/inventory",
@@ -93,7 +93,7 @@ export const dashboardNavigation = [
     href: "/settings",
     icon: Settings,
     label: "Pengaturan",
-    roles: ["office", "school", "psdm"],
+    roles: ["owner", "general_office", "general_psdm", "general_manager", "general_director", "school"],
   },
   {
     href:"/dapodik",
@@ -102,13 +102,19 @@ export const dashboardNavigation = [
     roles: ["school", "owner"],
   },
   {
+    href:"#",
+    icon:UsersRound,
+    label:"Hallo BOPKRI",
+    roles: ["owner","general_manager", "general_director"],
+  },
+  {
     href:"https://presensi.yayasan-bopkri.org",
     icon:Settings,
     label:"Simpeg",
-    roles: ["office","psdm", "owner"],
+    roles: ["owner", "general_office", "general_psdm", "general_manager", "general_director"],
   }
 ] as const;
 
 function allRoles(): Role[] {
-  return ["owner", "office", "school", "psdm"];
+  return ["owner", "general_office", "general_psdm", "general_manager", "general_director", "school"];
 }

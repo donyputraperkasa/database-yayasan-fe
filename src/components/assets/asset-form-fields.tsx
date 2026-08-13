@@ -1,5 +1,4 @@
 import type { Asset, School } from "@/types";
-import { AssetPhotoField } from "./asset-photo-field";
 
 type AssetFormFieldsProps = {
   asset?: Asset | null;
@@ -30,25 +29,24 @@ export function AssetFormFields(props: AssetFormFieldsProps) {
           </select>
         </Field>
       ) : null}
-      <Input label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
+      <Input
+        label="Luas Tanah"
+        name="landArea"
+        placeholder="Contoh: 2500 m²"
+        value={props.asset?.landArea}
+      />
       <Input
         label="Luas Bangunan"
         name="buildingArea"
+        placeholder="Contoh: 1200 m²"
         value={props.asset?.buildingArea}
       />
       <Input
-        label="Pemilik Sertifikat"
-        name="certificateOwner"
-        value={props.asset?.certificateOwner}
+        label="Status Kepemilikan"
+        name="ownershipStatus"
+        placeholder="Contoh: Milik Yayasan / Sewa / Pinjam Pakai"
+        value={props.asset?.ownershipStatus}
       />
-      <Input label="Asal Perolehan" name="origin" value={props.asset?.origin} />
-      <Input
-        label="Tahun Pengadaan"
-        name="procurementYear"
-        type="number"
-        value={props.asset?.procurementYear}
-      />
-      <AssetPhotoField photoUrl={props.asset?.photoUrl} />
     </div>
   );
 }
@@ -56,6 +54,7 @@ export function AssetFormFields(props: AssetFormFieldsProps) {
 function Input(props: {
   label: string;
   name: string;
+  placeholder?: string;
   type?: string;
   value?: number | string | null;
 }) {
@@ -63,6 +62,7 @@ function Input(props: {
     <Field label={props.label}>
       <input
         name={props.name}
+        placeholder={props.placeholder}
         type={props.type ?? "text"}
         defaultValue={props.value ?? ""}
         className={inputClass}

@@ -38,7 +38,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
               <DashboardCreatorFooter />
             </div>
           </div>
-          {user?.role === "office" || user?.role === "school" ? (
+          {user?.role !== "owner" ? (
             <FloatingContact />
           ) : null}
         </section>

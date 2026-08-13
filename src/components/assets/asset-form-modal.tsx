@@ -1,12 +1,10 @@
-"use client";
-
-import { createAsset, updateAsset, uploadAssetPhoto } from "@/lib/api/assets";
+import { createAsset, updateAsset } from "@/lib/api/assets";
 import type { Asset, School } from "@/types";
 import { X } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { AssetFormFields } from "./asset-form-fields";
-import { buildAssetPayload, getAssetPhotoFile } from "./asset-form-payload";
+import { buildAssetPayload } from "./asset-form-payload";
 
 type AssetFormModalProps = {
   asset?: Asset | null;
@@ -37,12 +35,8 @@ export function AssetFormModal(props: AssetFormModalProps) {
       const savedAsset = isEdit
         ? await updateAsset(props.token, props.asset!.id, payload)
         : await createAsset(props.token, payload);
-      const photoFile = getAssetPhotoFile(formData);
-      const nextAsset = photoFile
-        ? await uploadAssetPhoto(props.token, savedAsset.id, photoFile)
-        : savedAsset;
 
-      props.onSaved(nextAsset);
+      props.onSaved(savedAsset);
       props.onClose();
     } catch (saveError) {
       setError(saveError instanceof Error ? saveError.message : "Profil sekolah gagal disimpan.");
@@ -69,7 +63,7 @@ export function AssetFormModal(props: AssetFormModalProps) {
               {isEdit ? "Edit Profil Sekolah" : "Tambah Profil Sekolah"}
             </h2>
             <p className="mt-1 text-sm text-[#748299]">
-              Lengkapi data tanah, bangunan, legalitas, dan foto pendukung.
+              Lengkapi data luas tanah, luas bangunan, dan status kepemilikan.
             </p>
           </div>
           <button type="button" onClick={props.onClose} className="rounded-md p-2">

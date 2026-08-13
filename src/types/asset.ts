@@ -5,11 +5,10 @@ export type Asset = {
   schoolId: string;
   school: School;
   landArea?: string | null;
-  certificateOwner?: string | null;
-  origin?: string | null;
-  procurementYear?: number | null;
   buildingArea?: string | null;
+  ownershipStatus?: string | null;
   photoUrl?: string | null;
+  certificateOwner?: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -24,7 +23,7 @@ export type AssetPayload = {
   certificateOwner?: string;
   landArea?: string;
   origin?: string;
-  photoUrl?: string;
+  ownershipStatus?: string;
   procurementYear?: number;
   schoolId?: string;
 };

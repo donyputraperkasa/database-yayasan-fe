@@ -156,9 +156,9 @@ function ProfileAssetFields(props: { asset: Asset | null; disabled: boolean }) {
     <>
       <Input disabled={props.disabled} label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
       <Input disabled={props.disabled} label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
-      <Input disabled={props.disabled} label="Pemilik Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
-      <Input disabled={props.disabled} label="Asal Perolehan" name="origin" value={props.asset?.origin} />
-      <Input disabled={props.disabled} label="Tahun Perolehan" name="procurementYear" type="number" value={props.asset?.procurementYear} />
+      <Input disabled={props.disabled} label="Status Kepemilikan Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
+      {/* <Input disabled={props.disabled} label="Asal Perolehan" name="origin" value={props.asset?.origin} />
+      <Input disabled={props.disabled} label="Tahun Perolehan" name="procurementYear" type="number" value={props.asset?.procurementYear} /> */}
       <AssetPhotoField disabled={props.disabled} photoUrl={props.asset?.photoUrl} />
     </>
   );

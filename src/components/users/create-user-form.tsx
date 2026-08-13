@@ -14,7 +14,7 @@ type CreateUserFormProps = {
 export function CreateUserForm(props: CreateUserFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [role, setRole] = useState<Role>("office");
+  const [role, setRole] = useState<Role>("general_office");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,7 +32,7 @@ export function CreateUserForm(props: CreateUserFormProps) {
       const user = await createUser(props.token, payload);
       props.onCreated(user);
       form.reset();
-      setRole("office");
+      setRole("general_office");
     } catch (createError) {
       setError(
         createError instanceof Error ? createError.message : "Gagal membuat user.",
@@ -64,9 +64,12 @@ export function CreateUserForm(props: CreateUserFormProps) {
             onChange={(event) => setRole(event.target.value as Role)}
             className="mt-2 h-11 w-full rounded-md border border-[#ced9eb] px-3 text-sm outline-none focus:border-[#1f4f8f]"
           >
-            <option value="office">Yayasan</option>
+            <option value="general_office">Kantor Yayasan</option>
+            <option value="general_psdm">Bidang PSDM</option>
+            <option value="general_manager">Manager</option>
+            <option value="general_director">Direktur Yayasan</option>
             <option value="school">Sekolah</option>
-            <option value="psdm">PSDM</option>
+            <option value="owner">Owner</option>
           </select>
         </label>
       </div>

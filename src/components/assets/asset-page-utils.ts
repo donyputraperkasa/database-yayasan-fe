@@ -18,9 +18,7 @@ export function filterAssets(assets: Asset[], query?: string) {
       asset.school.name,
       asset.landArea,
       asset.buildingArea,
-      asset.certificateOwner,
-      asset.origin,
-      asset.procurementYear?.toString(),
+      asset.ownershipStatus,
     ]
       .filter(Boolean)
       .some((value) => value!.toLowerCase().includes(keyword)),

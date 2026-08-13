@@ -25,10 +25,10 @@ export function DashboardSidebar({
 }: DashboardSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const role = user?.role ?? "school";
+  const role: Role = user?.role ?? "school";
   const roleLabel = formatRole(role);
   const items = dashboardNavigation.filter((item) =>
-    item.roles.some((itemRole: Role) => itemRole === role),
+    (item.roles as readonly string[]).includes(role),
   );
 
   const handleLogout = async () => {
@@ -97,12 +97,22 @@ export function DashboardSidebar({
           <nav className="mt-8 space-y-1">
             {items.map((item) => {
               const isActive =
-                pathname === item.href || pathname.startsWith(`${item.href}/`);
+                item.href !== "#" &&
+                (pathname === item.href || pathname.startsWith(`${item.href}/`));
+              const isExternal =
+                item.href.startsWith("http://") ||
+                item.href.startsWith("https://") ||
+                (item.label === "Hallo BOPKRI" && (role === "general_director" || role === "owner"));
+
+              const target = isExternal ? "_blank" : "_self";
+              const rel = isExternal ? "noopener noreferrer" : undefined;
 
               return (
                 <Link
-                  key={item.href}
+                  key={item.label}
                   href={item.href}
+                  target={target}
+                  rel={rel}
                   onClick={onClose}
                   className={[
                     "flex items-center gap-3 rounded-md px-3 py-3 text-sm font-semibold transition",
@@ -144,9 +154,11 @@ export function DashboardSidebar({
 }
 
 function formatRole(role: Role) {
-  if (role === "office") return "Office";
-  if (role === "school") return "School";
-  if (role === "psdm") return "PSDM";
+  if (role === "school") return "Sekolah";
+  if (role === "general_office") return "Kantor Yayasan";
+  if (role === "general_psdm") return "Bidang PSDM";
+  if (role === "general_manager") return "Manager";
+  if (role === "general_director") return "Direktur Yayasan";
 
   return "Owner";
 }

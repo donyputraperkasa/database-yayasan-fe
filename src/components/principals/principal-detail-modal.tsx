@@ -29,9 +29,9 @@ export function PrincipalDetailModal({ asset, onClose, school }: PrincipalDetail
     ["Motto", school.profile?.motto],
     ["Luas Tanah", asset?.landArea],
     ["Luas Bangunan", asset?.buildingArea],
-    ["Pemilik", asset?.certificateOwner],
-    ["Asal Perolehan", asset?.origin],
-    ["Tahun Perolehan", asset?.procurementYear],
+    ["Status Kepemilikan Sertifikat", asset?.certificateOwner],
+    // ["Asal Perolehan", asset?.origin],
+    // ["Tahun Perolehan", asset?.procurementYear],
   ];
 
   return (

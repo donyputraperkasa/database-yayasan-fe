@@ -90,11 +90,11 @@ export function PrincipalProfileFormModal(props: PrincipalProfileFormModalProps)
           <Textarea label="Sejarah Singkat" name="history" value={props.school.profile?.history} />
           <Textarea label="Visi" name="vision" value={props.school.profile?.vision} />
           <Textarea label="Misi" name="mission" value={props.school.profile?.mission} />
-          <Input label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
-          <Input label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
-          <Input label="Pemilik Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
-          <Input label="Asal Perolehan" name="origin" value={props.asset?.origin} />
-          <Input label="Tahun Perolehan" name="procurementYear" type="number" value={props.asset?.procurementYear} />
+          <Textarea label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
+          <Textarea label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
+          <Textarea label="Status Kepemilikan Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
+          {/* <Input label="Asal Perolehan" name="origin" value={props.asset?.origin} />
+          <Input label="Tahun Perolehan" name="procurementYear" type="number" value={props.asset?.procurementYear} /> */}
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
       </form>

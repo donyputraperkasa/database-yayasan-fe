@@ -1,5 +1,4 @@
 import type { Inventory, School } from "@/types";
-import { InventoryConditionFields } from "./inventory-condition-fields";
 import { InventoryPhotoField } from "./inventory-photo-field";
 
 type InventoryFormFieldsProps = {
@@ -7,6 +6,12 @@ type InventoryFormFieldsProps = {
   isSchoolUser: boolean;
   schools: School[];
 };
+
+const CONDITION_OPTIONS = [
+  "Baik",
+  "Rusak Ringan",
+  "Rusak Berat",
+];
 
 export function InventoryFormFields(props: InventoryFormFieldsProps) {
   return (
@@ -35,7 +40,33 @@ export function InventoryFormFields(props: InventoryFormFieldsProps) {
         required
         value={props.inventory?.name}
       />
-      <InventoryConditionFields inventory={props.inventory} />
+      <Field label="Kondisi">
+        <select
+          name="condition"
+          defaultValue={props.inventory?.condition ?? ""}
+          className={inputClass}
+        >
+          <option value="">Pilih kondisi</option>
+          {CONDITION_OPTIONS.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      </Field>
+      <Input
+        label="Asal Perolehan"
+        name="origin"
+        placeholder="Contoh: BOS / Sumbangan Alumni / Pembelian Mandiri"
+        value={props.inventory?.origin}
+      />
+      <Input
+        label="Tahun Perolehan"
+        name="procurementYear"
+        placeholder="Contoh: 2024"
+        type="number"
+        value={props.inventory?.procurementYear}
+      />
       <label className="block md:col-span-2">
         <span className="text-sm font-semibold">Keterangan</span>
         <textarea

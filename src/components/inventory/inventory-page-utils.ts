@@ -2,7 +2,6 @@ import type { Inventory, InventoryFilters } from "@/types";
 
 export function cleanInventoryFilters(filters: InventoryFilters) {
   return {
-    condition: filters.condition || undefined,
     schoolId: filters.schoolId || undefined,
   };
 }
@@ -14,10 +13,12 @@ export function filterInventory(inventory: Inventory[], query?: string) {
 
   return inventory.filter((inventory) =>
     [
+      inventory.condition ?? "",
       inventory.description ?? "",
       inventory.name,
+      inventory.origin ?? "",
       inventory.school.name,
-      inventory.quantity.toString(),
+      inventory.procurementYear?.toString() ?? "",
     ]
       .some((value) => value.toLowerCase().includes(keyword)),
   );
