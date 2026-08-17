@@ -23,7 +23,7 @@ export function HeroContent({ onOpenLogin }: HeroContentProps) {
       <button
         type="button"
         onClick={onOpenLogin}
-        className="mt-6 inline-flex h-12 items-center justify-center gap-3 rounded-md bg-[#1f4f8f] px-5 text-sm font-semibold text-white shadow-lg shadow-[#1f4f8f]/20 transition hover:bg-[#193f72] sm:h-13 sm:px-6 sm:text-base"
+        className="mt-6 inline-flex h-12 items-center justify-center gap-3 rounded-md bg-[#1f4f8f] px-5 text-sm font-semibold text-white shadow-lg shadow-[#1f4f8f]/20 transition hover:bg-[#193f72] hover:scale-105 sm:h-13 sm:px-6 sm:text-base"
       >
         Masuk MyBOPKRI
         <ArrowRight size={19} aria-hidden="true" />

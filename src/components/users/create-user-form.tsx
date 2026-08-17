@@ -64,12 +64,11 @@ export function CreateUserForm(props: CreateUserFormProps) {
             onChange={(event) => setRole(event.target.value as Role)}
             className="mt-2 h-11 w-full rounded-md border border-[#ced9eb] px-3 text-sm outline-none focus:border-[#1f4f8f]"
           >
-            <option value="general_office">Kantor Yayasan</option>
-            <option value="general_psdm">Bidang PSDM</option>
+            <option value="general_office">Staff</option>
+            <option value="general_psdm">PSDM</option>
             <option value="general_manager">Manager</option>
-            <option value="general_director">Direktur Yayasan</option>
-            <option value="school">Sekolah</option>
-            <option value="owner">Owner</option>
+            <option value="general_director">Direktur</option>
+            <option value="school">Kepala Sekolah</option>
           </select>
         </label>
       </div>

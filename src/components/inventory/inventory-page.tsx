@@ -7,20 +7,15 @@ import { deleteInventory, listInventory } from "@/lib/api/inventory";
 import { listSchools } from "@/lib/api/schools";
 import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
-import type { Inventory, InventoryFilters, School, User } from "@/types";
 import { useEffect, useState } from "react";
 import { InventoryDetailModal } from "./inventory-detail-modal";
 import { InventoryFormModal } from "./inventory-form-modal";
-import {
-  cleanInventoryFilters,
-  filterInventory,
-  getInventoryErrorMessage,
-  upsertInventory,
-} from "./inventory-page-utils";
+import { cleanInventoryFilters, filterInventory, getInventoryErrorMessage, upsertInventory,} from "./inventory-page-utils";
 import { InventoryStats } from "./inventory-stats";
 import { InventoryFilter } from "./inventory-filter";
 import { InventoryHeader } from "./inventory-header";
 import { InventoryTable } from "./inventory-table";
+import type { Inventory, InventoryFilters, School, User } from "@/types";
 
 export function InventoryPage() {
   const [detailInventory, setDetailInventory] = useState<Inventory | null>(null);

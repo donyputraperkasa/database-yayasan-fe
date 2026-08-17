@@ -48,7 +48,7 @@ export const dashboardNavigation = [
     href: "/principals",
     icon: UserRoundCheck,
     label: "Profil Sekolah",
-    roles: ["owner", "general_office", "general_psdm", "general_manager", "general_director", "school"],
+    roles: allRoles()
   },
   { href: "/students", 
     icon: GraduationCap, 
@@ -58,7 +58,7 @@ export const dashboardNavigation = [
   { href: "/employees", 
     icon: UsersRound, 
     label: "Daftar Pegawai", 
-    roles: ["owner", "general_office", "general_psdm", "general_manager", "general_director", "school"] 
+    roles: allRoles()
   },
   {
     href: "/inventory",
@@ -93,7 +93,7 @@ export const dashboardNavigation = [
     href: "/settings",
     icon: Settings,
     label: "Pengaturan",
-    roles: ["owner", "general_office", "general_psdm", "general_manager", "general_director", "school"],
+    roles: allRoles(),
   },
   {
     href:"/dapodik",

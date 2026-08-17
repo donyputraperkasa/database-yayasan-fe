@@ -30,7 +30,7 @@ export function LandingHeader({ onOpenLogin }: LandingHeaderProps) {
       <button
         type="button"
         onClick={onOpenLogin}
-        className="inline-flex h-10 shrink-0 items-center gap-2 rounded-md border border-[#c9d5ec] bg-white/80 px-3 text-sm font-semibold text-[#1f4f8f] shadow-sm transition hover:border-[#1f4f8f] hover:bg-white sm:px-4"
+        className="inline-flex h-10 shrink-0 items-center gap-2 rounded-md border border-[#c9d5ec] bg-white/80 px-3 text-sm font-semibold text-[#1f4f8f] shadow-sm transition hover:scale-105 sm:px-4"
       >
         <LockKeyhole size={16} aria-hidden="true" />
         Masuk
