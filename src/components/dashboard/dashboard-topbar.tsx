@@ -49,10 +49,10 @@ export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
 
 function formatRole(role?: string) {
   if (role === "school") return "Sekolah";
-  if (role === "general_office") return "Kantor Yayasan";
-  if (role === "general_psdm") return "Bidang PSDM";
-  if (role === "general_manager") return "Manager";
-  if (role === "general_director") return "Direktur Yayasan";
+  if (role === "general") return "Kantor Yayasan";
+  if (role === "psdm") return "Bidang PSDM";
+  if (role === "manager") return "Manager";
+  if (role === "director") return "Direktur Yayasan";
 
   return "Owner";
 }

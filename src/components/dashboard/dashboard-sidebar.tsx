@@ -102,7 +102,7 @@ export function DashboardSidebar({
               const isExternal =
                 item.href.startsWith("http://") ||
                 item.href.startsWith("https://") ||
-                (item.label === "Hallo BOPKRI" && (role === "general_director" || role === "owner"));
+                (item.label === "Hallo BOPKRI" && (role === "director" || role === "owner"));
 
               const target = isExternal ? "_blank" : "_self";
               const rel = isExternal ? "noopener noreferrer" : undefined;
@@ -154,11 +154,11 @@ export function DashboardSidebar({
 }
 
 function formatRole(role: Role) {
-  if (role === "school") return "Sekolah";
-  if (role === "general_office") return "Kantor Yayasan";
-  if (role === "general_psdm") return "Bidang PSDM";
-  if (role === "general_manager") return "Manager";
-  if (role === "general_director") return "Direktur Yayasan";
+  if (role === "school") return "Kepala Sekolah";
+  if (role === "general") return "Staff";
+  if (role === "psdm") return "PSDM";
+  if (role === "manager") return "Manager";
+  if (role === "director") return "Direktur";
 
   return "Owner";
 }

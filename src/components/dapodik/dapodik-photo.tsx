@@ -24,6 +24,12 @@ const PHOTO_ITEMS: DapodikPhotoItem[] = [
     src: "/ptk.webp",
     filename: "panduan-ptk.webp",
   },
+  {
+    title: "Dokumen NUPTK Kemendikbud",
+    description: "Dokumen NUPTK Kemendikbud untuk kebutuhan administrasi.",
+    src: "/nuptk-kemendikbud.pdf",
+    filename: "dokumen-nuptk-kemendikbud.pdf",
+  }
 ];
 
 export function DapodikPhoto() {
@@ -122,13 +128,21 @@ export function DapodikPhoto() {
             </div>
             <div className="relative max-h-[75vh] overflow-auto bg-[#f8fbff] p-6">
               <div className="flex justify-center">
-                <Image
-                  src={preview.src}
-                  alt={preview.title}
-                  width={800}
-                  height={600}
-                  className="h-auto max-h-[70vh] w-auto max-w-full rounded-lg object-contain shadow-lg"
-                />
+                {preview.src.toLowerCase().endsWith(".pdf") ? (
+                  <iframe
+                    src={preview.src}
+                    title={preview.title}
+                    className="h-[70vh] w-full rounded-lg border border-[#dbe5f4] bg-white"
+                  />
+                ) : (
+                  <Image
+                    src={preview.src}
+                    alt={preview.title}
+                    width={800}
+                    height={600}
+                    className="h-auto max-h-[70vh] w-auto max-w-full rounded-lg object-contain shadow-lg"
+                  />
+                )}
               </div>
             </div>
           </section>
