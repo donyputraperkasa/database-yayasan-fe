@@ -8,7 +8,7 @@ import { listSchools } from "@/lib/api/schools";
 import { getAccessToken } from "@/lib/auth/storage";
 import { getStoredUser } from "@/lib/auth/storage";
 import type { Asset, School, User } from "@/types";
-import { Mail, MessageCircle, Search } from "lucide-react";
+import { Mail, MessageCircle, Search, UserRoundCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getAssetErrorMessage, upsertAsset } from "../assets/asset-page-utils";
 import { PrincipalDetailModal } from "./principal-detail-modal";
@@ -117,17 +117,21 @@ export function PrincipalsPage() {
 
 function Header({ count }: { count: number }) {
   return (
-    <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
-      <p className="text-sm font-semibold text-[#748299]">Daftar Unit Sekolah BOPKRI</p>
-      <div className="mt-1 flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Profil Sekolah</h1>
-        <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
-          {count} unit sekolah
+    <section className="flex flex-col gap-4 rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-3">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#eaf2ff] text-[#1f4f8f]">
+          <UserRoundCheck size={22} aria-hidden="true" />
         </span>
+        <div>
+          <h2 className="text-lg font-semibold">Profil Sekolah</h2>
+          <p className="mt-1 text-sm text-[#748299]">
+            Daftar unit sekolah beserta informasi kepala sekolah, email, dan WhatsApp resmi.
+          </p>
+        </div>
       </div>
-      <p className="mt-2 text-sm text-[#748299]">
-        Menampilkan daftar unit sekolah beserta informasi kepala sekolah, alamat email, dan nomor WhatsApp yang terdaftar di lingkungan Yayasan BOPKRI.
-      </p>
+      <span className="inline-flex w-fit items-center rounded-full bg-[#f2d35f] px-3.5 py-1 text-xs font-semibold text-[#2d2a16]">
+        {count} unit sekolah
+      </span>
     </section>
   );
 }

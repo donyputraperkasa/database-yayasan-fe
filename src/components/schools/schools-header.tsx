@@ -1,16 +1,19 @@
+import { School } from "lucide-react";
+
 export function SchoolsHeader() {
   return (
-    <section className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
-      <p className="text-sm font-semibold uppercase text-[#1f4f8f]">
-        Owner Area
-      </p>
-      <h1 className="mt-2 text-2xl font-semibold text-[#0f172a]">
-        Data Sekolah
-      </h1>
-      <p className="mt-2 max-w-2xl text-sm leading-6 text-[#617089]">
-        Tambahkan unit sekolah terlebih dahulu, lalu hubungkan akun role school
-        ke sekolah yang sesuai pada halaman Tambah User.
-      </p>
+    <section className="flex flex-col gap-4 rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-3">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#eaf2ff] text-[#1f4f8f]">
+          <School size={22} aria-hidden="true" />
+        </span>
+        <div>
+          <h2 className="text-lg font-semibold">Data Sekolah</h2>
+          <p className="mt-1 text-sm text-[#748299]">
+            Tambahkan dan kelola unit sekolah di lingkungan Yayasan BOPKRI.
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

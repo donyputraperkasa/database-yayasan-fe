@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Landmark, Plus } from "lucide-react";
 
 type AssetsHeaderProps = {
   canManage: boolean;
@@ -8,12 +8,16 @@ type AssetsHeaderProps = {
 export function AssetsHeader({ canManage, onCreate }: AssetsHeaderProps) {
   return (
     <section className="flex flex-col gap-4 rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <p className="text-sm font-semibold text-[#748299]">Tanah &amp; Bangunan</p>
-        <h1 className="mt-1 text-2xl font-semibold">Profil Sekolah</h1>
-        <p className="mt-2 text-sm text-[#748299]">
-          Kelola data tanah, bangunan, dan legalitas setiap unit sekolah.
-        </p>
+      <div className="flex items-center gap-3">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#eaf2ff] text-[#1f4f8f]">
+          <Landmark size={22} aria-hidden="true" />
+        </span>
+        <div>
+          <h2 className="text-lg font-semibold">Profil Sekolah</h2>
+          <p className="mt-1 text-sm text-[#748299]">
+            Kelola data tanah, bangunan, dan legalitas setiap unit sekolah.
+          </p>
+        </div>
       </div>
       {canManage ? (
         <button
@@ -21,7 +25,7 @@ export function AssetsHeader({ canManage, onCreate }: AssetsHeaderProps) {
           onClick={onCreate}
           className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#0f2a4f] px-4 text-sm font-semibold text-white"
         >
-          <Plus size={18} aria-hidden="true" />
+          <Plus size={17} aria-hidden="true" />
           Tambah Profil
         </button>
       ) : null}
