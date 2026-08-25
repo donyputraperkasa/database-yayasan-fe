@@ -2,34 +2,34 @@
 
 import { getDashboardSummary } from "@/lib/api/dashboard";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
-import type { DashboardProgress, DashboardStat, DashboardSummary, Role } from "@/types";
+import type { DashboardStat, DashboardSummary, Role } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { DashboardHome } from "./dashboard-home";
 
-const emptySummary: DashboardSummary = {
+const staticSummary: DashboardSummary = {
   totals: {
-    schools: 0,
-    students: 0,
-    employees: 0,
-    teachers: 0,
-    staff: 0,
-    permanentEmployees: 0,
-    nonPermanentEmployees: 0,
-    honoraryEmployees: 0,
-    assets: 0,
-    inventory: 0,
-    finances: 0,
-    documents: 0,
+    schools: 36,
+    students: 8420,
+    employees: 612,
+    teachers: 428,
+    staff: 184,
+    permanentEmployees: 340,
+    nonPermanentEmployees: 172,
+    honoraryEmployees: 100,
+    assets: 184,
+    inventory: 540,
+    finances: 72,
+    documents: 248,
   },
-  schoolsByLevel: { tkKb: 0, sd: 0, smp: 0, smaSmk: 0 },
+  schoolsByLevel: { tkKb: 8, sd: 12, smp: 8, smaSmk: 8 },
   studentsBySchool: [],
   employeesBySchool: [],
 };
 
 export function OwnerDashboardPage() {
   const [role] = useState(() => getStoredUser()?.role ?? "school");
-  const [summary, setSummary] = useState<DashboardSummary>(emptySummary);
-  const [isLoading, setIsLoading] = useState(true);
+  const [summary, setSummary] = useState<DashboardSummary>(staticSummary);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const loadSummary = async () => {
@@ -39,7 +39,10 @@ export function OwnerDashboardPage() {
     setIsLoading(true);
     setErrorMessage(null);
     try {
-      setSummary(await getDashboardSummary(token));
+      const data = await getDashboardSummary(token);
+      if (data) {
+        setSummary(data);
+      }
     } catch (error) {
       setErrorMessage(getErrorMessage(error));
     } finally {
@@ -55,10 +58,15 @@ export function OwnerDashboardPage() {
 
     getDashboardSummary(token)
       .then((data) => {
-        if (isMounted) setSummary(data);
+        if (isMounted && data) {
+          setSummary(data);
+        }
       })
       .catch((error) => {
-        if (isMounted) setErrorMessage(getErrorMessage(error));
+        if (isMounted) {
+          // On network/auth error, keep static summary for preview
+          setErrorMessage(getErrorMessage(error));
+        }
       })
       .finally(() => {
         if (isMounted) setIsLoading(false);
@@ -70,16 +78,15 @@ export function OwnerDashboardPage() {
   }, []);
 
   const stats = useMemo(() => buildStats(summary, role), [summary, role]);
-  const progress = useMemo(() => buildProgress(summary, role), [summary, role]);
 
   return (
     <DashboardHome
       errorMessage={errorMessage}
       isLoading={isLoading}
       onRetry={loadSummary}
-      progress={progress}
       role={role}
       stats={stats}
+      summary={summary}
     />
   );
 }
@@ -116,36 +123,6 @@ function buildStats(
       note: "File terunggah",
     },
   ];
-}
-
-function buildProgress(
-  summary: DashboardSummary,
-  role: Role,
-): DashboardProgress[] {
-  const schools = summary.totals.schools;
-  const unitTitle =
-    role === "school"
-      ? "Data sekolah Anda"
-      : role === "owner"
-        ? "Unit sekolah terdaftar"
-        : "Unit sekolah dipantau";
-
-  return [
-    { title: unitTitle, progress: ratio(schools, 36) },
-    {
-      title: "Dokumen per sekolah",
-      progress: ratio(summary.totals.documents, schools),
-    },
-    {
-      title: "Data inventaris",
-      progress: ratio(summary.totals.inventory, schools),
-    },
-  ];
-}
-
-function ratio(value: number, target: number) {
-  if (target <= 0) return 0;
-  return Math.min(100, Math.round((value / target) * 100));
 }
 
 function formatNumber(value: number) {
