@@ -5,51 +5,61 @@ type CreatorSignatureProps = {
   variant?: "floating" | "dashboard";
 };
 
-const baseClasses =
-  "group relative isolate flex max-w-full flex-wrap items-center justify-center gap-2 overflow-hidden border border-[#d7e4f5] bg-white/88 text-[#60708b] shadow-lg shadow-[#1f4f8f]/10 backdrop-blur-xl";
-
-const variants = {
-  dashboard: "rounded-2xl px-4 py-3 text-xs sm:text-sm",
-  floating: "rounded-full px-4 py-3 text-xs sm:gap-3 sm:px-5 sm:text-sm",
-};
-
 export function CreatorSignature({
   onOpenLicense,
   variant = "floating",
 }: CreatorSignatureProps) {
+  const isDashboard = variant === "dashboard";
+
   return (
-    <div className={`${baseClasses} ${variants[variant]}`}>
-      <span className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#f2d35f] to-transparent opacity-80" />
-      <span className="flex items-center gap-2 font-semibold text-[#1f4f8f]">
-        <Sparkles className="h-4 w-4 text-[#f0c83d]" />
-        MyBOPKRI v1.0
-      </span>
-      <Dot />
-      <span>created by</span>
-      <a
-        href="https://portofolio-ku-gold.vercel.app/"
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center gap-1 font-bold text-[#1f4f8f] transition hover:text-[#29328f]"
-      >
-        Dony Putra Perkasa
-        <ExternalLink className="h-3.5 w-3.5" />
-      </a>
-      <Dot />
+    <div
+      className={`group relative isolate flex max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-2 overflow-hidden border border-[#d6e3f4] bg-white/92 text-xs text-[#526078] shadow-lg shadow-[#1f4f8f]/8 backdrop-blur-xl transition sm:gap-x-4 sm:text-sm ${
+        isDashboard
+          ? "w-full max-w-3xl rounded-xl px-4 py-3"
+          : "rounded-full px-5 py-2.5 shadow-md"
+      }`}
+    >
+      {/* Top subtle golden hairline */}
+      <span className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#f2d35f] to-transparent opacity-90" />
+
+      {/* Brand & Version */}
+      <div className="flex items-center gap-1.5 font-semibold text-[#1f4f8f]">
+        <Sparkles className="h-3.5 w-3.5 text-[#e5b224]" />
+        <span>MyBOPKRI</span>
+        <span className="rounded-md bg-[#eef4fc] px-1.5 py-0.5 text-[10px] font-bold text-[#1f4f8f]">
+          v1.0
+        </span>
+      </div>
+
+      <span className="text-[#cbd5e1]">•</span>
+
+      {/* Author Attribution */}
+      <div className="flex items-center gap-1.5">
+        <span className="text-[11px] text-[#64748b] sm:text-xs">
+          Karya & Hak Cipta oleh
+        </span>
+        <a
+          href="https://portofolio-ku-gold.vercel.app/"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 font-bold text-[#1f4f8f] transition hover:text-[#143763] hover:underline"
+        >
+          <span>Dony Putra Perkasa</span>
+          <ExternalLink className="h-3.5 w-3.5 text-[#e5b224]" />
+        </a>
+      </div>
+
+      <span className="text-[#cbd5e1]">•</span>
+
+      {/* License Button */}
       <button
         type="button"
         onClick={onOpenLicense}
-        className="inline-flex items-center gap-1 font-semibold text-[#1f4f8f] transition hover:text-[#29328f]"
+        className="inline-flex items-center gap-1 rounded-md border border-[#d6e3f4] bg-[#f8fbff] px-2 py-0.5 text-[11px] font-semibold text-[#1f4f8f] transition hover:border-[#1f4f8f] hover:bg-[#eef4fc] sm:text-xs"
       >
-        <ShieldCheck className="h-4 w-4" />
-        License
+        <ShieldCheck className="h-3.5 w-3.5 text-[#1f4f8f]" />
+        <span>Lisensi Resmi</span>
       </button>
     </div>
-  );
-}
-
-function Dot() {
-  return (
-    <span className="h-2 w-2 rounded-full bg-[#f2d35f] shadow-[0_0_0_4px_rgba(242,211,95,0.16)]" />
   );
 }

@@ -9,7 +9,7 @@ export function CreatorFooter() {
 
   return (
     <>
-      <footer className="absolute inset-x-0 bottom-5 z-10 px-5">
+      <footer className="relative mt-auto w-full px-4 pb-6 pt-4 lg:absolute lg:inset-x-0 lg:bottom-4 lg:z-10 lg:p-0">
         <div className="mx-auto w-fit max-w-full">
           <CreatorSignature onOpenLicense={() => setIsLicenseOpen(true)} />
         </div>
