@@ -9,7 +9,7 @@ export function DocumentStats({ documents }: DocumentStatsProps) {
   ];
 
   return (
-    <section className="grid gap-4 md:grid-cols-3">
+    <section className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
       {stats.map((stat) => (
         <article
           key={stat.label}

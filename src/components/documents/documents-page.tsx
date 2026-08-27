@@ -9,12 +9,7 @@ import { canManageSchoolData, getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { DocumentFilters, DocumentItem, School, User } from "@/types";
 import { useEffect, useState } from "react";
-import {
-  cleanDocumentFilters,
-  filterDocuments,
-  getDocumentErrorMessage,
-  upsertDocument,
-} from "./document-page-utils";
+import { cleanDocumentFilters, filterDocuments, getDocumentErrorMessage, upsertDocument} from "./document-page-utils";
 import { DocumentDetailModal } from "./document-detail-modal";
 import { DocumentFormModal } from "./document-form-modal";
 import { DocumentStats } from "./document-stats";
@@ -119,8 +114,19 @@ export function DocumentsPage() {
         onSelectSchool={setSelectedSchoolName}
         selectedSchoolName={activeSchoolName}
       />
-      <DocumentDetailModal document={detailDocument} onClose={() => setDetailDocument(null)} />
-      <DocumentFormModal document={selectedDocument} isOpen={isFormOpen} isSchoolUser={user?.role === "school"} onClose={() => setIsFormOpen(false)} onSaved={(document) => setDocuments((current) => upsertDocument(current, document))} schools={schools} token={token} />
+      <DocumentDetailModal 
+        document={detailDocument} 
+        onClose={() => setDetailDocument(null)} 
+      />
+      <DocumentFormModal 
+        document={selectedDocument} 
+        isOpen={isFormOpen} 
+        isSchoolUser={user?.role === "school"} 
+        onClose={() => setIsFormOpen(false)} 
+        onSaved={(document) => setDocuments(
+          (current) => upsertDocument(current, document)
+          )} schools={schools} token={token} 
+      />
     </div>
   );
 }

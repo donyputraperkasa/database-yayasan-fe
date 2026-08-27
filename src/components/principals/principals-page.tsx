@@ -102,7 +102,7 @@ export function PrincipalsPage() {
         setLevel={setLevel}
         setQuery={setQuery}
       />
-      <section className="grid gap-4 xl:grid-cols-2">
+      <section className="grid grid gap-4 xl:grid-cols-2">
         {principals.length === 0 ? (
           <div className="col-span-full rounded-xl border border-dashed border-[#dbe5f4] bg-white p-8 text-center">
             <p className="text-sm font-semibold text-[#172033]">

@@ -11,7 +11,7 @@ export function EmployeeStats({ employees }: EmployeeStatsProps) {
   ];
 
   return (
-    <section className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
+    <section className="grid grid-cols-3 gap-4 lg:grid-cols-3 xl:grid-cols-6">
       {stats.map((stat) => (
         <article
           key={stat.label}

@@ -17,7 +17,7 @@ export function InventoryStats({ inventory }: InventoryStatsProps) {
   ];
 
   return (
-    <section className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+    <section className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
       {stats.map((stat) => (
         <article
           key={stat.label}

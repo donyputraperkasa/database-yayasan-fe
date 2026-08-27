@@ -52,49 +52,49 @@ export function DocumentDetailModal({
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
-      className="modal-backdrop-enter fixed inset-0 z-[80] grid place-items-center bg-[#071529]/55 p-4 backdrop-blur-sm"
+      className="modal-backdrop-enter fixed inset-0 z-[80] grid place-items-center bg-[#071529]/55 p-3 sm:p-4 backdrop-blur-sm"
     >
       <section className="modal-panel-enter max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-xl bg-white shadow-2xl">
-        <header className="flex items-start justify-between gap-4 border-b border-[#dbe5f4] p-5">
+        <header className="flex items-start justify-between gap-3 border-b border-[#dbe5f4] p-4 sm:p-5">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-[#748299]">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#748299]">
               {item.school.name}
             </p>
-            <h2 className="mt-1 truncate text-2xl font-semibold text-[#172033]">
+            <h2 className="mt-0.5 truncate text-lg font-bold text-[#172033] sm:text-2xl">
               {item.name}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-2 text-[#526078] hover:bg-[#eef3fb]"
+            className="rounded-lg p-2 text-[#64748b] transition hover:bg-[#eef3fb] hover:text-[#0f2a4f]"
           >
-            <X size={22} aria-hidden="true" />
+            <X size={20} aria-hidden="true" />
           </button>
         </header>
-        <div className="grid max-h-[calc(92vh-92px)] gap-4 overflow-y-auto p-5 lg:grid-cols-[1fr_260px]">
+        <div className="grid max-h-[calc(92vh-80px)] gap-3.5 overflow-y-auto p-3.5 sm:gap-4 sm:p-5 lg:grid-cols-[1fr_260px]">
           <Preview
             fileUrl={privateFile.url}
             extension={extension}
             isLoading={privateFile.isLoading}
             name={item.name}
           />
-          <aside className="rounded-lg border border-[#dbe5f4] bg-[#f8fbff] p-4">
-            <p className="text-sm font-semibold text-[#748299]">Update</p>
-            <p className="mt-1 font-semibold text-[#172033]">
+          <aside className="rounded-xl border border-[#dbe5f4] bg-[#f8fbff] p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#748299]">Update Terakhir</p>
+            <p className="mt-1 text-sm font-bold text-[#172033]">
               {new Date(item.updatedAt).toLocaleDateString("id-ID")}
             </p>
             <button
               type="button"
               onClick={() => void handleDownload()}
               disabled={isDownloading || !privateFile.url}
-              className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-[#0f2a4f] px-4 text-sm font-semibold text-white disabled:bg-[#7f98bd]"
+              className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#0f2a4f] px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1a3e6f] disabled:bg-[#7f98bd]"
             >
               <Download size={17} aria-hidden="true" />
               {isDownloading ? "Mengunduh..." : "Download"}
             </button>
             {error || privateFile.error ? (
-              <p className="mt-3 rounded-md bg-red-50 p-3 text-sm text-red-700">
+              <p className="mt-3 rounded-lg bg-red-50 p-3 text-xs text-red-700">
                 {error ?? privateFile.error}
               </p>
             ) : null}
@@ -122,7 +122,7 @@ function Preview(props: {
       <iframe
         title={props.name}
         src={props.fileUrl}
-        className="h-[70vh] min-h-[520px] w-full rounded-lg border border-[#dbe5f4] bg-white"
+        className="h-[50vh] min-h-[340px] w-full rounded-xl border border-[#dbe5f4] bg-white sm:h-[65vh] sm:min-h-[480px]"
       />
     );
   }
@@ -132,11 +132,11 @@ function Preview(props: {
 
 function PreviewFallback({ text }: { text: string }) {
   return (
-    <div className="grid min-h-[520px] place-items-center rounded-lg border border-[#dbe5f4] bg-[#f8fbff] p-6 text-center">
+    <div className="grid min-h-[300px] sm:min-h-[480px] place-items-center rounded-xl border border-[#dbe5f4] bg-[#f8fbff] p-6 text-center">
       <div>
-        <FileText className="mx-auto text-[#748299]" size={48} />
+        <FileText className="mx-auto text-[#748299]" size={40} />
         <p className="mt-3 text-sm font-semibold text-[#526078]">{text}</p>
-        <p className="mt-1 text-sm text-[#748299]">
+        <p className="mt-1 text-xs text-[#748299] sm:text-sm">
           Gunakan tombol download untuk menyimpan dokumen.
         </p>
       </div>
