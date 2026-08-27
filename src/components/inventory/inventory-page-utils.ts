@@ -6,22 +6,32 @@ export function cleanInventoryFilters(filters: InventoryFilters) {
   };
 }
 
-export function filterInventory(inventory: Inventory[], query?: string) {
+export function filterInventory(
+  inventory: Inventory[],
+  query?: string,
+  level?: string,
+  schoolId?: string,
+) {
   const keyword = query?.toLowerCase().trim();
+  const selectedLevel = level && level !== "all" ? level : null;
 
-  if (!keyword) return inventory;
+  return inventory.filter((item) => {
+    const matchesKeyword =
+      !keyword ||
+      [
+        item.condition ?? "",
+        item.description ?? "",
+        item.name,
+        item.origin ?? "",
+        item.school.name,
+        item.procurementYear?.toString() ?? "",
+      ].some((value) => value.toLowerCase().includes(keyword));
 
-  return inventory.filter((inventory) =>
-    [
-      inventory.condition ?? "",
-      inventory.description ?? "",
-      inventory.name,
-      inventory.origin ?? "",
-      inventory.school.name,
-      inventory.procurementYear?.toString() ?? "",
-    ]
-      .some((value) => value.toLowerCase().includes(keyword)),
-  );
+    const matchesLevel = !selectedLevel || item.school.level === selectedLevel;
+    const matchesSchool = !schoolId || item.schoolId === schoolId;
+
+    return matchesKeyword && matchesLevel && matchesSchool;
+  });
 }
 
 export function groupInventoryBySchool(inventory: Inventory[]) {

@@ -16,6 +16,7 @@ export type Inventory = {
 
 export type InventoryFilters = {
   condition?: string;
+  level?: string;
   query?: string;
   schoolId?: string;
 };

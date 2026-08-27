@@ -85,7 +85,13 @@ export function StudentsPage() {
   const canManage = canManageSchoolData(user, schools);
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
-  const visibleStudents = filterStudents(students, filters.query);
+  const visibleStudents = filterStudents(
+    students,
+    filters.query,
+    filters.level,
+    filters.schoolId,
+    filters.className,
+  );
 
   const selectSchool = (schoolName: string | null) => {
     setSelectedSchoolName(schoolName);

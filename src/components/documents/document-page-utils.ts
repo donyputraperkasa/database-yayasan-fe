@@ -6,14 +6,27 @@ export function cleanDocumentFilters(filters: DocumentFilters) {
   };
 }
 
-export function filterDocuments(documents: DocumentItem[], query?: string) {
+export function filterDocuments(
+  documents: DocumentItem[],
+  query?: string,
+  level?: string,
+  schoolId?: string,
+) {
   const keyword = query?.toLowerCase().trim();
-  if (!keyword) return documents;
+  const selectedLevel = level && level !== "all" ? level : null;
 
-  return documents.filter((document) =>
-    [document.name, document.school.name]
-      .some((value) => value.toLowerCase().includes(keyword)),
-  );
+  return documents.filter((document) => {
+    const matchesKeyword =
+      !keyword ||
+      [document.name, document.school.name].some((value) =>
+        value.toLowerCase().includes(keyword),
+      );
+
+    const matchesLevel = !selectedLevel || document.school.level === selectedLevel;
+    const matchesSchool = !schoolId || document.schoolId === schoolId;
+
+    return matchesKeyword && matchesLevel && matchesSchool;
+  });
 }
 
 export function groupDocumentsBySchool(documents: DocumentItem[]) {

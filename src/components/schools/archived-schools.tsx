@@ -1,8 +1,9 @@
 import type { School } from "@/types";
-import { ArchiveRestore } from "lucide-react";
+import { ArchiveRestore, Trash2 } from "lucide-react";
 
 type ArchivedSchoolsProps = {
   isRestoring: string | null;
+  onDelete?: (school: School) => void;
   onRestore: (school: School) => void;
   schools: School[];
 };
@@ -11,34 +12,56 @@ export function ArchivedSchools(props: ArchivedSchoolsProps) {
   if (props.schools.length === 0) return null;
 
   return (
-    <section className="rounded-lg border border-[#eadfb8] bg-[#fffdf5] p-5 shadow-sm">
-      <div>
-        <h2 className="text-lg font-semibold">Arsip Sekolah</h2>
-        <p className="mt-1 text-sm text-[#748299]">
-          Data tetap tersimpan dan dapat dipulihkan oleh owner.
-        </p>
+    <section className="rounded-xl border border-[#eadfb8] bg-[#fffdf5] p-5 shadow-sm">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-base font-bold text-[#172033] sm:text-lg">
+            Arsip Sekolah
+          </h2>
+          <p className="mt-0.5 text-xs text-[#748299] sm:text-sm">
+            Data sekolah yang diarsipkan tetap tersimpan dan dapat dipulihkan atau dihapus oleh owner.
+          </p>
+        </div>
+        <span className="rounded-full bg-[#fef3c7] px-3 py-1 text-xs font-bold text-[#92400e]">
+          {props.schools.length} diarsipkan
+        </span>
       </div>
+
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         {props.schools.map((school) => (
           <div
             key={school.id}
-            className="flex items-center justify-between gap-4 rounded-lg border border-[#eadfb8] bg-white p-4"
+            className="flex flex-col justify-between gap-3 rounded-xl border border-[#eadfb8] bg-white p-4 shadow-xs transition hover:border-[#d4c185] sm:flex-row sm:items-center"
           >
-            <div className="min-w-0">
-              <p className="truncate font-semibold">{school.name}</p>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-bold text-[#172033]">{school.name}</p>
               <p className="mt-1 text-xs text-[#748299]">
-                Diarsipkan {formatDate(school.archivedAt)}
+                Diarsipkan pada {formatDate(school.archivedAt)}
               </p>
             </div>
-            <button
-              type="button"
-              disabled={props.isRestoring === school.id}
-              onClick={() => props.onRestore(school)}
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-[#b7c9e3] px-3 text-sm font-semibold text-[#1f4f8f] disabled:opacity-50"
-            >
-              <ArchiveRestore size={16} aria-hidden="true" />
-              {props.isRestoring === school.id ? "Memulihkan..." : "Pulihkan"}
-            </button>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={props.isRestoring === school.id}
+                onClick={() => props.onRestore(school)}
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#b7c9e3] bg-[#eaf2ff] px-3 text-xs font-semibold text-[#1f4f8f] transition hover:bg-[#dbeafe] disabled:opacity-50"
+              >
+                <ArchiveRestore size={14} aria-hidden="true" />
+                <span>{props.isRestoring === school.id ? "Memulihkan..." : "Pulihkan"}</span>
+              </button>
+
+              {props.onDelete ? (
+                <button
+                  type="button"
+                  onClick={() => props.onDelete!(school)}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 text-xs font-semibold text-red-700 transition hover:bg-red-100"
+                >
+                  <Trash2 size={14} aria-hidden="true" />
+                  <span>Hapus</span>
+                </button>
+              ) : null}
+            </div>
           </div>
         ))}
       </div>

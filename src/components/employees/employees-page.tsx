@@ -65,7 +65,13 @@ export function EmployeesPage() {
   const canDetail = user?.role === "owner" || user?.role === "school" || user?.role === "psdm" || user?.role === "director";
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
-  const visibleEmployees = filterEmployees(employees, filters.query);
+  const visibleEmployees = filterEmployees(
+    employees,
+    filters.query,
+    filters.level,
+    filters.schoolId,
+    filters.type,
+  );
   const scopedEmployees = activeSchoolName
     ? visibleEmployees.filter(
         (employee) => employee.school.name === activeSchoolName,
@@ -102,6 +108,7 @@ export function EmployeesPage() {
         onChange={setFilters}
         onSubmit={() => void loadEmployees()}
         schools={schools}
+        selectedSchoolName={activeSchoolName}
       />
       <EmployeesTable
         canBackToSchools={user?.role !== "school"}

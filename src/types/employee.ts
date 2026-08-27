@@ -33,6 +33,7 @@ export type Employee = {
 };
 
 export type EmployeeFilters = {
+  level?: string;
   query?: string;
   schoolId?: string;
   type?: EmployeeType;

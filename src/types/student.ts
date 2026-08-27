@@ -24,6 +24,7 @@ export type Student = {
 
 export type StudentFilters = {
   className?: string;
+  level?: string;
   query?: string;
   schoolId?: string;
 };

@@ -7,21 +7,35 @@ export function cleanEmployeeFilters(filters: EmployeeFilters): EmployeeFilters 
   };
 }
 
-export function filterEmployees(employees: Employee[], query?: string) {
+export function filterEmployees(
+  employees: Employee[],
+  query?: string,
+  level?: string,
+  schoolId?: string,
+  type?: string,
+) {
   const keyword = query?.trim().toLowerCase();
-  if (!keyword) return employees;
+  const selectedLevel = level && level !== "all" ? level : null;
 
-  return employees.filter((employee) =>
-    [
-      employee.name,
-      employee.school.name,
-      employee.position,
-      employee.otherPosition,
-      employee.religion,
-      employee.email,
-      employee.phone,
-    ].some((value) => value?.toLowerCase().includes(keyword)),
-  );
+  return employees.filter((employee) => {
+    const matchesKeyword =
+      !keyword ||
+      [
+        employee.name,
+        employee.school.name,
+        employee.position,
+        employee.otherPosition,
+        employee.religion,
+        employee.email,
+        employee.phone,
+      ].some((value) => value?.toLowerCase().includes(keyword));
+
+    const matchesLevel = !selectedLevel || employee.school.level === selectedLevel;
+    const matchesSchool = !schoolId || employee.schoolId === schoolId;
+    const matchesType = !type || employee.type === type;
+
+    return matchesKeyword && matchesLevel && matchesSchool && matchesType;
+  });
 }
 
 export function groupEmployeesBySchool(employees: Employee[]) {

@@ -76,7 +76,12 @@ export function DocumentsPage() {
   const canManage = canManageSchoolData(user, schools);
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
-  const visibleDocuments = filterDocuments(documents, filters.query);
+  const visibleDocuments = filterDocuments(
+    documents,
+    filters.query,
+    filters.level,
+    filters.schoolId,
+  );
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
   if (isLoading) return <PageState text="Memuat dokumen..." />;

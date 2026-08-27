@@ -11,6 +11,7 @@ export type DocumentItem = {
 };
 
 export type DocumentFilters = {
+  level?: string;
   query?: string;
   schoolId?: string;
 };

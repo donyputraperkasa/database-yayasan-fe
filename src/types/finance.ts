@@ -25,6 +25,7 @@ export type Finance = {
 
 export type FinanceFilters = {
   className?: string;
+  level?: string;
   query?: string;
   schoolId?: string;
   type?: FinanceType | "";

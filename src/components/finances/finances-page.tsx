@@ -72,7 +72,14 @@ export function FinancesPage() {
 
   const currentSchool = getCurrentSchool(user, schools);
   const canManage = canManageSchoolData(user, schools);
-  const visibleFinances = filterFinances(finances, filters.query);
+  const visibleFinances = filterFinances(
+    finances,
+    filters.query,
+    filters.level,
+    filters.schoolId,
+    filters.type,
+    filters.className,
+  );
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
   const statsFinances = activeSchoolName

@@ -74,7 +74,12 @@ export function InventoryPage() {
   const canManage = canManageSchoolData(user, schools);
   const activeSchoolName =
     user?.role === "school" ? currentSchool?.name : selectedSchoolName;
-  const visibleInventory = filterInventory(inventory, filters.query);
+  const visibleInventory = filterInventory(
+    inventory,
+    filters.query,
+    filters.level,
+    filters.schoolId,
+  );
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
   if (isLoading) return <PageState text="Memuat data inventaris..." />;

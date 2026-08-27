@@ -7,20 +7,35 @@ export function cleanStudentFilters(filters: StudentFilters): StudentFilters {
   };
 }
 
-export function filterStudents(students: Student[], query?: string) {
+export function filterStudents(
+  students: Student[],
+  query?: string,
+  level?: string,
+  schoolId?: string,
+  className?: string,
+) {
   const keyword = query?.trim().toLowerCase();
-  if (!keyword) return students;
+  const selectedLevel = level && level !== "all" ? level : null;
+  const targetClass = className?.trim().toLowerCase();
 
-  return students.filter((student) =>
-    [
-      student.name,
-      student.school.name,
-      student.className,
-      student.fatherName,
-      student.motherName,
-      student.religion,
-    ].some((value) => value?.toLowerCase().includes(keyword)),
-  );
+  return students.filter((student) => {
+    const matchesKeyword =
+      !keyword ||
+      [
+        student.name,
+        student.school.name,
+        student.className,
+        student.fatherName,
+        student.motherName,
+        student.religion,
+      ].some((value) => value?.toLowerCase().includes(keyword));
+
+    const matchesLevel = !selectedLevel || student.school.level === selectedLevel;
+    const matchesSchool = !schoolId || student.schoolId === schoolId;
+    const matchesClass = !targetClass || (student.className?.toLowerCase().includes(targetClass) ?? false);
+
+    return matchesKeyword && matchesLevel && matchesSchool && matchesClass;
+  });
 }
 
 export function groupStudentsBySchool(students: Student[]) {

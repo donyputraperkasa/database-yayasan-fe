@@ -8,21 +8,38 @@ export function cleanFinanceFilters(filters: FinanceFilters) {
   };
 }
 
-export function filterFinances(finances: Finance[], query?: string) {
+export function filterFinances(
+  finances: Finance[],
+  query?: string,
+  level?: string,
+  schoolId?: string,
+  type?: string,
+  className?: string,
+) {
   const keyword = query?.toLowerCase().trim();
-  if (!keyword) return finances;
+  const selectedLevel = level && level !== "all" ? level : null;
+  const targetClass = className?.toLowerCase().trim();
 
-  return finances.filter((finance) =>
-    [
-      finance.school.name,
-      finance.type,
-      finance.className,
-      finance.accountNo,
-      finance.note,
-    ]
-      .filter(Boolean)
-      .some((value) => value!.toLowerCase().includes(keyword)),
-  );
+  return finances.filter((finance) => {
+    const matchesKeyword =
+      !keyword ||
+      [
+        finance.school.name,
+        finance.type,
+        finance.className,
+        finance.accountNo,
+        finance.note,
+      ]
+        .filter(Boolean)
+        .some((value) => value!.toLowerCase().includes(keyword));
+
+    const matchesLevel = !selectedLevel || finance.school.level === selectedLevel;
+    const matchesSchool = !schoolId || finance.schoolId === schoolId;
+    const matchesType = !type || finance.type === type;
+    const matchesClass = !targetClass || (finance.className?.toLowerCase().includes(targetClass) ?? false);
+
+    return matchesKeyword && matchesLevel && matchesSchool && matchesType && matchesClass;
+  });
 }
 
 export function groupFinancesBySchool(finances: Finance[]) {
