@@ -5,7 +5,7 @@ import {
   updateInventory,
   uploadInventoryPhoto,
 } from "@/lib/api/inventory";
-import type { Inventory, School } from "@/types";
+import type { Inventory, InventoryFormModalProps } from "@/types";
 import { X } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
@@ -14,16 +14,6 @@ import {
   buildInventoryPayload,
   getInventoryPhotoFile,
 } from "./inventory-form-payload";
-
-type InventoryFormModalProps = {
-  inventory?: Inventory | null;
-  isOpen: boolean;
-  isSchoolUser: boolean;
-  onClose: () => void;
-  onSaved: (inventory: Inventory) => void;
-  schools: School[];
-  token: string;
-};
 
 export function InventoryFormModal(props: InventoryFormModalProps) {
   const [error, setError] = useState<string | null>(null);

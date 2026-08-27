@@ -1,12 +1,7 @@
 "use client";
 
-import type { Asset } from "@/types";
+import type { Asset, AssetDetailModalProps } from "@/types";
 import { X } from "lucide-react";
-
-type AssetDetailModalProps = {
-  asset: Asset | null;
-  onClose: () => void;
-};
 
 export function AssetDetailModal({ asset, onClose }: AssetDetailModalProps) {
   if (!asset) return null;

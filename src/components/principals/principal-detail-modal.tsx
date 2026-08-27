@@ -1,15 +1,9 @@
 "use client";
 
 import { getMediaUrl } from "@/lib/api/media";
-import type { Asset, School } from "@/types";
+import type { PrincipalDetailModalProps } from "@/types";
 import { Mail, MessageCircle, X } from "lucide-react";
 import { useState } from "react";
-
-type PrincipalDetailModalProps = {
-  asset?: Asset | null;
-  onClose: () => void;
-  school: School | null;
-};
 
 export function PrincipalDetailModal({ asset, onClose, school }: PrincipalDetailModalProps) {
   const [preview, setPreview] = useState<PhotoPreviewState | null>(null);
@@ -30,8 +24,6 @@ export function PrincipalDetailModal({ asset, onClose, school }: PrincipalDetail
     ["Luas Tanah", asset?.landArea],
     ["Luas Bangunan", asset?.buildingArea],
     ["Status Kepemilikan Sertifikat", asset?.certificateOwner],
-    // ["Asal Perolehan", asset?.origin],
-    // ["Tahun Perolehan", asset?.procurementYear],
   ];
 
   return (

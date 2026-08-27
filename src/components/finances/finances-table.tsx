@@ -1,20 +1,8 @@
 import { TableActions } from "@/components/ui/table-actions";
 import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
-import type { Finance } from "@/types";
+import type { Finance, FinancesTableProps } from "@/types";
 import { financeTypeLabel, formatRupiah } from "./finance-labels";
 import { groupFinancesBySchool } from "./finance-page-utils";
-
-type FinancesTableProps = {
-  canBackToSchools?: boolean;
-  canManage: boolean;
-  finances: Finance[];
-  onBackToSchools: () => void;
-  onDelete: (finance: Finance) => void;
-  onDetail: (finance: Finance) => void;
-  onEdit: (finance: Finance) => void;
-  onSelectSchool: (schoolName: string) => void;
-  selectedSchoolName?: string | null;
-};
 
 export function FinancesTable(props: FinancesTableProps) {
   const entries = Object.entries(groupFinancesBySchool(props.finances));

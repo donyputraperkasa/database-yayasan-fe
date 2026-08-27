@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Employee } from "@/types";
+import type { Employee, EmployeeDetailModalProps } from "@/types";
 import { Download, FileText, ImageIcon, X } from "lucide-react";
 import { getEmployeeDecree } from "@/lib/api/employees";
 import { getAccessToken } from "@/lib/auth/storage";
@@ -12,11 +12,6 @@ import {
   formatDate,
   genderLabel,
 } from "./employee-labels";
-
-type EmployeeDetailModalProps = {
-  employee: Employee | null;
-  onClose: () => void;
-};
 
 export function EmployeeDetailModal({ employee, onClose }: EmployeeDetailModalProps) {
   const [preview, setPreview] = useState<{ title: string; url: string } | null>(null);

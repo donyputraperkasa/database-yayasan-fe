@@ -1,19 +1,7 @@
 import { TableActions } from "@/components/ui/table-actions";
 import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
-import type { Inventory } from "@/types";
+import type { Inventory, InventoryTableProps } from "@/types";
 import { groupInventoryBySchool } from "./inventory-page-utils";
-
-type InventoryTableProps = {
-  canBackToSchools?: boolean;
-  canManage: boolean;
-  inventory: Inventory[];
-  onBackToSchools: () => void;
-  onDelete: (inventory: Inventory) => void;
-  onDetail: (inventory: Inventory) => void;
-  onEdit: (inventory: Inventory) => void;
-  onSelectSchool: (schoolName: string) => void;
-  selectedSchoolName?: string | null;
-};
 
 export function InventoryTable(props: InventoryTableProps) {
   const groups = groupInventoryBySchool(props.inventory);

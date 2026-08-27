@@ -1,4 +1,5 @@
 import type { Role } from "./role";
+import type { School } from "./school";
 
 export type User = {
   id: string;
@@ -28,3 +29,24 @@ export type CreateUserPayload = {
 export type ResetPasswordPayload = {
   newPassword: string;
 };
+
+export type UsersTableProps = {
+  onDelete?: (user: User) => void;
+  onResetPassword: (user: User) => void;
+  schools: School[];
+  users: User[];
+};
+
+export type CreateUserFormProps = {
+  onCreated: (user: User) => void;
+  schools: School[];
+  token: string;
+};
+
+export type ResetPasswordModalProps = {
+  onClose: () => void;
+  token: string;
+  user: User;
+};
+
+

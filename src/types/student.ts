@@ -44,3 +44,19 @@ export type StudentPayload = {
   schoolId?: string;
   sppAmount?: number;
 };
+
+export type StudentsTableProps = {
+  canBackToSchools?: boolean;
+  canManage: boolean;
+  onDelete: (student: Student) => void;
+  onDetail: (student: Student) => void;
+  onEdit: (student: Student) => void;
+  onBackToSchools: () => void;
+  onBackToClasses: () => void;
+  onSelectClass: (className: string) => void;
+  onSelectSchool: (schoolName: string) => void;
+  selectedClassName?: string | null;
+  selectedSchoolName?: string | null;
+  students: Student[];
+};
+

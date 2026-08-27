@@ -1,13 +1,8 @@
 "use client";
 
-import type { Inventory } from "@/types";
+import type { Inventory, InventoryDetailModalProps } from "@/types";
 import { DetailPhoto } from "@/components/ui/detail-photo";
 import { X } from "lucide-react";
-
-type InventoryDetailModalProps = {
-  inventory: Inventory | null;
-  onClose: () => void;
-};
 
 export function InventoryDetailModal({ inventory, onClose }: InventoryDetailModalProps) {
   if (!inventory) return null;

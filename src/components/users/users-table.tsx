@@ -1,10 +1,4 @@
-import type { School, User } from "@/types";
-
-type UsersTableProps = {
-  onResetPassword: (user: User) => void;
-  schools: School[];
-  users: User[];
-};
+import type { UsersTableProps } from "@/types";
 
 export function UsersTable(props: UsersTableProps) {
   const { onResetPassword, schools, users } = props;

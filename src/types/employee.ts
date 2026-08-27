@@ -42,3 +42,50 @@ export type EmployeeFilters = {
 export type EmployeePayload = {
   [K in keyof Partial<Employee>]?: Employee[K];
 };
+
+export type EmployeesTableProps = {
+  canBackToSchools?: boolean;
+  canDetail?: boolean;
+  canManage: boolean;
+  employees: Employee[];
+  onBackToSchools: () => void;
+  onDelete: (employee: Employee) => void;
+  onDetail: (employee: Employee) => void;
+  onEdit: (employee: Employee) => void;
+  onSelectSchool: (schoolName: string) => void;
+  selectedSchoolName?: string | null;
+};
+
+export type EmployeeFormModalProps = {
+  employee?: Employee | null;
+  isOpen: boolean;
+  isSchoolUser: boolean;
+  onClose: () => void;
+  onSaved: (employee: Employee) => void;
+  schools: School[];
+  token: string;
+};
+
+export type EmployeeDetailModalProps = {
+  employee: Employee | null;
+  onClose: () => void;
+};
+
+export type EmployeesFilterProps = {
+  filters: EmployeeFilters;
+  isSchoolUser: boolean;
+  onChange: (filters: EmployeeFilters) => void;
+  onSubmit: () => void;
+  schools: School[];
+  selectedSchoolName?: string | null;
+};
+
+export type EmployeesHeaderProps = {
+  canManage: boolean;
+  onCreate: () => void;
+};
+
+export type EmployeeStatsProps = {
+  employees: Employee[];
+};
+

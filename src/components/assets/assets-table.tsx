@@ -1,19 +1,7 @@
 import { TableActions } from "@/components/ui/table-actions";
 import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
-import type { Asset } from "@/types";
+import type { Asset, AssetsTableProps } from "@/types";
 import { groupAssetsBySchool } from "./asset-page-utils";
-
-type AssetsTableProps = {
-  assets: Asset[];
-  canBackToSchools?: boolean;
-  canManage: boolean;
-  onBackToSchools: () => void;
-  onDelete: (asset: Asset) => void;
-  onDetail: (asset: Asset) => void;
-  onEdit: (asset: Asset) => void;
-  onSelectSchool: (schoolName: string) => void;
-  selectedSchoolName?: string | null;
-};
 
 export function AssetsTable(props: AssetsTableProps) {
   const groups = groupAssetsBySchool(props.assets);

@@ -41,3 +41,44 @@ export type FinancePayload = {
   schoolId?: string;
   type: FinanceType;
 };
+
+export type FinancesTableProps = {
+  canBackToSchools?: boolean;
+  canManage: boolean;
+  finances: Finance[];
+  onBackToSchools: () => void;
+  onDelete: (finance: Finance) => void;
+  onDetail: (finance: Finance) => void;
+  onEdit: (finance: Finance) => void;
+  onSelectSchool: (schoolName: string) => void;
+  selectedSchoolName?: string | null;
+};
+
+export type FinanceFormModalProps = {
+  finance?: Finance | null;
+  isOpen: boolean;
+  isSchoolUser: boolean;
+  onClose: () => void;
+  onSaved: (finance: Finance) => void;
+  schools: School[];
+  token: string;
+};
+
+export type FinanceDetailModalProps = {
+  finance: Finance | null;
+  onClose: () => void;
+};
+
+export type FinancesFilterProps = {
+  filters: FinanceFilters;
+  isSchoolUser: boolean;
+  onChange: (filters: FinanceFilters) => void;
+  onSubmit: () => void;
+  schools: School[];
+};
+
+export type FinancesHeaderProps = {
+  canManage: boolean;
+  onCreate: () => void;
+};
+

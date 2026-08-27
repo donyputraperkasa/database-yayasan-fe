@@ -1,13 +1,5 @@
-import type { AssetFilters, School } from "@/types";
+import type { AssetsFilterProps } from "@/types";
 import { Search } from "lucide-react";
-
-type AssetsFilterProps = {
-  filters: AssetFilters;
-  isSchoolUser: boolean;
-  onChange: (filters: AssetFilters) => void;
-  onSubmit: () => void;
-  schools: School[];
-};
 
 export function AssetsFilter(props: AssetsFilterProps) {
   return (

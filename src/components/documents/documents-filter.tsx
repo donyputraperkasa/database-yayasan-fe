@@ -1,14 +1,6 @@
 import { LevelFilterPills } from "@/components/ui/level-filter-pills";
-import type { DocumentFilters, School } from "@/types";
+import type { DocumentsFilterProps } from "@/types";
 import { Search, X } from "lucide-react";
-
-type DocumentsFilterProps = {
-  filters: DocumentFilters;
-  isSchoolUser: boolean;
-  onChange: (filters: DocumentFilters) => void;
-  onSubmit: () => void;
-  schools: School[];
-};
 
 export function DocumentsFilter(props: DocumentsFilterProps) {
   return (

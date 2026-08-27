@@ -1,11 +1,5 @@
-import type { School } from "@/types";
+import type { SchoolsTableProps } from "@/types";
 import { schoolLevelLabel } from "./school-level-label";
-
-type SchoolsTableProps = {
-  onDelete: (school: School) => void;
-  onToggleEditAccess: (school: School) => void;
-  schools: School[];
-};
 
 export function SchoolsTable({
   onDelete,

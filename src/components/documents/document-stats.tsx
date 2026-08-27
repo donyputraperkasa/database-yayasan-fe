@@ -1,8 +1,4 @@
-import type { DocumentItem } from "@/types";
-
-type DocumentStatsProps = {
-  documents: DocumentItem[];
-};
+import type { DocumentStatsProps } from "@/types";
 
 export function DocumentStats({ documents }: DocumentStatsProps) {
   const schoolCount = new Set(documents.map((document) => document.schoolId)).size;

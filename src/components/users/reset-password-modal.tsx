@@ -2,14 +2,8 @@
 
 import { resetUserPassword } from "@/lib/api/users";
 import { showToast } from "@/lib/feedback/toast";
-import type { User } from "@/types";
+import type { ResetPasswordModalProps } from "@/types";
 import { FormEvent, useState } from "react";
-
-type ResetPasswordModalProps = {
-  onClose: () => void;
-  token: string;
-  user: User;
-};
 
 export function ResetPasswordModal(props: ResetPasswordModalProps) {
   const [error, setError] = useState<string | null>(null);

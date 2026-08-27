@@ -1,8 +1,4 @@
-import type { Employee } from "@/types";
-
-type EmployeeStatsProps = {
-  employees: Employee[];
-};
+import type { Employee, EmployeeStatsProps } from "@/types";
 
 export function EmployeeStats({ employees }: EmployeeStatsProps) {
   const stats = [

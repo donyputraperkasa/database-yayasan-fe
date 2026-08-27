@@ -1,9 +1,4 @@
-import type { School, User } from "@/types";
-
-type SchoolEditAccessNoticeProps = {
-  school: School | null;
-  user: User | null;
-};
+import type { SchoolEditAccessNoticeProps } from "@/types";
 
 export function SchoolEditAccessNotice({
   school,

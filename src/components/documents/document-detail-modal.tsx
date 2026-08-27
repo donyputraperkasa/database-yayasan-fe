@@ -3,14 +3,9 @@
 import { getDocumentFile } from "@/lib/api/documents";
 import { getAccessToken } from "@/lib/auth/storage";
 import { usePrivateFile } from "@/hooks/use-private-file";
-import type { DocumentItem } from "@/types";
+import type { DocumentDetailModalProps, DocumentItem } from "@/types";
 import { Download, FileText, X } from "lucide-react";
 import { useCallback, useState } from "react";
-
-type DocumentDetailModalProps = {
-  document: DocumentItem | null;
-  onClose: () => void;
-};
 
 export function DocumentDetailModal({
   document: item,

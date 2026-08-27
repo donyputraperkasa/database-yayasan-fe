@@ -1,9 +1,5 @@
+import type { FinancesHeaderProps } from "@/types";
 import { Banknote, Plus } from "lucide-react";
-
-type FinancesHeaderProps = {
-  canManage: boolean;
-  onCreate: () => void;
-};
 
 export function FinancesHeader({ canManage, onCreate }: FinancesHeaderProps) {
   return (

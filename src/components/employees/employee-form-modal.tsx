@@ -6,7 +6,7 @@ import {
   uploadEmployeeDecree,
   uploadEmployeePhoto,
 } from "@/lib/api/employees";
-import type { Employee, School } from "@/types";
+import type { Employee, EmployeeFormModalProps } from "@/types";
 import { X } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
@@ -16,16 +16,6 @@ import {
   getEmployeeDecreeFile,
   getEmployeePhotoFile,
 } from "./employee-form-payload";
-
-type EmployeeFormModalProps = {
-  employee?: Employee | null;
-  isOpen: boolean;
-  isSchoolUser: boolean;
-  onClose: () => void;
-  onSaved: (employee: Employee) => void;
-  schools: School[];
-  token: string;
-};
 
 export function EmployeeFormModal(props: EmployeeFormModalProps) {
   const [error, setError] = useState<string | null>(null);

@@ -1,14 +1,9 @@
 "use client";
 
 import { createSchool } from "@/lib/api/schools";
-import type { CreateSchoolPayload, School, SchoolLevel } from "@/types";
+import type { CreateSchoolFormProps, CreateSchoolPayload, SchoolLevel } from "@/types";
 import { FormEvent, useState } from "react";
 import { schoolLevelLabel } from "./school-level-label";
-
-type CreateSchoolFormProps = {
-  onCreated: (school: School) => void;
-  token: string;
-};
 
 export function CreateSchoolForm({ onCreated, token }: CreateSchoolFormProps) {
   const [error, setError] = useState<string | null>(null);

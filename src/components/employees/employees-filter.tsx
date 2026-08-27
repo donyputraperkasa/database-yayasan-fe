@@ -1,15 +1,6 @@
 import { LevelFilterPills } from "@/components/ui/level-filter-pills";
-import type { EmployeeFilters, EmployeeType, School } from "@/types";
+import type { EmployeeType, EmployeesFilterProps } from "@/types";
 import { Search, X } from "lucide-react";
-
-type EmployeesFilterProps = {
-  filters: EmployeeFilters;
-  isSchoolUser: boolean;
-  onChange: (filters: EmployeeFilters) => void;
-  onSubmit: () => void;
-  schools: School[];
-  selectedSchoolName?: string | null;
-};
 
 const EMPLOYEE_TYPE_OPTIONS = [
   { id: "", label: "Semua Jenis Pegawai" },

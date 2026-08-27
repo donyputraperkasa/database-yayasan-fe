@@ -1,22 +1,12 @@
 "use client";
 
 import { createFinance, updateFinance } from "@/lib/api/finances";
-import type { Finance, School } from "@/types";
+import type { Finance, FinanceFormModalProps } from "@/types";
 import { X } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { FinanceFormFields } from "./finance-form-fields";
 import { buildFinancePayload } from "./finance-form-payload";
-
-type FinanceFormModalProps = {
-  finance?: Finance | null;
-  isOpen: boolean;
-  isSchoolUser: boolean;
-  onClose: () => void;
-  onSaved: (finance: Finance) => void;
-  schools: School[];
-  token: string;
-};
 
 export function FinanceFormModal(props: FinanceFormModalProps) {
   const [error, setError] = useState<string | null>(null);

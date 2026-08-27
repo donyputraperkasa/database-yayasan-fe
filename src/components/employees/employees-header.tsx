@@ -1,9 +1,5 @@
+import type { EmployeesHeaderProps } from "@/types";
 import { Plus, UsersRound } from "lucide-react";
-
-type EmployeesHeaderProps = {
-  canManage: boolean;
-  onCreate: () => void;
-};
 
 export function EmployeesHeader({ canManage, onCreate }: EmployeesHeaderProps) {
   return (

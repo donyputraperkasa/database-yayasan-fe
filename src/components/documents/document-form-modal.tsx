@@ -1,20 +1,10 @@
 "use client";
 
 import { updateDocument, uploadDocument } from "@/lib/api/documents";
-import type { DocumentItem, School } from "@/types";
+import type { DocumentFormModalProps, DocumentItem } from "@/types";
 import { X } from "lucide-react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
-
-type DocumentFormModalProps = {
-  document?: DocumentItem | null;
-  isOpen: boolean;
-  isSchoolUser: boolean;
-  onClose: () => void;
-  onSaved: (document: DocumentItem) => void;
-  schools: School[];
-  token: string;
-};
 
 export function DocumentFormModal(props: DocumentFormModalProps) {
   const [error, setError] = useState<string | null>(null);

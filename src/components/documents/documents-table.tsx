@@ -1,19 +1,7 @@
 import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
 import { TableActions } from "@/components/ui/table-actions";
-import type { DocumentItem } from "@/types";
+import type { DocumentItem, DocumentsTableProps } from "@/types";
 import { groupDocumentsBySchool } from "./document-page-utils";
-
-type DocumentsTableProps = {
-  canBackToSchools?: boolean;
-  canManage: boolean;
-  documents: DocumentItem[];
-  onBackToSchools: () => void;
-  onDelete: (document: DocumentItem) => void;
-  onDetail: (document: DocumentItem) => void;
-  onEdit: (document: DocumentItem) => void;
-  onSelectSchool: (schoolName: string) => void;
-  selectedSchoolName?: string | null;
-};
 
 export function DocumentsTable(props: DocumentsTableProps) {
   const entries = Object.entries(groupDocumentsBySchool(props.documents));

@@ -8,7 +8,6 @@ import {
   updateAsset,
   uploadAssetPhoto,
 } from "@/lib/api/assets";
-import { getMediaUrl } from "@/lib/api/media";
 import {
   getSchoolProfile,
   listSchools,
@@ -19,10 +18,24 @@ import {
 import { getCurrentSchool } from "@/lib/auth/permissions";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import { showToast } from "@/lib/feedback/toast";
-import type { Asset, AssetPayload, School, SchoolProfile, User } from "@/types";
+import type { Asset, School, SchoolProfile, User } from "@/types";
 import { Save } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { SchoolEditAccessNotice } from "./school-edit-access-notice";
+import {
+  ProfileAssetFields,
+  ProfileInput,
+  ProfileTextarea,
+  SchoolPhotoField,
+  SchoolProfileHeader,
+} from "./school-profile-form-fields";
+import {
+  buildAssetPayload,
+  getFile,
+  getPhotoFile,
+  getValue,
+  hasAssetPayload,
+} from "./school-profile-utils";
 
 export function SchoolProfilePage() {
   const [error, setError] = useState<string | null>(null);
@@ -122,19 +135,19 @@ export function SchoolProfilePage() {
       <DashboardBreadcrumbs
         items={[{ href: "/dashboard", label: "Dashboard" }, { label: "Biodata Sekolah" }]}
       />
-      <Header school={school} profile={profile} />
+      <SchoolProfileHeader school={school} profile={profile} />
       <SchoolEditAccessNotice school={school} user={user} />
       <form onSubmit={handleSubmit} className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
         <div className="grid gap-4 md:grid-cols-2">
-          <Input disabled={!canEdit} label="Unit Sekolah" name="principal" value={school.principal} />
-          <Input disabled={!canEdit} label="Email Sekolah" name="email" type="email" value={school.email} />
-          <Input disabled={!canEdit} label="Nomor WA/Telepon" name="phone" value={school.phone} />
-          <PhotoField disabled={!canEdit} photoUrl={profile?.photoUrl} />
-          <Textarea disabled={!canEdit} label="Alamat" name="address" value={school.address} />
-          <Textarea disabled={!canEdit} label="Sejarah Singkat" name="history" value={profile?.history} />
-          <Textarea disabled={!canEdit} label="Visi" name="vision" value={profile?.vision} />
-          <Textarea disabled={!canEdit} label="Misi" name="mission" value={profile?.mission} />
-          <Input disabled={!canEdit} label="Motto" name="motto" value={profile?.motto} />
+          <ProfileInput disabled={!canEdit} label="Unit Sekolah" name="principal" value={school.principal} />
+          <ProfileInput disabled={!canEdit} label="Email Sekolah" name="email" type="email" value={school.email} />
+          <ProfileInput disabled={!canEdit} label="Nomor WA/Telepon" name="phone" value={school.phone} />
+          <SchoolPhotoField disabled={!canEdit} photoUrl={profile?.photoUrl} />
+          <ProfileTextarea disabled={!canEdit} label="Alamat" name="address" value={school.address} />
+          <ProfileTextarea disabled={!canEdit} label="Sejarah Singkat" name="history" value={profile?.history} />
+          <ProfileTextarea disabled={!canEdit} label="Visi" name="vision" value={profile?.vision} />
+          <ProfileTextarea disabled={!canEdit} label="Misi" name="mission" value={profile?.mission} />
+          <ProfileInput disabled={!canEdit} label="Motto" name="motto" value={profile?.motto} />
           <ProfileAssetFields asset={asset} disabled={!canEdit} />
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
@@ -150,200 +163,3 @@ export function SchoolProfilePage() {
     </div>
   );
 }
-
-function ProfileAssetFields(props: { asset: Asset | null; disabled: boolean }) {
-  return (
-    <>
-      <Input disabled={props.disabled} label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
-      <Input disabled={props.disabled} label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
-      <Input disabled={props.disabled} label="Status Kepemilikan Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
-      {/* <Input disabled={props.disabled} label="Asal Perolehan" name="origin" value={props.asset?.origin} />
-      <Input disabled={props.disabled} label="Tahun Perolehan" name="procurementYear" type="number" value={props.asset?.procurementYear} /> */}
-      <AssetPhotoField disabled={props.disabled} photoUrl={props.asset?.photoUrl} />
-    </>
-  );
-}
-
-function Header({ profile, school }: { profile: SchoolProfile | null; school: School }) {
-  const previewUrl = getMediaUrl(profile?.photoUrl);
-
-  return (
-    <section className="flex flex-col gap-4 rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm sm:flex-row sm:items-center">
-      <div
-        className="h-24 w-24 shrink-0 rounded-lg border border-[#dbe5f4] bg-[#f8fbff] bg-contain bg-center bg-no-repeat"
-        style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : undefined}
-      />
-      <div>
-        <p className="text-sm font-semibold text-[#748299]">Biodata Sekolah</p>
-        <h1 className="mt-1 text-2xl font-semibold text-[#172033]">{school.name}</h1>
-        <p className="mt-2 text-sm text-[#748299]">
-          Lengkapi kontak dan bio sekolah yang akan terlihat oleh owner dan office.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function Input(props: {
-  disabled: boolean;
-  label: string;
-  name: string;
-  type?: string;
-  value?: number | string | null;
-}) {
-  return (
-    <label className="block">
-      <span className="text-sm font-semibold text-[#172033]">{props.label}</span>
-      <input
-        className={fieldClass}
-        defaultValue={props.value ?? ""}
-        disabled={props.disabled}
-        name={props.name}
-        type={props.type ?? "text"}
-      />
-    </label>
-  );
-}
-
-function Textarea(props: {
-  disabled: boolean;
-  label: string;
-  name: string;
-  value?: string | null;
-}) {
-  return (
-    <label className="block md:col-span-2">
-      <span className="text-sm font-semibold text-[#172033]">{props.label}</span>
-      <textarea
-        className={`${fieldClass} h-auto min-h-28 py-3`}
-        defaultValue={props.value ?? ""}
-        disabled={props.disabled}
-        name={props.name}
-      />
-    </label>
-  );
-}
-
-function PhotoField(props: { disabled: boolean; photoUrl?: string | null }) {
-  const previewUrl = getMediaUrl(props.photoUrl);
-
-  return (
-    <label className="block md:col-span-2">
-      <span className="text-sm font-semibold text-[#172033]">Logo/Foto Sekolah</span>
-      <div className="mt-2 flex flex-col gap-3 rounded-lg border border-[#ced9eb] bg-[#f8fbff] p-3 sm:flex-row sm:items-center">
-        {previewUrl ? (
-          <div
-            aria-label="Logo atau foto sekolah saat ini"
-            className="h-24 w-24 rounded-lg bg-white bg-contain bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${previewUrl})` }}
-          />
-        ) : (
-          <div className="grid h-24 w-24 place-items-center rounded-lg bg-white text-xs font-semibold text-[#748299]">
-            Belum ada
-          </div>
-        )}
-        <div className="min-w-0 flex-1">
-          <input
-            accept="image/jpeg,image/png,image/webp"
-            disabled={props.disabled}
-            name="photo"
-            type="file"
-            className="w-full text-sm text-[#526078] file:mr-3 file:rounded-md file:border-0 file:bg-[#0f2a4f] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white disabled:text-[#8b98ad] disabled:file:bg-[#93a4bd]"
-          />
-          <p className="mt-2 text-xs leading-5 text-[#748299]">
-            Format JPG, PNG, atau WEBP. Maksimal 2 MB.
-          </p>
-        </div>
-      </div>
-    </label>
-  );
-}
-
-function AssetPhotoField(props: { disabled: boolean; photoUrl?: string | null }) {
-  const previewUrl = getMediaUrl(props.photoUrl);
-
-  return (
-    <label className="block md:col-span-2">
-      <span className="text-sm font-semibold text-[#172033]">Foto Tanah/Bangunan</span>
-      <div className="mt-2 flex flex-col gap-3 rounded-lg border border-[#ced9eb] bg-[#f8fbff] p-3 sm:flex-row sm:items-center">
-        <PhotoPreview label="Foto tanah atau bangunan saat ini" previewUrl={previewUrl} />
-        <div className="min-w-0 flex-1">
-          <input
-            accept="image/jpeg,image/png,image/webp"
-            disabled={props.disabled}
-            name="assetPhoto"
-            type="file"
-            className="w-full text-sm text-[#526078] file:mr-3 file:rounded-md file:border-0 file:bg-[#0f2a4f] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white disabled:text-[#8b98ad] disabled:file:bg-[#93a4bd]"
-          />
-          <p className="mt-2 text-xs leading-5 text-[#748299]">
-            Format JPG, PNG, atau WEBP. Maksimal 2 MB.
-          </p>
-        </div>
-      </div>
-    </label>
-  );
-}
-
-function PhotoPreview(props: { label: string; previewUrl: string | null }) {
-  if (!props.previewUrl) {
-    return (
-      <div className="grid h-24 w-24 place-items-center rounded-lg bg-white text-xs font-semibold text-[#748299]">
-        Belum ada
-      </div>
-    );
-  }
-
-  return (
-    <div
-      aria-label={props.label}
-      className="h-24 w-24 rounded-lg bg-white bg-contain bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${props.previewUrl})` }}
-    />
-  );
-}
-
-function getValue(formData: FormData, key: string) {
-  return String(formData.get(key) ?? "").trim();
-}
-
-function getPhotoFile(formData: FormData) {
-  return getFile(formData, "photo");
-}
-
-function getFile(formData: FormData, key: string) {
-  const file = formData.get(key);
-  return file instanceof File && file.size > 0 ? file : null;
-}
-
-function buildAssetPayload(formData: FormData): AssetPayload {
-  return {
-    buildingArea: getOptional(formData, "buildingArea"),
-    certificateOwner: getOptional(formData, "certificateOwner"),
-    landArea: getOptional(formData, "landArea"),
-    origin: getOptional(formData, "origin"),
-    procurementYear: getOptionalNumber(formData, "procurementYear"),
-  };
-}
-
-function hasAssetPayload(payload: AssetPayload) {
-  return Boolean(
-    payload.buildingArea ||
-      payload.certificateOwner ||
-      payload.landArea ||
-      payload.origin ||
-      payload.procurementYear,
-  );
-}
-
-function getOptional(formData: FormData, key: string) {
-  const value = getValue(formData, key);
-  return value || undefined;
-}
-
-function getOptionalNumber(formData: FormData, key: string) {
-  const value = getOptional(formData, key);
-  return value ? Number(value) : undefined;
-}
-
-const fieldClass =
-  "mt-2 w-full rounded-md border border-[#ced9eb] bg-white px-3 text-sm outline-none disabled:bg-[#f4f7fb] disabled:text-[#8b98ad] focus:border-[#1f4f8f] focus:ring-2 focus:ring-[#d7e7ff] h-11";

@@ -1,15 +1,6 @@
 import { LevelFilterPills } from "@/components/ui/level-filter-pills";
-import type { FinanceFilters, School } from "@/types";
+import type { FinancesFilterProps } from "@/types";
 import { Search, X } from "lucide-react";
-import { financeTypeLabel } from "./finance-labels";
-
-type FinancesFilterProps = {
-  filters: FinanceFilters;
-  isSchoolUser: boolean;
-  onChange: (filters: FinanceFilters) => void;
-  onSubmit: () => void;
-  schools: School[];
-};
 
 export function FinancesFilter(props: FinancesFilterProps) {
   return (

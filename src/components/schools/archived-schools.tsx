@@ -1,12 +1,5 @@
-import type { School } from "@/types";
+import type { ArchivedSchoolsProps } from "@/types";
 import { ArchiveRestore, Trash2 } from "lucide-react";
-
-type ArchivedSchoolsProps = {
-  isRestoring: string | null;
-  onDelete?: (school: School) => void;
-  onRestore: (school: School) => void;
-  schools: School[];
-};
 
 export function ArchivedSchools(props: ArchivedSchoolsProps) {
   if (props.schools.length === 0) return null;

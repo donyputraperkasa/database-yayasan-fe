@@ -8,18 +8,9 @@ import {
   uploadSchoolProfilePhoto,
 } from "@/lib/api/schools";
 import { showToast } from "@/lib/feedback/toast";
-import type { Asset, AssetPayload, School } from "@/types";
+import type { Asset, AssetPayload, PrincipalProfileFormModalProps, School } from "@/types";
 import { X } from "lucide-react";
 import { useState, type FormEvent } from "react";
-
-type PrincipalProfileFormModalProps = {
-  asset: Asset | null;
-  isOpen: boolean;
-  onClose: () => void;
-  onSaved: (school: School, asset: Asset | null) => void;
-  school: School | null;
-  token: string;
-};
 
 export function PrincipalProfileFormModal(props: PrincipalProfileFormModalProps) {
   const [error, setError] = useState<string | null>(null);

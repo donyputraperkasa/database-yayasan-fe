@@ -1,20 +1,10 @@
 import { createAsset, updateAsset } from "@/lib/api/assets";
-import type { Asset, School } from "@/types";
+import type { Asset, AssetFormModalProps } from "@/types";
 import { X } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { AssetFormFields } from "./asset-form-fields";
 import { buildAssetPayload } from "./asset-form-payload";
-
-type AssetFormModalProps = {
-  asset?: Asset | null;
-  isOpen: boolean;
-  isSchoolUser: boolean;
-  onClose: () => void;
-  onSaved: (asset: Asset) => void;
-  schools: School[];
-  token: string;
-};
 
 export function AssetFormModal(props: AssetFormModalProps) {
   const [error, setError] = useState<string | null>(null);

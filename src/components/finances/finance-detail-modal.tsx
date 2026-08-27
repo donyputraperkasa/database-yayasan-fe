@@ -1,13 +1,8 @@
 "use client";
 
-import type { Finance } from "@/types";
+import type { Finance, FinanceDetailModalProps } from "@/types";
 import { X } from "lucide-react";
 import { financeTypeLabel, formatRupiah } from "./finance-labels";
-
-type FinanceDetailModalProps = {
-  finance: Finance | null;
-  onClose: () => void;
-};
 
 export function FinanceDetailModal({ finance, onClose }: FinanceDetailModalProps) {
   if (!finance) return null;

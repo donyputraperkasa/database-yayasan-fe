@@ -1,15 +1,9 @@
 "use client";
 
 import { createUser } from "@/lib/api/users";
-import type { CreateUserPayload, Role, School, User } from "@/types";
+import type { CreateUserFormProps, CreateUserPayload, Role } from "@/types";
 import { FormEvent, useState } from "react";
 import { SchoolSelect, UserInput } from "./user-form-fields";
-
-type CreateUserFormProps = {
-  onCreated: (user: User) => void;
-  schools: School[];
-  token: string;
-};
 
 export function CreateUserForm(props: CreateUserFormProps) {
   const [error, setError] = useState<string | null>(null);

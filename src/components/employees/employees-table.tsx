@@ -1,24 +1,11 @@
 import { TableActions } from "@/components/ui/table-actions";
 import { SchoolSummaryCard } from "@/components/ui/school-summary-card";
-import type { Employee } from "@/types";
+import type { Employee, EmployeesTableProps } from "@/types";
 import {
   employeeStatusLabel,
   employeeTypeLabel,
 } from "./employee-labels";
 import { groupEmployeesBySchool } from "./employee-page-utils";
-
-type EmployeesTableProps = {
-  canBackToSchools?: boolean;
-  canDetail?: boolean;
-  canManage: boolean;
-  employees: Employee[];
-  onBackToSchools: () => void;
-  onDelete: (employee: Employee) => void;
-  onDetail: (employee: Employee) => void;
-  onEdit: (employee: Employee) => void;
-  onSelectSchool: (schoolName: string) => void;
-  selectedSchoolName?: string | null;
-};
 
 export function EmployeesTable(props: EmployeesTableProps) {
   const groups = Object.entries(groupEmployeesBySchool(props.employees));

@@ -61,3 +61,18 @@ export function upsertStudent(students: Student[], savedStudent: Student) {
 export function getStudentErrorMessage(error: unknown) {
   return error instanceof Error ? error.message : "Gagal mengambil data.";
 }
+
+export function groupStudentsByClass(students: Student[]) {
+  return students.reduce<Record<string, Student[]>>((groups, student) => {
+    const className = getClassName(student);
+    groups[className] ??= [];
+    groups[className].push(student);
+
+    return groups;
+  }, {});
+}
+
+export function getClassName(student: Student) {
+  return student.className?.trim() || "Tanpa kelas";
+}
+
