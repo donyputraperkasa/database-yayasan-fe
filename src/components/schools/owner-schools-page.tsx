@@ -4,6 +4,7 @@ import { DashboardBreadcrumbs } from "@/components/dashboard/dashboard-breadcrum
 import { PageState } from "@/components/ui/page-state";
 import {
   deleteSchool,
+  deleteSchoolPermanently,
   listArchivedSchools,
   listSchools,
   restoreSchool,
@@ -100,14 +101,16 @@ export function OwnerSchoolsPage() {
 
     try {
       setIsDeletingArchived(true);
+      await deleteSchoolPermanently(token, deleteArchivedTarget.id);
       setArchivedSchools((current) =>
         current.filter((item) => item.id !== deleteArchivedTarget.id),
       );
-      showToast({ message: `${deleteArchivedTarget.name} berhasil dihapus dari arsip.` });
+      showToast({ message: `${deleteArchivedTarget.name} berhasil dihapus permanen.` });
       setDeleteArchivedTarget(null);
-    } catch (err) {
+    } catch (deleteError) {
       showToast({
-        message: err instanceof Error ? err.message : "Gagal menghapus arsip.",
+        message:
+          deleteError instanceof Error ? deleteError.message : "Gagal menghapus arsip sekolah.",
         type: "error",
       });
     } finally {

@@ -12,6 +12,7 @@ type StudentsFilterProps = {
 
 export function StudentsFilter({
   filters,
+  isSchoolUser,
   onChange,
 }: StudentsFilterProps) {
   return (
@@ -40,10 +41,12 @@ export function StudentsFilter({
       </div>
 
       {/* Level Filters Pills */}
-      <LevelFilterPills
-        activeLevel={filters.level}
-        onSelectLevel={(level) => onChange({ ...filters, level })}
-      />
+      {!isSchoolUser ? (
+        <LevelFilterPills
+          activeLevel={filters.level}
+          onSelectLevel={(level) => onChange({ ...filters, level })}
+        />
+      ) : null}
     </section>
   );
 }

@@ -31,10 +31,12 @@ export function InventoryFilter(props: InventoryFilterProps) {
       </div>
 
       {/* Level Filters Pills */}
-      <LevelFilterPills
-        activeLevel={props.filters.level}
-        onSelectLevel={(level) => props.onChange({ ...props.filters, level })}
-      />
+      {!props.isSchoolUser ? (
+        <LevelFilterPills
+          activeLevel={props.filters.level}
+          onSelectLevel={(level) => props.onChange({ ...props.filters, level })}
+        />
+      ) : null}
     </section>
   );
 }

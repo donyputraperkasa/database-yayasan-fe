@@ -62,7 +62,7 @@ export type SchoolsSearchBoxProps = {
 
 export type ArchivedSchoolsProps = {
   isRestoring?: string | null;
-  onDelete: (school: School) => void;
+  onDelete?: (school: School) => void;
   onRestore: (school: School) => void;
   schools: School[];
 };

@@ -117,7 +117,7 @@ export function DashboardSidebar({
                   className={[
                     "flex items-center gap-3 rounded-md px-3 py-3 text-sm font-semibold transition",
                     isActive
-                      ? "bg-[#f2d35f] text-[#172033] shadow-sm"
+                      ? "bg-[#1d4ed8] text-white shadow-md shadow-blue-950/50"
                       : "text-[#d7e4f5] hover:bg-white/12 hover:text-white",
                   ].join(" ")}
                 >
@@ -131,7 +131,7 @@ export function DashboardSidebar({
 
         <div className="mt-auto space-y-3">
           <div className="rounded-lg border border-white/12 bg-white/8 p-4">
-            <p className="text-xs font-semibold uppercase text-[#f2d35f]">
+            <p className="text-xs font-semibold uppercase text-blue-300">
               Role aktif
             </p>
             <p className="mt-2 text-sm font-semibold capitalize text-white">
@@ -142,7 +142,7 @@ export function DashboardSidebar({
           <button
             type="button"
             onClick={() => void handleLogout()}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-[#f2d35f] px-4 py-3 text-sm font-semibold text-[#172033] transition hover:bg-[#e6c64c]"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border-red-300 bg-red-200 px-4 py-3 text-sm font-semibold text-red-900 transition hover:bg-red-400 hover:text-white"
           >
             <LogOut size={17} aria-hidden="true" />
             Keluar

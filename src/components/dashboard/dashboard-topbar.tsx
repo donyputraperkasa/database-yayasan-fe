@@ -38,7 +38,7 @@ export function DashboardTopbar({ onMenuClick, user }: DashboardTopbarProps) {
             <CalendarDays size={16} aria-hidden="true" />
             Agustus 2026
           </div>
-          <div className="rounded-full bg-[#f2d35f] px-4 py-2 text-sm font-semibold text-[#172033]">
+          <div className="inline-flex h-10 items-center rounded-lg border border-[#bfdbfe] bg-[#eaf2ff] px-4 text-xs font-bold uppercase tracking-wider text-[#1e40af] shadow-xs">
             {roleLabel}
           </div>
         </div>

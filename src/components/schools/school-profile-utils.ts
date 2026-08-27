@@ -20,14 +20,12 @@ export function getPhotoFile(formData: FormData) {
 export function buildAssetPayload(formData: FormData): AssetPayload {
   const landArea = getValue(formData, "landArea");
   const buildingArea = getValue(formData, "buildingArea");
-  const procurementYear = getValue(formData, "procurementYear");
+  const ownershipStatus = getValue(formData, "ownershipStatus");
 
   return {
     buildingArea,
-    certificateOwner: getValue(formData, "certificateOwner"),
     landArea,
-    origin: getValue(formData, "origin"),
-    procurementYear: procurementYear ? Number(procurementYear) : undefined,
+    ownershipStatus,
   };
 }
 

@@ -15,7 +15,7 @@ export function SchoolsTable({
             Unit sekolah yang sudah terdaftar.
           </p>
         </div>
-        <span className="rounded-full bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
+        <span className="rounded-lg bg-[#f2d35f] px-3 py-1 text-sm font-semibold">
           {schools.length} sekolah
         </span>
       </div>
@@ -57,14 +57,14 @@ export function SchoolsTable({
                   </span>
                 </td>
                 <td className="py-3">
-                  <div className="flex justify-center gap-2">
+                  <div className="flex justify-center gap-2 m-2">
                     <button
                       type="button"
                       onClick={() => onToggleEditAccess(school)}
-                      className={`rounded-md border px-3 py-2 text-xs font-semibold transition ${
+                      className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition ${
                         school.canEdit
-                          ? "border-amber-300 bg-amber-100 hover:bg-amber-200 text-amber-700"
-                          : "border-emerald-200 bg-green-300 hover:bg-green-400 text-emerald-700"
+                          ? "border-[#cbd5e1] bg-white text-[#475569] hover:bg-[#f8fafc] hover:border-[#94a3b8] hover:text-[#1e293b]"
+                          : "border-[#bfdbfe] bg-[#eff6ff] text-[#1d4ed8] hover:bg-[#dbeafe]"
                       }`}
                     >
                       {school.canEdit ? "Kunci edit" : "Buka edit"}
@@ -72,7 +72,7 @@ export function SchoolsTable({
                     <button
                       type="button"
                       onClick={() => onDelete(school)}
-                      className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800 transition hover:bg-amber-100"
+                      className="rounded-lg border border-[#dbe5f4] bg-white px-3 py-1.5 text-xs font-semibold text-[#64748b] transition hover:border-red-200 hover:bg-red-50 hover:text-red-700"
                     >
                       Arsipkan
                     </button>

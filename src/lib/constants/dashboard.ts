@@ -48,7 +48,7 @@ export const dashboardNavigation = [
     href: "/principals",
     icon: UserRoundCheck,
     label: "Profil Sekolah",
-    roles: allRoles()
+    roles: ["owner", "general", "psdm", "manager", "director"]
   },
   { href: "/students", 
     icon: GraduationCap, 

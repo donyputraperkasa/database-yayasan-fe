@@ -53,6 +53,7 @@ export const apiEndpoints = {
     editAccess: (id: string) => `/schools/${id}/edit-access`,
     list: "/schools",
     remove: (id: string) => `/schools/${id}`,
+    removePermanently: (id: string) => `/schools/${id}/permanent`,
     restore: (id: string) => `/schools/${id}/restore`,
     update: (id: string) => `/schools/${id}`,
   },

@@ -6,6 +6,7 @@ import { deleteAsset, listAssets } from "@/lib/api/assets";
 import { listSchools } from "@/lib/api/schools";
 import { getAccessToken, getStoredUser } from "@/lib/auth/storage";
 import type { Asset, School, User } from "@/types";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAssetErrorMessage, upsertAsset } from "../assets/asset-page-utils";
 import { PrincipalCard } from "./principal-card";
@@ -15,6 +16,7 @@ import { PrincipalsHeader } from "./principals-header";
 import { PrincipalSearchBox } from "./principals-search-box";
 
 export function PrincipalsPage() {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(() => Boolean(getAccessToken()));
   const [query, setQuery] = useState("");
@@ -29,7 +31,13 @@ export function PrincipalsPage() {
   const [user] = useState<User | null>(() => getStoredUser());
 
   useEffect(() => {
-    if (!token) return;
+    if (user?.role === "school") {
+      router.replace("/school-profile");
+    }
+  }, [user, router]);
+
+  useEffect(() => {
+    if (!token || user?.role === "school") return;
 
     Promise.all([listSchools(token), listAssets(token)])
       .then(([schoolData, assetData]) => {
@@ -40,7 +48,7 @@ export function PrincipalsPage() {
         setError(loadError instanceof Error ? loadError.message : "Gagal mengambil data.");
       })
       .finally(() => setIsLoading(false));
-  }, [token]);
+  }, [token, user?.role]);
 
   const selectedAsset =
     assets.find((asset) => asset.schoolId === selectedSchool?.id) ?? null;
@@ -54,6 +62,9 @@ export function PrincipalsPage() {
   });
 
   if (!token) return <PageState text="Sesi login tidak ditemukan." />;
+  if (user?.role === "school") {
+    return <PageState text="Halaman ini hanya untuk pengurus yayasan. Mengalihkan ke Biodata Sekolah..." />;
+  }
   if (isLoading) return <PageState text="Memuat kepala sekolah..." />;
   if (error) return <PageState text={error} />;
 

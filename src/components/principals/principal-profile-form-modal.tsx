@@ -83,9 +83,7 @@ export function PrincipalProfileFormModal(props: PrincipalProfileFormModalProps)
           <Textarea label="Misi" name="mission" value={props.school.profile?.mission} />
           <Textarea label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
           <Textarea label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
-          <Textarea label="Status Kepemilikan Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
-          {/* <Input label="Asal Perolehan" name="origin" value={props.asset?.origin} />
-          <Input label="Tahun Perolehan" name="procurementYear" type="number" value={props.asset?.procurementYear} /> */}
+          <Textarea label="Status Kepemilikan Sertifikat" name="ownershipStatus" value={props.asset?.ownershipStatus} />
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
       </form>
@@ -164,21 +162,14 @@ function file(formData: FormData, key: string) {
 function buildAssetPayload(formData: FormData, schoolId: string): AssetPayload {
   return {
     buildingArea: optional(formData, "buildingArea"),
-    certificateOwner: optional(formData, "certificateOwner"),
     landArea: optional(formData, "landArea"),
-    origin: optional(formData, "origin"),
-    procurementYear: optionalNumber(formData, "procurementYear"),
+    ownershipStatus: optional(formData, "ownershipStatus"),
     schoolId,
   };
 }
 
 function optional(formData: FormData, key: string) {
   return value(formData, key) || undefined;
-}
-
-function optionalNumber(formData: FormData, key: string) {
-  const input = optional(formData, key);
-  return input ? Number(input) : undefined;
 }
 
 const fieldClass =

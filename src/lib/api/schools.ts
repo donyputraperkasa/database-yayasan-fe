@@ -31,6 +31,13 @@ export function deleteSchool(token: string, id: string) {
   });
 }
 
+export function deleteSchoolPermanently(token: string, id: string) {
+  return apiRequest(apiEndpoints.schools.removePermanently(id), {
+    method: "DELETE",
+    token,
+  });
+}
+
 export function restoreSchool(token: string, id: string) {
   return apiRequest<School>(apiEndpoints.schools.restore(id), {
     method: "PATCH",

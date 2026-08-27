@@ -33,7 +33,7 @@ export function ProfileAssetFields(props: { asset: Asset | null; disabled: boole
     <>
       <ProfileInput disabled={props.disabled} label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
       <ProfileInput disabled={props.disabled} label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
-      <ProfileInput disabled={props.disabled} label="Status Kepemilikan Sertifikat" name="certificateOwner" value={props.asset?.certificateOwner} />
+      <ProfileInput disabled={props.disabled} label="Status Kepemilikan Sertifikat" name="ownershipStatus" value={props.asset?.ownershipStatus} />
       <AssetPhotoField disabled={props.disabled} photoUrl={props.asset?.photoUrl} />
     </>
   );
