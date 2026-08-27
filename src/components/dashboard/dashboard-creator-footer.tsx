@@ -9,7 +9,7 @@ export function DashboardCreatorFooter() {
 
   return (
     <>
-      <footer className="flex justify-center">
+      <footer className="w-full">
         <CreatorSignature
           onOpenLicense={() => setIsLicenseOpen(true)}
           variant="dashboard"

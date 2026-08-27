@@ -14,18 +14,70 @@ export function StudentFormFields({
 }: StudentFormFieldsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <Input label="Nama Siswa" name="name" required value={student?.name} />
-      <Input label="Tempat/Tanggal Lahir" name="birthPlaceDate" value={student?.birthPlaceDate}/>
+      <Input
+        label="Nama Siswa"
+        name="name"
+        placeholder="Masukkan nama lengkap siswa"
+        required
+        value={student?.name}
+      />
+      <Input
+        label="Tempat/Tanggal Lahir"
+        name="birthPlaceDate"
+        placeholder="Contoh: Yogyakarta, 15 Januari 2010"
+        value={student?.birthPlaceDate}
+      />
       <GenderSelect value={student?.gender} />
-      <Input label="Agama" name="religion" value={student?.religion} />
-      <Input label="Alamat" name="address" value={student?.address} />
-      <SelectSchool isSchoolUser={isSchoolUser} schools={schools} value={student?.schoolId}/>
-      <Input label="Kelas" name="className" value={student?.className} />
-      <Input label="SPP" name="sppAmount" type="number" value={student?.sppAmount} />
-      <Input label="Nama Ayah" name="fatherName" value={student?.fatherName} />
-      <Input label="Nama Ibu" name="motherName" value={student?.motherName} />
-      <Input label="Pekerjaan Ayah" name="fatherJob" value={student?.fatherJob} />
-      <Input label="Pekerjaan Ibu" name="motherJob" value={student?.motherJob} />
+      <Input
+        label="Agama"
+        name="religion"
+        placeholder="Contoh: Kristen, Katolik, Islam, dll."
+        value={student?.religion}
+      />
+      <Input
+        label="Alamat"
+        name="address"
+        placeholder="Masukkan alamat tempat tinggal siswa"
+        value={student?.address}
+      />
+      <SelectSchool isSchoolUser={isSchoolUser} schools={schools} value={student?.schoolId} />
+      <Input
+        label="Kelas"
+        name="className"
+        placeholder="Contoh: VII A / X MIPA 1"
+        value={student?.className}
+      />
+      <Input
+        label="SPP"
+        name="sppAmount"
+        placeholder="Contoh: 350000"
+        type="number"
+        value={student?.sppAmount}
+      />
+      <Input
+        label="Nama Ayah"
+        name="fatherName"
+        placeholder="Masukkan nama ayah / wali"
+        value={student?.fatherName}
+      />
+      <Input
+        label="Nama Ibu"
+        name="motherName"
+        placeholder="Masukkan nama ibu kandung"
+        value={student?.motherName}
+      />
+      <Input
+        label="Pekerjaan Ayah"
+        name="fatherJob"
+        placeholder="Contoh: Karyawan Swasta / PNS / Wiraswasta"
+        value={student?.fatherJob}
+      />
+      <Input
+        label="Pekerjaan Ibu"
+        name="motherJob"
+        placeholder="Contoh: Ibu Rumah Tangga / Guru / PNS"
+        value={student?.motherJob}
+      />
       <StudentPhotoField photoUrl={student?.photoUrl} />
     </div>
   );
@@ -34,6 +86,7 @@ export function StudentFormFields({
 function Input(props: {
   label: string;
   name: string;
+  placeholder?: string;
   required?: boolean;
   type?: string;
   value?: number | string | null;
@@ -44,6 +97,7 @@ function Input(props: {
       <input
         defaultValue={props.value ?? ""}
         name={props.name}
+        placeholder={props.placeholder}
         required={props.required}
         type={props.type ?? "text"}
         className="mt-2 h-11 w-full rounded-md border border-[#ced9eb] px-3 text-sm outline-none focus:border-[#1f4f8f]"

@@ -31,9 +31,27 @@ export function SchoolProfileHeader({
 export function ProfileAssetFields(props: { asset: Asset | null; disabled: boolean }) {
   return (
     <>
-      <ProfileInput disabled={props.disabled} label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
-      <ProfileInput disabled={props.disabled} label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
-      <ProfileInput disabled={props.disabled} label="Status Kepemilikan Sertifikat" name="ownershipStatus" value={props.asset?.ownershipStatus} />
+      <ProfileInput
+        disabled={props.disabled}
+        label="Luas Tanah"
+        name="landArea"
+        placeholder="Contoh: 2.500 m²"
+        value={props.asset?.landArea}
+      />
+      <ProfileInput
+        disabled={props.disabled}
+        label="Luas Bangunan"
+        name="buildingArea"
+        placeholder="Contoh: 1.200 m²"
+        value={props.asset?.buildingArea}
+      />
+      <ProfileInput
+        disabled={props.disabled}
+        label="Status Kepemilikan Sertifikat"
+        name="ownershipStatus"
+        placeholder="milik yayasan / milik gereja / lainnya"
+        value={props.asset?.ownershipStatus}
+      />
       <AssetPhotoField disabled={props.disabled} photoUrl={props.asset?.photoUrl} />
     </>
   );
@@ -43,6 +61,7 @@ export function ProfileInput(props: {
   disabled: boolean;
   label: string;
   name: string;
+  placeholder?: string;
   type?: string;
   value?: number | string | null;
 }) {
@@ -54,6 +73,7 @@ export function ProfileInput(props: {
         defaultValue={props.value ?? ""}
         disabled={props.disabled}
         name={props.name}
+        placeholder={props.placeholder}
         type={props.type ?? "text"}
       />
     </label>
@@ -64,6 +84,7 @@ export function ProfileTextarea(props: {
   disabled: boolean;
   label: string;
   name: string;
+  placeholder?: string;
   value?: string | null;
 }) {
   return (
@@ -74,6 +95,7 @@ export function ProfileTextarea(props: {
         defaultValue={props.value ?? ""}
         disabled={props.disabled}
         name={props.name}
+        placeholder={props.placeholder}
       />
     </label>
   );

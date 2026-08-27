@@ -101,8 +101,7 @@ export function DashboardSidebar({
                 (pathname === item.href || pathname.startsWith(`${item.href}/`));
               const isExternal =
                 item.href.startsWith("http://") ||
-                item.href.startsWith("https://") ||
-                (item.label === "Hallo BOPKRI" && (role === "director" || role === "owner"));
+                item.href.startsWith("https://");
 
               const target = isExternal ? "_blank" : "_self";
               const rel = isExternal ? "noopener noreferrer" : undefined;
@@ -113,7 +112,12 @@ export function DashboardSidebar({
                   href={item.href}
                   target={target}
                   rel={rel}
-                  onClick={onClose}
+                  onClick={(event) => {
+                    if (item.href === "#") {
+                      event.preventDefault();
+                    }
+                    onClose();
+                  }}
                   className={[
                     "flex items-center gap-3 rounded-md px-3 py-3 text-sm font-semibold transition",
                     isActive

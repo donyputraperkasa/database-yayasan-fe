@@ -139,15 +139,64 @@ export function SchoolProfilePage() {
       <SchoolEditAccessNotice school={school} user={user} />
       <form onSubmit={handleSubmit} className="rounded-lg border border-[#dbe5f4] bg-white p-5 shadow-sm">
         <div className="grid gap-4 md:grid-cols-2">
-          <ProfileInput disabled={!canEdit} label="Unit Sekolah" name="principal" value={school.principal} />
-          <ProfileInput disabled={!canEdit} label="Email Sekolah" name="email" type="email" value={school.email} />
-          <ProfileInput disabled={!canEdit} label="Nomor WA/Telepon" name="phone" value={school.phone} />
+          <ProfileInput
+            disabled={!canEdit}
+            label="Unit Sekolah"
+            name="principal"
+            placeholder="Nama kepala sekolah"
+            value={school.principal}
+          />
+          <ProfileInput
+            disabled={!canEdit}
+            label="Email Sekolah"
+            name="email"
+            placeholder="Contoh: smpbopkri@yayasan.sch.id"
+            type="email"
+            value={school.email}
+          />
+          <ProfileInput
+            disabled={!canEdit}
+            label="Nomor WA/Telepon"
+            name="phone"
+            placeholder="Contoh: 081234567890"
+            value={school.phone}
+          />
           <SchoolPhotoField disabled={!canEdit} photoUrl={profile?.photoUrl} />
-          <ProfileTextarea disabled={!canEdit} label="Alamat" name="address" value={school.address} />
-          <ProfileTextarea disabled={!canEdit} label="Sejarah Singkat" name="history" value={profile?.history} />
-          <ProfileTextarea disabled={!canEdit} label="Visi" name="vision" value={profile?.vision} />
-          <ProfileTextarea disabled={!canEdit} label="Misi" name="mission" value={profile?.mission} />
-          <ProfileInput disabled={!canEdit} label="Motto" name="motto" value={profile?.motto} />
+          <ProfileTextarea
+            disabled={!canEdit}
+            label="Alamat"
+            name="address"
+            placeholder="Masukkan alamat lengkap sekolah..."
+            value={school.address}
+          />
+          <ProfileTextarea
+            disabled={!canEdit}
+            label="Sejarah Singkat"
+            name="history"
+            placeholder="Tuliskan ringkasan sejarah berdirinya sekolah..."
+            value={profile?.history}
+          />
+          <ProfileTextarea
+            disabled={!canEdit}
+            label="Visi"
+            name="vision"
+            placeholder="Tuliskan visi sekolah..."
+            value={profile?.vision}
+          />
+          <ProfileTextarea
+            disabled={!canEdit}
+            label="Misi"
+            name="mission"
+            placeholder="Tuliskan misi sekolah (contoh: 1. ..., 2. ...)..."
+            value={profile?.mission}
+          />
+          <ProfileInput
+            disabled={!canEdit}
+            label="Motto"
+            name="motto"
+            placeholder="Contoh: Unggul dalam Prestasi, Berkarakter, dan Berdaya Saing"
+            value={profile?.motto}
+          />
           <ProfileAssetFields asset={asset} disabled={!canEdit} />
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}

@@ -71,19 +71,75 @@ export function PrincipalProfileFormModal(props: PrincipalProfileFormModalProps)
       >
         <Header isSaving={isSaving} onClose={props.onClose} />
         <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <Input label="Kepala Sekolah" name="principal" value={props.school.principal} />
-          <Input label="Email Sekolah" name="email" type="email" value={props.school.email} />
-          <Input label="Nomor WA/Telepon" name="phone" value={props.school.phone} />
-          <Input label="Motto" name="motto" value={props.school.profile?.motto} />
+          <Input
+            label="Kepala Sekolah"
+            name="principal"
+            placeholder="Nama kepala sekolah"
+            value={props.school.principal}
+          />
+          <Input
+            label="Email Sekolah"
+            name="email"
+            placeholder="Contoh: smpbopkri@yayasan.sch.id"
+            type="email"
+            value={props.school.email}
+          />
+          <Input
+            label="Nomor WA/Telepon"
+            name="phone"
+            placeholder="Contoh: 081234567890"
+            value={props.school.phone}
+          />
+          <Input
+            label="Motto"
+            name="motto"
+            placeholder="Contoh: Unggul dalam Prestasi, Berkarakter, dan Berdaya Saing"
+            value={props.school.profile?.motto}
+          />
           <Upload label="Logo/Foto Sekolah" name="schoolPhoto" photoUrl={props.school.profile?.photoUrl} />
           <Upload label="Foto Tanah/Bangunan" name="assetPhoto" photoUrl={props.asset?.photoUrl} />
-          <Textarea label="Alamat" name="address" value={props.school.address} />
-          <Textarea label="Sejarah Singkat" name="history" value={props.school.profile?.history} />
-          <Textarea label="Visi" name="vision" value={props.school.profile?.vision} />
-          <Textarea label="Misi" name="mission" value={props.school.profile?.mission} />
-          <Textarea label="Luas Tanah" name="landArea" value={props.asset?.landArea} />
-          <Textarea label="Luas Bangunan" name="buildingArea" value={props.asset?.buildingArea} />
-          <Textarea label="Status Kepemilikan Sertifikat" name="ownershipStatus" value={props.asset?.ownershipStatus} />
+          <Textarea
+            label="Alamat"
+            name="address"
+            placeholder="Masukkan alamat lengkap sekolah..."
+            value={props.school.address}
+          />
+          <Textarea
+            label="Sejarah Singkat"
+            name="history"
+            placeholder="Tuliskan ringkasan sejarah berdirinya sekolah..."
+            value={props.school.profile?.history}
+          />
+          <Textarea
+            label="Visi"
+            name="vision"
+            placeholder="Tuliskan visi sekolah..."
+            value={props.school.profile?.vision}
+          />
+          <Textarea
+            label="Misi"
+            name="mission"
+            placeholder="Tuliskan misi sekolah (contoh: 1. ..., 2. ...)..."
+            value={props.school.profile?.mission}
+          />
+          <Textarea
+            label="Luas Tanah"
+            name="landArea"
+            placeholder="Contoh: 2.500 m²"
+            value={props.asset?.landArea}
+          />
+          <Textarea
+            label="Luas Bangunan"
+            name="buildingArea"
+            placeholder="Contoh: 1.200 m²"
+            value={props.asset?.buildingArea}
+          />
+          <Textarea
+            label="Status Kepemilikan Sertifikat"
+            name="ownershipStatus"
+            placeholder="Contoh: Milik Yayasan / SHM / Hak Pakai"
+            value={props.asset?.ownershipStatus}
+          />
         </div>
         {error ? <p className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
       </form>
@@ -112,20 +168,42 @@ function Header(props: { isSaving: boolean; onClose: () => void }) {
   );
 }
 
-function Input(props: { label: string; name: string; type?: string; value?: number | string | null }) {
+function Input(props: {
+  label: string;
+  name: string;
+  placeholder?: string;
+  type?: string;
+  value?: number | string | null;
+}) {
   return (
     <label className="block">
       <span className="text-sm font-semibold text-[#172033]">{props.label}</span>
-      <input name={props.name} type={props.type ?? "text"} defaultValue={props.value ?? ""} className={fieldClass} />
+      <input
+        name={props.name}
+        type={props.type ?? "text"}
+        defaultValue={props.value ?? ""}
+        placeholder={props.placeholder}
+        className={fieldClass}
+      />
     </label>
   );
 }
 
-function Textarea(props: { label: string; name: string; value?: string | null }) {
+function Textarea(props: {
+  label: string;
+  name: string;
+  placeholder?: string;
+  value?: string | null;
+}) {
   return (
     <label className="block md:col-span-2">
       <span className="text-sm font-semibold text-[#172033]">{props.label}</span>
-      <textarea name={props.name} defaultValue={props.value ?? ""} className={`${fieldClass} h-auto min-h-28 py-3`} />
+      <textarea
+        name={props.name}
+        defaultValue={props.value ?? ""}
+        placeholder={props.placeholder}
+        className={`${fieldClass} h-auto min-h-28 py-3`}
+      />
     </label>
   );
 }

@@ -3,6 +3,7 @@ import {
   Banknote,
   Building2,
   GraduationCap,
+  Headphones,
   Home,
   IdCard,
   Landmark,
@@ -102,10 +103,10 @@ export const dashboardNavigation = [
     roles: ["school", "owner"],
   },
   {
-    href:"#",
-    icon:UsersRound,
-    label:"Hallo BOPKRI",
-    roles: ["owner", "manager", "director"],
+    href: "#",
+    icon: Headphones,
+    label: "Hallo BOPKRI",
+    roles: allRoles(),
   },
   {
     href:"https://presensi.yayasan-bopkri.org",
