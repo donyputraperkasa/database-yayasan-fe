@@ -56,7 +56,7 @@ export function DashboardSearchPanel({
   };
 
   return (
-    <section className="rounded-lg border border-[#dbe5f4] bg-white p-4 shadow-sm">
+    <section className="rounded-[18px] border border-[#e2e8f0] bg-white p-4 sm:p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h2 className="text-lg font-semibold">Cari Data</h2>
@@ -71,16 +71,16 @@ export function DashboardSearchPanel({
         </div>
 
         <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
-          <label className="flex h-11 w-full items-center gap-3 rounded-md border border-[#dbe5f4] bg-[#f8fbff] px-3 sm:min-w-72">
-            <Search size={17} className="text-[#748299]" aria-hidden="true" />
+          <label className="flex h-11 w-full items-center gap-3 rounded-[12px] border-[1.5px] border-[#dbeafe] bg-[#f8fafc] px-3.5 transition focus-within:border-[#1d4ed8] focus-within:bg-white focus-within:ring-3 focus-within:ring-[#1d4ed8]/15 sm:min-w-72">
+            <Search size={19} className="shrink-0 text-[#1d4ed8]" aria-hidden="true" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Cari sekolah, siswa, dokumen..."
-              className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-[#8b98ad]"
+              className="min-w-0 flex-1 bg-transparent text-sm text-[#1e293b] outline-none placeholder:text-[#94a3b8]"
             />
           </label>
-          <button className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#0f2a4f] px-5 text-sm font-semibold text-white transition hover:bg-[#173b6b]">
+          <button className="inline-flex h-11 items-center justify-center gap-2 rounded-[12px] bg-[#1d4ed8] px-5 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(29,78,216,0.25)] transition hover:bg-[#1e40af]">
             <Search size={16} aria-hidden="true" />
             Cari
           </button>
@@ -88,7 +88,7 @@ export function DashboardSearchPanel({
             <button
               type="button"
               onClick={onRetry}
-              className="h-11 rounded-md border border-[#dbe5f4] px-4 text-sm font-semibold text-[#0f2a4f]"
+              className="h-11 rounded-[12px] border-[1.5px] border-[#e2e8f0] px-4 text-sm font-semibold text-[#475569] transition hover:border-[#bfdbfe] hover:text-[#1d4ed8]"
             >
               Muat ulang
             </button>

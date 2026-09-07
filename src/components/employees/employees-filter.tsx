@@ -12,28 +12,28 @@ export function EmployeesFilter(props: EmployeesFilterProps) {
   const isSchoolSelected = Boolean(props.selectedSchoolName || props.isSchoolUser);
 
   return (
-    <section className="flex flex-col gap-3 rounded-xl border border-[#dbe5f4] bg-white p-3.5 shadow-sm sm:p-4">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <section className="flex flex-col gap-4 rounded-[18px] border border-[#e2e8f0] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)] sm:p-5">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         {/* Search Input Box */}
         <div className="relative flex-1">
-          <label className="flex h-11 items-center gap-2.5 rounded-lg border border-[#dbe5f4] bg-[#f8fbff] px-3.5 transition focus-within:border-[#1f4f8f] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#eaf2ff]">
-            <Search size={17} className="shrink-0 text-[#1f4f8f]" aria-hidden="true" />
+          <label className="flex h-11 items-center gap-3 rounded-[12px] border-[1.5px] border-[#dbeafe] bg-[#f8fafc] px-3.5 transition focus-within:border-[#1d4ed8] focus-within:bg-white focus-within:ring-3 focus-within:ring-[#1d4ed8]/15">
+            <Search size={19} className="shrink-0 text-[#1d4ed8]" aria-hidden="true" />
             <input
               value={props.filters.query ?? ""}
               onChange={(event) =>
                 props.onChange({ ...props.filters, query: event.target.value })
               }
               placeholder="Cari nama pegawai, jabatan, email, telepon..."
-              className="h-full min-w-0 flex-1 bg-transparent text-sm text-[#172033] outline-none placeholder:text-[#94a3b8]"
+              className="h-full min-w-0 flex-1 bg-transparent text-sm text-[#1e293b] outline-none placeholder:text-[#94a3b8]"
             />
             {props.filters.query ? (
               <button
                 type="button"
                 onClick={() => props.onChange({ ...props.filters, query: "" })}
-                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#cbd5e1] text-white transition hover:bg-[#94a3b8]"
+                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e2e8f0] text-[#64748b] transition hover:bg-[#cbd5e1] hover:text-[#1e293b]"
                 title="Hapus pencarian"
               >
-                <X size={12} />
+                <X size={13} />
               </button>
             ) : null}
           </label>
@@ -45,7 +45,9 @@ export function EmployeesFilter(props: EmployeesFilterProps) {
             {EMPLOYEE_TYPE_OPTIONS.map((opt) => {
               const currentType = props.filters.type ?? "";
               const isActive = currentType === opt.id;
-              const colorClass = getEmployeeTypeButtonClass(opt.id, isActive);
+              const colorClass = isActive
+                ? "bg-[#1d4ed8] text-white border-[#1d4ed8] shadow-[0_4px_14px_rgba(29,78,216,0.25)]"
+                : "border-[#e2e8f0] bg-[#f8fafc] text-[#475569] hover:border-[#bfdbfe] hover:bg-[#eff6ff] hover:text-[#1d4ed8] hover:-translate-y-0.5";
 
               return (
                 <button
@@ -57,7 +59,7 @@ export function EmployeesFilter(props: EmployeesFilterProps) {
                       type: (opt.id || undefined) as EmployeeType | undefined,
                     })
                   }
-                  className={`inline-flex h-11 items-center justify-center rounded-lg border px-3.5 text-xs font-semibold transition ${colorClass}`}
+                  className={`inline-flex h-11 items-center justify-center gap-2 rounded-[12px] border-[1.5px] px-3.5 sm:px-4 text-xs sm:text-sm font-semibold transition cursor-pointer select-none ${colorClass}`}
                 >
                   {opt.label}
                 </button>
@@ -73,28 +75,6 @@ export function EmployeesFilter(props: EmployeesFilterProps) {
       </div>
     </section>
   );
-}
-
-function getEmployeeTypeButtonClass(id: string, isActive: boolean) {
-  if (isActive) {
-    switch (id) {
-      case "guru":
-        return "bg-[#047857] text-white border-[#047857] shadow-xs ring-2 ring-[#a7f3d0]";
-      case "pegawai":
-        return "bg-[#d97706] text-white border-[#d97706] shadow-xs ring-2 ring-[#fde68a]";
-      default:
-        return "bg-[#0f2a4f] text-white border-[#0f2a4f] shadow-xs ring-2 ring-[#dbe5f4]";
-    }
-  }
-
-  switch (id) {
-    case "guru":
-      return "bg-[#ecfdf5] text-[#047857] border-[#a7f3d0] hover:bg-[#a7f3d0]/50";
-    case "pegawai":
-      return "bg-[#fef7df] text-[#b45309] border-[#fde68a] hover:bg-[#fde68a]/50";
-    default:
-      return "border-[#dbe5f4] bg-[#f8fbff] text-[#526078] hover:border-[#a8c4e8] hover:bg-[#eaf2ff] hover:text-[#0f2a4f]";
-  }
 }
 
 

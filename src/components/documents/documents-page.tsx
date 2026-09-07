@@ -102,7 +102,13 @@ export function DocumentsPage() {
       <DocumentsHeader canManage={canManage} onCreate={() => openForm(null)} />
       <SchoolEditAccessNotice school={currentSchool} user={user} />
       <DocumentStats documents={visibleDocuments} />
-      <DocumentsFilter filters={filters} isSchoolUser={user?.role === "school"} onChange={setFilters} onSubmit={() => void loadDocuments()} schools={schools} />
+      <DocumentsFilter
+        filters={filters}
+        isSchoolUser={user?.role === "school"}
+        onChange={setFilters}
+        onSubmit={() => void loadDocuments()}
+        schools={schools}
+      />
       <DocumentsTable
         canBackToSchools={user?.role !== "school"}
         canManage={canManage}
